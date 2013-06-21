@@ -30,6 +30,29 @@
     };
   }
 
+  function listPossibleMoves(board, player, wasPassed) {
+    var moves = [];
+
+    for (var x = 0; x < N; x++) {
+      for (var y = 0; y < N; y++) {
+        if (canAttack(board, x, y, player)) {
+          moves.push(
+            makeGameTree(
+              makeAttackedBoard(board, x, y, player),
+              nextPlayer(player),
+              false
+            )
+          );
+        }
+      }
+    }
+
+    if (moves.length == 0 && !wasPassed)
+      moves.push(makeGameTree(board, nextPlayer(player), true));
+
+    return moves;
+  }
+
   function drawGameBoard(board) {
     var ss = [];
 
