@@ -43,6 +43,7 @@
   }
 
   function resetGame() {
+    drawGameBoard(makeInitialGameBoard());
   }
 
   resetGame();
