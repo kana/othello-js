@@ -22,6 +22,14 @@
     return board;
   }
 
+  function makeGameTree(board, player, wasPassed) {
+    return {
+      board: board,
+      player: player,
+      moves: listPossibleMoves(board, player, wasPassed)
+    };
+  }
+
   function drawGameBoard(board) {
     var ss = [];
 
