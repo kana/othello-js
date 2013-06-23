@@ -139,9 +139,28 @@
 
     $('#game-board').html(ss.join(''));
     $('#current-player-name').text(gameTree.player);
+    setUpControlsToChooseMove(gameTree.moves);
+  }
+
+  function setUpControlsToChooseMove(moves) {
+    $('#console').empty();
+    moves.forEach(function (m, i) {
+      $('#console').append(
+        $('<input type="button" class="btn">')
+        .val('Move ' + i)  // TODO: More useful label/UI.
+        .click(function () {
+          changeTheCurrentGameTree(moves[i]);
+        })
+      );
+    });
   }
 
   var currentTree;
+
+  function changeTheCurrentGameTree(gameTree) {
+    currentTree = gameTree;
+    drawGameBoard(currentTree);
+  }
 
   function resetGame() {
     currentTree = makeGameTree(makeInitialGameBoard(), BLACK, false, 1);
