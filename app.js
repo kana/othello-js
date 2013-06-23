@@ -119,8 +119,9 @@
     return vulnerableCells;
   }
 
-  function drawGameBoard(board) {
+  function drawGameBoard(gameTree) {
     var ss = [];
+    var board = gameTree.board;
 
     ss.push('<table>');
     for (var x = 0; x < N; x++) {
@@ -143,7 +144,7 @@
 
   function resetGame() {
     currentTree = makeGameTree(makeInitialGameBoard(), BLACK, false, 1);
-    drawGameBoard(currentTree.board);
+    drawGameBoard(currentTree);
   }
 
   resetGame();
