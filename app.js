@@ -73,8 +73,14 @@
   }
 
   function canAttack(board, x, y, player) {
+    return listVulnerableCells(board, x, y, player).length;
+  }
+
+  function listVulnerableCells(board, x, y, player) {
+    var vulnerableCells = [];
+
     if (board[[x, y]] != EMPTY)
-      return false;
+      return vulnerableCells;
 
     var opponent = nextPlayer(player);
     for (var dx = -1; dx <= 1; dx++) {
@@ -87,15 +93,18 @@
           if (nx < 0 || N <= nx || ny < 0 || N <= ny)
             break;
           var cell = board[[nx, ny]];
-          if (cell == player && 2 <= i)
-            return true;
+          if (cell == player && 2 <= i) {
+            for (j = 0; j < i; j++)
+              vulnerableCells.push([x + j * dx, y + j * dy]);
+            break;
+          }
           if (cell != opponent)
             break;
         }
       }
     }
 
-    return false;
+    return vulnerableCells;
   }
 
   function drawGameBoard(board) {
