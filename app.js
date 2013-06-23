@@ -22,33 +22,34 @@
     return board;
   }
 
-  function makeGameTree(board, player, wasPassed) {
+  function makeGameTree(board, player, wasPassed, nest) {
     return {
       board: board,
       player: player,
-      moves: listPossibleMoves(board, player, wasPassed)
+      moves: listPossibleMoves(board, player, wasPassed, nest)
     };
   }
 
-  function listPossibleMoves(board, player, wasPassed) {
+  function listPossibleMoves(board, player, wasPassed, nest) {
     return completePassingMove(
-      listAttackingMoves(board, player),
+      listAttackingMoves(board, player, nest),
       board,
       player,
-      wasPassed
+      wasPassed,
+      nest
     );
   }
 
-  function completePassingMove(attackingMoves, board, player, wasPassed) {
+  function completePassingMove(attackingMoves, board, player, wasPassed, nest) {
     if (0 < attackingMoves.length)
       return attackingMoves;
     else if (!wasPassed)
-      return [makeGameTree(board, nextPlayer(player), true)];
+      return [makeGameTree(board, nextPlayer(player), true, nest + 1)];
     else
       return [];
   }
 
-  function listAttackingMoves(board, player) {
+  function listAttackingMoves(board, player, nest) {
     var moves = [];
 
     for (var x = 0; x < N; x++) {
@@ -58,7 +59,8 @@
             makeGameTree(
               makeAttackedBoard(board, x, y, player),
               nextPlayer(player),
-              false
+              false,
+              nest + 1
             )
           );
         }
