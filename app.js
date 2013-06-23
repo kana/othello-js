@@ -72,6 +72,32 @@
     return player == BLACK ? WHITE : BLACK;
   }
 
+  function canAttack(board, x, y, player) {
+    if (board[[x, y]] != EMPTY)
+      return false;
+
+    var opponent = nextPlayer(player);
+    for (var dx = -1; dx <= 1; dx++) {
+      for (var dy = -1; dy <= 1; dy++) {
+        if (dx == 0 && dy == 0)
+          continue;
+        for (var i = 1; i < N; i++) {
+          var nx = x + i * dx;
+          var ny = y + i * dy;
+          if (nx < 0 || N <= nx || ny < 0 || N <= ny)
+            break;
+          var cell = board[[nx, ny]];
+          if (cell == player && 2 <= i)
+            return true;
+          if (cell != opponent)
+            break;
+        }
+      }
+    }
+
+    return false;
+  }
+
   function drawGameBoard(board) {
     var ss = [];
 
