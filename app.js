@@ -139,6 +139,8 @@
     $('#game-board').html(ss.join(''));
   }
 
+  var currentTree;
+
   function resetGame() {
     drawGameBoard(makeInitialGameBoard());
   }
