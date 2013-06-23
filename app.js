@@ -68,6 +68,10 @@
     return moves;
   }
 
+  function nextPlayer(player) {
+    return player == BLACK ? WHITE : BLACK;
+  }
+
   function drawGameBoard(board) {
     var ss = [];
 
