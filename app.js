@@ -76,6 +76,14 @@
     return listVulnerableCells(board, x, y, player).length;
   }
 
+  function makeAttackedBoard(board, x, y, player) {
+    var newBoard = JSON.parse(JSON.stringify(board));
+    var vulnerableCells = listVulnerableCells(board, x, y, player);
+    for (i = 0; i < vulnerableCells.length; i++)
+      newBoard[vulnerableCells[i]] = player;
+    return newBoard;
+  }
+
   function listVulnerableCells(board, x, y, player) {
     var vulnerableCells = [];
 
