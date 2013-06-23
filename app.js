@@ -138,6 +138,7 @@
     ss.push('</table>');
 
     $('#game-board').html(ss.join(''));
+    $('#current-player-name').text(gameTree.player);
   }
 
   var currentTree;
