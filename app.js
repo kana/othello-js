@@ -31,6 +31,24 @@
   }
 
   function listPossibleMoves(board, player, wasPassed) {
+    return completePassingMove(
+      listAttackingMoves(board, player),
+      board,
+      player,
+      wasPassed
+    );
+  }
+
+  function completePassingMove(attackingMoves, board, player, wasPassed) {
+    if (0 < attackingMoves.length)
+      return attackingMoves;
+    else if (!wasPassed)
+      return [makeGameTree(board, nextPlayer(player), true)];
+    else
+      return [];
+  }
+
+  function listAttackingMoves(board, player) {
     var moves = [];
 
     for (var x = 0; x < N; x++) {
@@ -46,9 +64,6 @@
         }
       }
     }
-
-    if (moves.length == 0 && !wasPassed)
-      moves.push(makeGameTree(board, nextPlayer(player), true));
 
     return moves;
   }
