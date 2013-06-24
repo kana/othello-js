@@ -166,6 +166,22 @@
       return 'abcdefgh'[move.x] + '12345678'[move.y];
   }
 
+  function showWinner(board) {
+    var nt = {};
+    nt[BLACK] = 0;
+    nt[WHITE] = 0;
+
+    for (var x = 0; x < N; x++)
+      for (var y = 0; y < N; y++)
+        nt[board[[x, y]]]++;
+
+    $('#result').text(
+      nt[BLACK] == nt[WHITE]
+      ? 'The game ends in a draw.'
+      : 'The winner is ' + (nt[WHITE] < nt[BLACK] ? BLACK : WHITE) + '.'
+    );
+  }
+
   var currentTree;
 
   function shiftToNewGameTree(gameTree) {
@@ -173,6 +189,8 @@
 
     drawGameBoard(gameTree);
     setUpControlsToChooseMove(gameTree.moves);
+    if (gameTree.moves.length == 0)
+      showWinner(gameTree.board);
   }
 
   function resetGame() {
