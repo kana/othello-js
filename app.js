@@ -46,7 +46,9 @@
     if (0 < attackingMoves.length)
       return attackingMoves;
     else if (!wasPassed)
-      return [makeGameTree(board, nextPlayer(player), true, nest + 1)];
+      return [{
+        gameTree: makeGameTree(board, nextPlayer(player), true, nest + 1)
+      }];
     else
       return [];
   }
@@ -57,14 +59,14 @@
     for (var x = 0; x < N; x++) {
       for (var y = 0; y < N; y++) {
         if (canAttack(board, x, y, player)) {
-          moves.push(
-            makeGameTree(
+          moves.push({
+            gameTree: makeGameTree(
               makeAttackedBoard(board, x, y, player),
               nextPlayer(player),
               false,
               nest + 1
             )
-          );
+          });
         }
       }
     }
@@ -149,7 +151,7 @@
         $('<input type="button" class="btn">')
         .val('Move ' + i)  // TODO: More useful label/UI.
         .click(function () {
-          changeTheCurrentGameTree(moves[i]);
+          changeTheCurrentGameTree(moves[i].gameTree);
         })
       );
     });
