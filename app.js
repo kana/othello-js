@@ -129,9 +129,9 @@
     var board = gameTree.board;
 
     ss.push('<table>');
-    for (var x = 0; x < N; x++) {
+    for (var y = 0; y < N; y++) {
       ss.push('<tr>');
-      for (var y = 0; y < N; y++) {
+      for (var x = 0; x < N; x++) {
         ss.push('<td class="cell">');
         ss.push('<span class="disc ');
         ss.push(board[[x, y]]);
