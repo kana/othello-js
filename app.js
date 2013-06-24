@@ -175,8 +175,9 @@
   }
 
   function resetGame() {
-    currentTree = makeGameTree(makeInitialGameBoard(), BLACK, false, 1);
-    drawGameBoard(currentTree);
+    changeTheCurrentGameTree(
+      makeGameTree(makeInitialGameBoard(), BLACK, false, 1)
+    );
   }
 
   resetGame();
