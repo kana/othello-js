@@ -47,6 +47,7 @@
       return attackingMoves;
     else if (!wasPassed)
       return [{
+        isPassingMove: true,
         gameTree: makeGameTree(board, nextPlayer(player), true, nest + 1)
       }];
     else
