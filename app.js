@@ -153,7 +153,7 @@
         $('<input type="button" class="btn">')
         .val(makeLabelForMove(m))  // TODO: More useful UI.
         .click(function () {
-          changeTheCurrentGameTree(moves[i].gameTree);
+          shiftToNewGameTree(moves[i].gameTree);
         })
       );
     });
@@ -168,7 +168,7 @@
 
   var currentTree;
 
-  function changeTheCurrentGameTree(gameTree) {
+  function shiftToNewGameTree(gameTree) {
     currentTree = gameTree;
 
     drawGameBoard(gameTree);
@@ -176,9 +176,7 @@
   }
 
   function resetGame() {
-    changeTheCurrentGameTree(
-      makeGameTree(makeInitialGameBoard(), BLACK, false, 1)
-    );
+    shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
   resetGame();
