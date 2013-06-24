@@ -170,8 +170,9 @@
 
   function changeTheCurrentGameTree(gameTree) {
     currentTree = gameTree;
-    drawGameBoard(currentTree);
-    setUpControlsToChooseMove(currentTree.moves);
+
+    drawGameBoard(gameTree);
+    setUpControlsToChooseMove(gameTree.moves);
   }
 
   function resetGame() {
