@@ -61,6 +61,8 @@
       for (var y = 0; y < N; y++) {
         if (canAttack(board, x, y, player)) {
           moves.push({
+            x: x,
+            y: y,
             gameTree: makeGameTree(
               makeAttackedBoard(board, x, y, player),
               nextPlayer(player),
