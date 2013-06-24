@@ -152,12 +152,19 @@
     moves.forEach(function (m, i) {
       $('#console').append(
         $('<input type="button" class="btn">')
-        .val('Move ' + i)  // TODO: More useful label/UI.
+        .val(makeLabelForMove(m))  // TODO: More useful UI.
         .click(function () {
           changeTheCurrentGameTree(moves[i].gameTree);
         })
       );
     });
+  }
+
+  function makeLabelForMove(move) {
+    if (move.isPassingMove)
+      return 'Pass';
+    else
+      return 'abcdefgh'[move.x] + '12345678'[move.y];
   }
 
   var currentTree;
