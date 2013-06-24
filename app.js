@@ -144,7 +144,6 @@
 
     $('#game-board').html(ss.join(''));
     $('#current-player-name').text(gameTree.player);
-    setUpControlsToChooseMove(gameTree.moves);
   }
 
   function setUpControlsToChooseMove(moves) {
@@ -172,6 +171,7 @@
   function changeTheCurrentGameTree(gameTree) {
     currentTree = gameTree;
     drawGameBoard(currentTree);
+    setUpControlsToChooseMove(currentTree.moves);
   }
 
   function resetGame() {
