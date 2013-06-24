@@ -204,6 +204,7 @@
 
   function resetGame() {
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
+    $('#result').text('');
   }
 
   resetGame();
