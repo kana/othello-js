@@ -140,16 +140,6 @@
 
   // UI {{{1
 
-  function chooseMoveByAI(gameTree) {
-    $('#message').text('Now thinking...');
-    setTimeout(
-      function () {
-        shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
-      },
-      1000
-    );
-  }
-
   function drawGameBoard(gameTree) {
     var ss = [];
     var board = gameTree.board;
@@ -198,6 +188,13 @@
     });
   }
 
+  function makeLabelForMove(move) {
+    if (move.isPassingMove)
+      return 'Pass';
+    else
+      return 'abcdefgh'[move.x] + '12345678'[move.y];
+  }
+
   function setUpUIToReset() {
     $('#console').append(
       $('<input type="button" class="btn">')
@@ -208,11 +205,14 @@
     );
   }
 
-  function makeLabelForMove(move) {
-    if (move.isPassingMove)
-      return 'Pass';
-    else
-      return 'abcdefgh'[move.x] + '12345678'[move.y];
+  function chooseMoveByAI(gameTree) {
+    $('#message').text('Now thinking...');
+    setTimeout(
+      function () {
+        shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
+      },
+      1000
+    );
   }
 
   function showWinner(board) {
