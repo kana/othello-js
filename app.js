@@ -129,7 +129,7 @@
   }
 
   function chooseMoveByAI(gameTree) {
-    $('#console').empty().text('Now thinking...');
+    $('#message').text('Now thinking...');
     setTimeout(
       function () {
         shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
@@ -168,8 +168,12 @@
     $('#current-player-name').text(gameTree.player);
   }
 
-  function setUpUIToChooseMove(moves) {
+  function resetUI() {
     $('#console').empty();
+    $('#message').empty();
+  }
+
+  function setUpUIToChooseMove(moves) {
     moves.forEach(function (m, i) {
       $('#console').append(
         $('<input type="button" class="btn">')
@@ -182,7 +186,7 @@
   }
 
   function setUpUIToReset() {
-    $('#console').empty().append(
+    $('#console').append(
       $('<input type="button" class="btn">')
       .val('Start a new game')
       .click(function () {
@@ -220,6 +224,7 @@
     currentTree = gameTree;
 
     drawGameBoard(gameTree);
+    resetUI();
     if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
       setUpUIToReset();
@@ -233,7 +238,6 @@
 
   function resetGame() {
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
-    $('#message').text('');
   }
 
   resetGame();
