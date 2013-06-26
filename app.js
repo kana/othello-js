@@ -47,13 +47,14 @@
     return board;
   }
 
-  function makeGameTree(board, player, wasPassed, nest) {
+  function _makeGameTree(board, player, wasPassed, nest) {
     return {
       board: board,
       player: player,
       moves: listPossibleMoves(board, player, wasPassed, nest)
     };
   }
+  var makeGameTree = memoize(_makeGameTree);
 
   function listPossibleMoves(board, player, wasPassed, nest) {
     if (4 < nest)  // Cut deep subtrees for ease of debug.  TODO: Remove this.
