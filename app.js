@@ -32,6 +32,10 @@
     };
   }
 
+  function force(promise) {
+    return promise();
+  }
+
 
 
 
