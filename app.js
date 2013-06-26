@@ -158,6 +158,24 @@
     });
   }
 
+  function limitGameTreeDepth(gameTree, depth) {
+    return {
+      board: gameTree.board,
+      player: gameTree.player,
+      moves:
+        depth == 0
+        ? []
+        : gameTree.moves.map(function (m) {
+            return {
+              isPassingMove: m.isPassingMove,
+              x: m.x,
+              y: m.y,
+              gameTree: limitGameTreeDepth(gameTree, depth - 1)
+            };
+          })
+    };
+  }
+
 
 
 
