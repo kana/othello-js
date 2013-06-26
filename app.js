@@ -206,7 +206,10 @@
       showWinner(gameTree.board);
       setUpUIToReset();
     } else {
-      setUpUIToChooseMove(gameTree.moves);
+      if (gameTree.player == BLACK)
+        setUpUIToChooseMove(gameTree.moves);
+      else
+        shiftToNewGameTree(chooseMoveByAI(gameTree).gameTree);
     }
   }
 
