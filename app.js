@@ -124,6 +124,10 @@
     return vulnerableCells;
   }
 
+  function chooseMoveByAI(gameTree) {
+    return gameTree.moves[0];  // TODO: Implement a proper AI.
+  }
+
   function drawGameBoard(gameTree) {
     var ss = [];
     var board = gameTree.board;
