@@ -150,7 +150,7 @@
     $('#current-player-name').text(gameTree.player);
   }
 
-  function setUpControlsToChooseMove(moves) {
+  function setUpUIToChooseMove(moves) {
     $('#console').empty();
     moves.forEach(function (m, i) {
       $('#console').append(
@@ -206,7 +206,7 @@
       showWinner(gameTree.board);
       setUpUIToReset();
     } else {
-      setUpControlsToChooseMove(gameTree.moves);
+      setUpUIToChooseMove(gameTree.moves);
     }
   }
 
