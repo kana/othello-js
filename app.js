@@ -124,8 +124,12 @@
     return vulnerableCells;
   }
 
-  function chooseMoveByAI(gameTree) {
+  function findTheBestMoveByAI(gameTree) {
     return gameTree.moves[0];  // TODO: Implement a proper AI.
+  }
+
+  function chooseMoveByAI(gameTree) {
+    shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
   }
 
   function drawGameBoard(gameTree) {
@@ -209,7 +213,7 @@
       if (gameTree.player == BLACK)
         setUpUIToChooseMove(gameTree.moves);
       else
-        shiftToNewGameTree(chooseMoveByAI(gameTree).gameTree);
+        chooseMoveByAI(gameTree);
     }
   }
 
