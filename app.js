@@ -1,4 +1,19 @@
 (function () {
+  // Utilities {{{1
+
+  function memoize(f) {
+    var memo = {};
+    return function () {
+      var key = JSON.stringify(arguments);
+      if (memo[key] === undefined)
+        memo[key] = f.apply(this, arguments);
+      return memo[key];
+    };
+  }
+
+
+
+
   // Core logic {{{1
 
   var N = 4;
