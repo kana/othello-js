@@ -41,7 +41,7 @@
 
   // Core logic {{{1
 
-  var N = 4;
+  var N = 8;
 
   var EMPTY = 'empty';
   var WHITE = 'white';
