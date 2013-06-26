@@ -132,7 +132,9 @@
   // AI {{{1
 
   function findTheBestMoveByAI(gameTree) {
-    return gameTree.moves[0];  // TODO: Implement a proper AI.
+    var ratings = calculateRatings(gameTree, gameTree.player);
+    var maxRating = Math.max.apply(null, ratings);
+    return gameTree.moves[ratings.indexOf(maxRating)];
   }
 
   function scoreBoard(board, player) {
