@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+#message
+{
+  margin-top: 1em;
+}
+
 #game-board > table
 {
   background: #090;
