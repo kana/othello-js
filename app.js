@@ -150,6 +150,12 @@
     }
   }
 
+  function calculateRatings(gameTree, player) {
+    return gameTree.moves.map(function (m) {
+      return ratePosition(m.gameTree, player);
+    });
+  }
+
 
 
 
