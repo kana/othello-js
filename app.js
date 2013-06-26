@@ -204,6 +204,7 @@
     drawGameBoard(gameTree);
     if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
+      setUpUIToReset();
     } else {
       setUpControlsToChooseMove(gameTree.moves);
     }
