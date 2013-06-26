@@ -201,9 +201,11 @@
     currentTree = gameTree;
 
     drawGameBoard(gameTree);
-    setUpControlsToChooseMove(gameTree.moves);
-    if (gameTree.moves.length == 0)
+    if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
+    } else {
+      setUpControlsToChooseMove(gameTree.moves);
+    }
   }
 
   function resetGame() {
