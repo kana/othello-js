@@ -129,6 +129,7 @@
   }
 
   function chooseMoveByAI(gameTree) {
+    $('#console').empty().text('Now thinking...');
     setTimeout(
       function () {
         shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
