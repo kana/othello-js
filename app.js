@@ -134,7 +134,10 @@
   var AI_LEVEL = 4;
 
   function findTheBestMoveByAI(gameTree) {
-    var ratings = calculateRatings(gameTree, gameTree.player);
+    var ratings = calculateRatings(
+      limitGameTreeDepth(gameTree, AI_LEVEL),
+      gameTree.player
+    );
     var maxRating = Math.max.apply(null, ratings);
     return gameTree.moves[ratings.indexOf(maxRating)];
   }
