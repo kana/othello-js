@@ -91,7 +91,9 @@
     else if (!wasPassed)
       return [{
         isPassingMove: true,
-        gameTree: makeGameTree(board, nextPlayer(player), true, nest + 1)
+        gameTreePromise: delay(function () {
+          return makeGameTree(board, nextPlayer(player), true, nest + 1);
+        })
       }];
     else
       return [];
@@ -106,12 +108,16 @@
           moves.push({
             x: x,
             y: y,
-            gameTree: makeGameTree(
-              makeAttackedBoard(board, x, y, player),
-              nextPlayer(player),
-              false,
-              nest + 1
-            )
+            gameTreePromise: (function (x, y) {
+              return delay(function () {
+                return makeGameTree(
+                  makeAttackedBoard(board, x, y, player),
+                  nextPlayer(player),
+                  false,
+                  nest + 1
+                );
+              });
+            })(x, y)
           });
         }
       }
@@ -201,7 +207,7 @@
 
   function calculateRatings(gameTree, player) {
     return gameTree.moves.map(function (m) {
-      return ratePosition(m.gameTree, player);
+      return ratePosition(force(m.gameTreePromise), player);
     });
   }
 
@@ -217,7 +223,9 @@
               isPassingMove: m.isPassingMove,
               x: m.x,
               y: m.y,
-              gameTree: limitGameTreeDepth(gameTree, depth - 1)
+              gameTreePromise: delay(function () {
+                return limitGameTreeDepth(gameTree, depth - 1);
+              })
             };
           })
     };
@@ -270,7 +278,7 @@
         $('<input type="button" class="btn">')
         .val(makeLabelForMove(m))  // TODO: More useful UI.
         .click(function () {
-          shiftToNewGameTree(moves[i].gameTree);
+          shiftToNewGameTree(force(moves[i].gameTreePromise));
         })
       );
     });
@@ -297,7 +305,7 @@
     $('#message').text('Now thinking...');
     setTimeout(
       function () {
-        shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
+        shiftToNewGameTree(force(findTheBestMoveByAI(gameTree).gameTreePromise));
       },
       500
     );
