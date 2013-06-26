@@ -74,8 +74,6 @@
   var makeGameTree = memoize(_makeGameTree);
 
   function listPossibleMoves(board, player, wasPassed, nest) {
-    if (4 < nest)  // Cut deep subtrees for ease of debug.  TODO: Remove this.
-      return [];
     return completePassingMove(
       listAttackingMoves(board, player, nest),
       board,
