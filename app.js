@@ -135,6 +135,11 @@
     return gameTree.moves[0];  // TODO: Implement a proper AI.
   }
 
+  function scoreBoard(board, player) {
+    // TODO: Calculate a more proper score.
+    return $.map(board, function (v) {return v == player;}).length;
+  }
+
 
 
 
