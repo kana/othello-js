@@ -174,6 +174,7 @@
   }
 
   function setUpUIToChooseMove(moves) {
+    $('#message').text('Choose your move:');
     moves.forEach(function (m, i) {
       $('#console').append(
         $('<input type="button" class="btn">')
