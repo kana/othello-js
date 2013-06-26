@@ -207,7 +207,7 @@
       for (var y = 0; y < N; y++)
         nt[board[[x, y]]]++;
 
-    $('#result').text(
+    $('#message').text(
       nt[BLACK] == nt[WHITE]
       ? 'The game ends in a draw.'
       : 'The winner is ' + (nt[WHITE] < nt[BLACK] ? BLACK : WHITE) + '.'
@@ -233,7 +233,7 @@
 
   function resetGame() {
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
-    $('#result').text('');
+    $('#message').text('');
   }
 
   resetGame();
