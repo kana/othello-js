@@ -110,7 +110,7 @@
     return newBoard;
   }
 
-  function listVulnerableCells(board, x, y, player) {
+  function _listVulnerableCells(board, x, y, player) {
     var vulnerableCells = [];
 
     if (board[[x, y]] != EMPTY)
@@ -140,6 +140,7 @@
 
     return vulnerableCells;
   }
+  var listVulnerableCells = memoize(_listVulnerableCells);
 
 
 
