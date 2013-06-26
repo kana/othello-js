@@ -3,10 +3,18 @@
 
   function memoize(f) {
     var memo = {};
+    var first = 0;
+    var second = 0;
     return function () {
+      if (arguments[0] == 'stat')
+        return [first, second];
       var key = JSON.stringify(arguments);
-      if (memo[key] === undefined)
+      if (memo[key] === undefined) {
         memo[key] = f.apply(this, arguments);
+        first++;
+      } else {
+        second++;
+      }
       return memo[key];
     };
   }
