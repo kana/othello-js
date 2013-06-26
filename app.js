@@ -143,14 +143,22 @@
     var board = gameTree.board;
 
     ss.push('<table>');
-    for (var y = 0; y < N; y++) {
+    for (var y = -1; y < N; y++) {
       ss.push('<tr>');
-      for (var x = 0; x < N; x++) {
-        ss.push('<td class="cell">');
-        ss.push('<span class="disc ');
-        ss.push(board[[x, y]]);
-        ss.push('"></span>');
-        ss.push('</td>');
+      for (var x = -1; x < N; x++) {
+        if (0 <= y && 0 <= x) {
+          ss.push('<td class="cell">');
+          ss.push('<span class="disc ');
+          ss.push(board[[x, y]]);
+          ss.push('"></span>');
+          ss.push('</td>');
+        } else if (0 <= x && y == -1) {
+          ss.push('<th>' + 'abcdefgh'[x] + '</th>');
+        } else if (x == -1 && 0 <= y) {
+          ss.push('<th>' + '12345678'[y] + '</th>');
+        } else /* if (x == -1 && y == -1) */ {
+          ss.push('<th></th>');
+        }
       }
       ss.push('</tr>');
     }

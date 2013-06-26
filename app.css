@@ -4,6 +4,15 @@
   margin: 0 auto;
 }
 
+#game-board > table th
+{
+  margin: 0;
+  padding: 0.125em 0.25em;
+  background: #fff;
+  line-height: 100%;
+  border: 1px solid #fff;
+}
+
 #game-board > table .cell
 {
   border: 1px solid #ccc;
