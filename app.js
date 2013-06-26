@@ -1,4 +1,6 @@
 (function () {
+  // Core logic {{{1
+
   var N = 4;
 
   var EMPTY = 'empty';
@@ -124,9 +126,19 @@
     return vulnerableCells;
   }
 
+
+
+
+  // AI {{{1
+
   function findTheBestMoveByAI(gameTree) {
     return gameTree.moves[0];  // TODO: Implement a proper AI.
   }
+
+
+
+
+  // UI {{{1
 
   function chooseMoveByAI(gameTree) {
     $('#message').text('Now thinking...');
@@ -241,6 +253,11 @@
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
+
+
+
+  // Startup {{{1
+
   resetGame();
 })();
-// vim: expandtab softtabstop=2 shiftwidth=2
+// vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
