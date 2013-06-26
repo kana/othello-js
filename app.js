@@ -234,7 +234,7 @@
       function () {
         shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
       },
-      1000
+      500
     );
   }
 
