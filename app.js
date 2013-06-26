@@ -129,7 +129,12 @@
   }
 
   function chooseMoveByAI(gameTree) {
-    shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
+    setTimeout(
+      function () {
+        shiftToNewGameTree(findTheBestMoveByAI(gameTree).gameTree);
+      },
+      1000
+    );
   }
 
   function drawGameBoard(gameTree) {
