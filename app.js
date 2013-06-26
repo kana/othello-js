@@ -140,6 +140,16 @@
     return $.map(board, function (v) {return v == player;}).length;
   }
 
+  function ratePosition(gameTree, player) {
+    var moves = gameTree.moves;
+    if (1 <= moves.length) {
+      var choose = gameTree.player == player ? Math.max : Math.min;
+      return choose.apply(null, calculateRatings(gameTree, player));
+    } else {
+      return scoreBoard(gameTree.board, player);
+    }
+  }
+
 
 
 
