@@ -271,16 +271,25 @@
     $('#message').empty();
   }
 
-  function setUpUIToChooseMove(moves) {
-    $('#message').text('Choose your move:');
-    moves.forEach(function (m, i) {
-      $('#console').append(
-        $('<input type="button" class="btn">')
-        .val(makeLabelForMove(m))  // TODO: More useful UI.
+  function setUpUIToChooseMove(gameTree) {
+    $('#message').text('Choose your move.');
+    gameTree.moves.forEach(function (m, i) {
+      if (m.isPassingMove) {
+        $('#console').append(
+          $('<input type="button" class="btn">')
+          .val(makeLabelForMove(m))
+          .click(function () {
+            shiftToNewGameTree(force(m.gameTreePromise));
+          })
+        );
+      } else {
+        $('#cell' + m.x + m.y)
+        .addClass('attackable')
+        .addClass(gameTree.player)
         .click(function () {
-          shiftToNewGameTree(force(moves[i].gameTreePromise));
+          shiftToNewGameTree(force(m.gameTreePromise));
         })
-      );
+      }
     });
   }
 
@@ -339,7 +348,7 @@
       setUpUIToReset();
     } else {
       if (gameTree.player == BLACK)
-        setUpUIToChooseMove(gameTree.moves);
+        setUpUIToChooseMove(gameTree);
       else
         chooseMoveByAI(gameTree);
     }
