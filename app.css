@@ -10,7 +10,6 @@
 
 #game-board > table
 {
-  background: #090;
   margin: 0 auto;
 }
 
@@ -18,13 +17,12 @@
 {
   margin: 0;
   padding: 0.125em 0.25em;
-  background: #fff;
   line-height: 100%;
-  border: 1px solid #fff;
 }
 
 #game-board > table .cell
 {
+  background: #090;
   border: 1px solid #ccc;
   padding: 0;
   margin: 0;
