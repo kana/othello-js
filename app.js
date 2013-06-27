@@ -263,6 +263,13 @@
     ss.push('</table>');
 
     $('#game-board').html(ss.join(''));
+    gameTree.moves.forEach(function (m, i) {
+      if (!m.isPassingMove) {
+        $('#cell' + m.x + m.y)
+        .addClass('attackable')
+        .addClass(gameTree.player);
+      }
+    });
     $('#current-player-name').text(gameTree.player);
   }
 
@@ -284,8 +291,6 @@
         );
       } else {
         $('#cell' + m.x + m.y)
-        .addClass('attackable')
-        .addClass(gameTree.player)
         .click(function () {
           shiftToNewGameTree(force(m.gameTreePromise));
         })
