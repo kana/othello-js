@@ -237,18 +237,27 @@
   function drawGameBoard(gameTree) {
     var ss = [];
     var board = gameTree.board;
+    var attackable = {};
+    gameTree.moves.forEach(function (m) {
+      if (!m.isPassingMove)
+        attackable[[m.x, m.y]] = true;
+    });
 
     ss.push('<table>');
     for (var y = -1; y < N; y++) {
       ss.push('<tr>');
       for (var x = -1; x < N; x++) {
         if (0 <= y && 0 <= x) {
-          ss.push('<td class="cell" id="');
+          ss.push('<td class="');
+          ss.push('cell');
+          ss.push(' ');
+          ss.push(attackable[[x, y]] ? gameTree.player : board[[x, y]]);
+          ss.push(' ');
+          ss.push(attackable[[x, y]] ? 'attackable' : '');
+          ss.push('" id="');
           ss.push('cell' + x + y);
           ss.push('">');
-          ss.push('<span class="disc ');
-          ss.push(board[[x, y]]);
-          ss.push('"></span>');
+          ss.push('<span class="disc"></span>');
           ss.push('</td>');
         } else if (0 <= x && y == -1) {
           ss.push('<th>' + 'abcdefgh'[x] + '</th>');
@@ -263,13 +272,6 @@
     ss.push('</table>');
 
     $('#game-board').html(ss.join(''));
-    gameTree.moves.forEach(function (m, i) {
-      if (!m.isPassingMove) {
-        $('#cell' + m.x + m.y)
-        .addClass('attackable')
-        .addClass(gameTree.player);
-      }
-    });
     $('#current-player-name').text(gameTree.player);
   }
 

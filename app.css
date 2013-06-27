@@ -28,15 +28,6 @@
   margin: 0;
   line-height: 0;
 }
-#game-board > table .cell > .disc
-{
-  display: inline-block;
-  width: 2em;
-  height: 2em;
-  border-radius: 1em;
-  margin: 0.25em;
-}
-
 #game-board > table .cell.attackable
 {
   cursor: pointer;
@@ -46,13 +37,19 @@
   background: #cc0;
 }
 
-#game-board > table .cell > .disc.white,
-#game-board > table .cell.attackable.white > .disc
+#game-board > table .cell > .disc
+{
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  border-radius: 1em;
+  margin: 0.25em;
+}
+#game-board > table .cell.white > .disc
 {
   background: #fff;
 }
-#game-board > table .cell > .disc.black,
-#game-board > table .cell.attackable.black > .disc
+#game-board > table .cell.black > .disc
 {
   background: #000;
 }
