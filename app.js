@@ -243,7 +243,9 @@
       ss.push('<tr>');
       for (var x = -1; x < N; x++) {
         if (0 <= y && 0 <= x) {
-          ss.push('<td class="cell">');
+          ss.push('<td class="cell" id="');
+          ss.push('cell' + x + y);
+          ss.push('">');
           ss.push('<span class="disc ');
           ss.push(board[[x, y]]);
           ss.push('"></span>');
