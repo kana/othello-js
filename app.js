@@ -374,5 +374,6 @@
 
   $('#start-button').click(function () {startNewGame();});
   resetGame();
+  drawGameBoard(makeInitialGameBoard(), '-', []);
 })();
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
