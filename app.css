@@ -3,6 +3,11 @@
   text-align: center;
 }
 
+.disabled
+{
+  opacity: 0.5;
+}
+
 #message
 {
   margin-top: 1em;

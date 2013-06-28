@@ -366,7 +366,15 @@
   }
 
   function resetGame() {
-    shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
+    $('#preference-pane').show();
+    $('#main > :not(#preference-pane)').addClass('disabled');
+    drawGameBoard(makeWholeGameTree());
+  }
+
+  function startNewGame() {
+    $('#preference-pane').hide();
+    $('#main > :not(#preference-pane)').removeClass('disabled');
+    shiftToNewGameTree(makeWholeGameTree());
   }
 
 
@@ -374,6 +382,7 @@
 
   // Startup {{{1
 
+  $('#start-button').click(function () {startNewGame();});
   resetGame();
 })();
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
