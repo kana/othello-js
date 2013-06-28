@@ -182,7 +182,9 @@
   // AI {{{1
 
   function scoreBoardBySimpleCount(board, player) {
-    return $.map(board, function (v) {return v == player;}).length;
+    var opponent = nextPlayer(player);
+    return sum($.map(board, function (v) { return v == player;})) -
+           sum($.map(board, function (v) { return v == opponent;}));
   }
 
   var aiTable = {
