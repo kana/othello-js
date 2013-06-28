@@ -177,35 +177,38 @@
 
   // AI {{{1
 
-  var AI_LEVEL = 4;
+  function scoreBoardBySimpleCount(board, player) {
+    return $.map(board, function (v) {return v == player;}).length;
+  }
+
+  var aiTable = {
+    'test-4': {level: 4, scoreBoard: scoreBoardBySimpleCount}
+  };
 
   function findTheBestMoveByAI(gameTree, playerType) {
+    var ai = aiTable[playerType];
     var ratings = calculateRatings(
-      limitGameTreeDepth(gameTree, AI_LEVEL),
-      gameTree.player
+      limitGameTreeDepth(gameTree, ai.level),
+      gameTree.player,
+      ai.scoreBoard
     );
     var maxRating = Math.max.apply(null, ratings);
     return gameTree.moves[ratings.indexOf(maxRating)];
   }
 
-  function scoreBoard(board, player) {
-    // TODO: Calculate a more proper score.
-    return $.map(board, function (v) {return v == player;}).length;
-  }
-
-  function ratePosition(gameTree, player) {
+  function ratePosition(gameTree, player, scoreBoard) {
     var moves = gameTree.moves;
     if (1 <= moves.length) {
       var choose = gameTree.player == player ? Math.max : Math.min;
-      return choose.apply(null, calculateRatings(gameTree, player));
+      return choose.apply(null, calculateRatings(gameTree, player, scoreBoard));
     } else {
       return scoreBoard(gameTree.board, player);
     }
   }
 
-  function calculateRatings(gameTree, player) {
+  function calculateRatings(gameTree, player, scoreBoard) {
     return gameTree.moves.map(function (m) {
-      return ratePosition(force(m.gameTreePromise), player);
+      return ratePosition(force(m.gameTreePromise), player, scoreBoard);
     });
   }
 
