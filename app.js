@@ -348,7 +348,8 @@
       showWinner(gameTree.board);
       setUpUIToReset();
     } else {
-      if (gameTree.player == BLACK)
+      var playerType = playerTypeTable[gameTree.player];
+      if (playerType == 'human')
         setUpUIToChooseMove(gameTree);
       else
         chooseMoveByAI(gameTree);
