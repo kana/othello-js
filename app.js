@@ -312,13 +312,7 @@
   }
 
   function setUpUIToReset() {
-    $('#console').append(
-      $('<input type="button" class="btn">')
-      .val('Start a new game')
-      .click(function () {
-        resetGame();
-      })
-    );
+    resetGame();
   }
 
   function chooseMoveByAI(gameTree) {
