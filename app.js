@@ -238,11 +238,10 @@
 
   // UI {{{1
 
-  function drawGameBoard(gameTree) {
+  function drawGameBoard(board, player, moves) {
     var ss = [];
-    var board = gameTree.board;
     var attackable = {};
-    gameTree.moves.forEach(function (m) {
+    moves.forEach(function (m) {
       if (!m.isPassingMove)
         attackable[[m.x, m.y]] = true;
     });
@@ -255,7 +254,7 @@
           ss.push('<td class="');
           ss.push('cell');
           ss.push(' ');
-          ss.push(attackable[[x, y]] ? gameTree.player : board[[x, y]]);
+          ss.push(attackable[[x, y]] ? player : board[[x, y]]);
           ss.push(' ');
           ss.push(attackable[[x, y]] ? 'attackable' : '');
           ss.push('" id="');
@@ -276,7 +275,7 @@
     ss.push('</table>');
 
     $('#game-board').html(ss.join(''));
-    $('#current-player-name').text(gameTree.player);
+    $('#current-player-name').text(player);
   }
 
   function resetUI() {
@@ -346,7 +345,7 @@
   function shiftToNewGameTree(gameTree) {
     currentTree = gameTree;
 
-    drawGameBoard(gameTree);
+    drawGameBoard(gameTree.board, gameTree.player, gameTree.moves);
     resetUI();
     if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
