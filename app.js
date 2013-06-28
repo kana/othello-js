@@ -187,8 +187,26 @@
            sum($.map(board, function (v) { return v == opponent;}));
   }
 
+  var weightTable =
+    (function () {
+      var t = {};
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[[x, y]] =
+            (x == 0 || x == N - 1 ? 10 : 1) *
+            (y == 0 || y == N - 1 ? 10 : 1);
+      return t;
+    })();
+  function scoreBoardByWeightedCount(board, player) {
+    var opponent = nextPlayer(player);
+    var wt = weightTable;
+    return sum($.map(board, function (v, p) {return (v == player) * wt[p];})) -
+           sum($.map(board, function (v, p) {return (v == opponent) * wt[p];}));
+  }
+
   var aiTable = {
-    'test-4': {level: 4, scoreBoard: scoreBoardBySimpleCount}
+    'test-4': {level: 4, scoreBoard: scoreBoardBySimpleCount},
+    'weighted-4': {level: 4, scoreBoard: scoreBoardByWeightedCount}
   };
 
   function findTheBestMoveByAI(gameTree, playerType) {
