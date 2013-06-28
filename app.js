@@ -36,6 +36,10 @@
     return promise();
   }
 
+  function sum(ns) {
+    return ns.reduce(function (t, n) {return t + n;});
+  }
+
 
 
 
