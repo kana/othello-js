@@ -179,7 +179,7 @@
 
   var AI_LEVEL = 4;
 
-  function findTheBestMoveByAI(gameTree) {
+  function findTheBestMoveByAI(gameTree, playerType) {
     var ratings = calculateRatings(
       limitGameTreeDepth(gameTree, AI_LEVEL),
       gameTree.player
@@ -310,11 +310,13 @@
     resetGame();
   }
 
-  function chooseMoveByAI(gameTree) {
+  function chooseMoveByAI(gameTree, playerType) {
     $('#message').text('Now thinking...');
     setTimeout(
       function () {
-        shiftToNewGameTree(force(findTheBestMoveByAI(gameTree).gameTreePromise));
+        shiftToNewGameTree(
+          force(findTheBestMoveByAI(gameTree, playerType).gameTreePromise)
+        );
       },
       500
     );
@@ -352,7 +354,7 @@
       if (playerType == 'human')
         setUpUIToChooseMove(gameTree);
       else
-        chooseMoveByAI(gameTree);
+        chooseMoveByAI(gameTree, playerType);
     }
   }
 
