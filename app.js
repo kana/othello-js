@@ -73,6 +73,10 @@
   }
   var makeGameTree = memoize(_makeGameTree);
 
+  function makeWholeGameTree() {
+    return makeGameTree(makeInitialGameBoard(), BLACK, false, 1);
+  }
+
   function listPossibleMoves(board, player, wasPassed, nest) {
     return completePassingMove(
       listAttackingMoves(board, player, nest),
