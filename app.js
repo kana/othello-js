@@ -337,6 +337,7 @@
   }
 
   var currentTree;
+  var playerTypeTable = {};
 
   function shiftToNewGameTree(gameTree) {
     currentTree = gameTree;
@@ -362,6 +363,8 @@
   function startNewGame() {
     $('#preference-pane').addClass('disabled');
     $('#preference-pane :input').attr('disabled', 'disabled');
+    playerTypeTable[BLACK] = $('#black-player-type').val();
+    playerTypeTable[WHITE] = $('#white-player-type').val();
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
