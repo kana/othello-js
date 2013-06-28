@@ -366,14 +366,12 @@
   }
 
   function resetGame() {
-    $('#preference-pane').show();
-    $('#main > :not(#preference-pane)').addClass('disabled');
+    $('#preference-pane :input').removeAttr('disabled');
     drawGameBoard(makeWholeGameTree());
   }
 
   function startNewGame() {
-    $('#preference-pane').hide();
-    $('#main > :not(#preference-pane)').removeClass('disabled');
+    $('#preference-pane :input').attr('disabled', 'disabled');
     shiftToNewGameTree(makeWholeGameTree());
   }
 
