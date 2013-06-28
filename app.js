@@ -367,7 +367,6 @@
 
   function resetGame() {
     $('#preference-pane :input').removeAttr('disabled');
-    drawGameBoard(makeWholeGameTree());
   }
 
   function startNewGame() {
