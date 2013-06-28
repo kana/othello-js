@@ -13,6 +13,11 @@
   margin-top: 1em;
 }
 
+#preference-pane
+{
+  margin-top: 2em;
+}
+
 #game-board > table
 {
   margin: 0 auto;
