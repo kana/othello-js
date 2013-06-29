@@ -218,21 +218,6 @@
     return gameTree.moves[ratings.indexOf(maxRating)];
   }
 
-  function ratePosition(gameTree, player, scoreBoard) {
-    if (1 <= gameTree.moves.length) {
-      var choose = gameTree.player == player ? Math.max : Math.min;
-      return choose.apply(null, calculateRatings(gameTree, player, scoreBoard));
-    } else {
-      return scoreBoard(gameTree.board, player);
-    }
-  }
-
-  function calculateRatings(gameTree, player, scoreBoard) {
-    return gameTree.moves.map(function (m) {
-      return ratePosition(force(m.gameTreePromise), player, scoreBoard);
-    });
-  }
-
   function limitGameTreeDepth(gameTree, depth) {
     return {
       board: gameTree.board,
@@ -251,6 +236,21 @@
             };
           })
     };
+  }
+
+  function ratePosition(gameTree, player, scoreBoard) {
+    if (1 <= gameTree.moves.length) {
+      var choose = gameTree.player == player ? Math.max : Math.min;
+      return choose.apply(null, calculateRatings(gameTree, player, scoreBoard));
+    } else {
+      return scoreBoard(gameTree.board, player);
+    }
+  }
+
+  function calculateRatings(gameTree, player, scoreBoard) {
+    return gameTree.moves.map(function (m) {
+      return ratePosition(force(m.gameTreePromise), player, scoreBoard);
+    });
   }
 
 
