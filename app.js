@@ -219,8 +219,7 @@
   }
 
   function ratePosition(gameTree, player, scoreBoard) {
-    var moves = gameTree.moves;
-    if (1 <= moves.length) {
+    if (1 <= gameTree.moves.length) {
       var choose = gameTree.player == player ? Math.max : Math.min;
       return choose.apply(null, calculateRatings(gameTree, player, scoreBoard));
     } else {
