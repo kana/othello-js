@@ -209,9 +209,11 @@
 
   function findTheBestMoveByAI(gameTree, playerType) {
     var ai = aiTable[playerType];
-    var ratings = calculateRatings(
+    var ratings = calculateMaxRatings(
       limitGameTreeDepth(gameTree, ai.level),
       gameTree.player,
+      Number.MIN_VALUE,
+      Number.MAX_VALUE,
       ai.scoreBoard
     );
     var maxRating = Math.max.apply(null, ratings);
