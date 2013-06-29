@@ -253,6 +253,60 @@
     });
   }
 
+  function ratePositionWithAlphaBetaPruning(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
+    if (1 <= gameTree.moves.length) {
+      var judge =
+        gameTree.player == player
+        ? Math.max
+        : Math.min;
+      var rate =
+        gameTree.player == player
+        ? calculateMaxRatings
+        : calculateMinRatings;
+      return judge.apply(null, rate(gameTree, player, lowerLimit, upperLimit, scoreBoard));
+    } else {
+      return scoreBoard(gameTree.board, player);
+    }
+  }
+
+  function calculateMaxRatings(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
+    var ratings = [];
+    var newLowerLimit = lowerLimit;
+    for (var i = 0; i < gameTree.moves.length; i++) {
+      var r = ratePositionWithAlphaBetaPruning(
+        force(gameTree.moves[i].gameTreePromise),
+        player,
+        newLowerLimit,
+        upperLimit,
+        scoreBoard
+      );
+      ratings.push(r);
+      if (upperLimit <= r)
+        break;
+      newLowerLimit = Math.max(r, newLowerLimit);
+    }
+    return ratings;
+  }
+
+  function calculateMinRatings(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
+    var ratings = [];
+    var newUpperLimit = upperLimit;
+    for (var i = 0; i < gameTree.moves.length; i++) {
+      var r = ratePositionWithAlphaBetaPruning(
+        force(gameTree.moves[i].gameTreePromise),
+        player,
+        upperLimit,
+        newUpperLimit,
+        scoreBoard
+      );
+      ratings.push(r);
+      if (r <= lowerLimit)
+        break;
+      newUpperLimit = Math.min(r, newUpperLimit);
+    }
+    return ratings;
+  }
+
 
 
 
