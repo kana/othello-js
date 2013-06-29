@@ -105,20 +105,21 @@
 
     for (var x = 0; x < N; x++) {
       for (var y = 0; y < N; y++) {
-        if (canAttack(board, x, y, player)) {
+        var vulnerableCells = listVulnerableCells(board, x, y, player);
+        if (canAttack(vulnerableCells)) {
           moves.push({
             x: x,
             y: y,
-            gameTreePromise: (function (x, y) {
+            gameTreePromise: (function (x, y, vulnerableCells) {
               return delay(function () {
                 return makeGameTree(
-                  makeAttackedBoard(board, x, y, player),
+                  makeAttackedBoard(board, vulnerableCells, player),
                   nextPlayer(player),
                   false,
                   nest + 1
                 );
               });
-            })(x, y)
+            })(x, y, vulnerableCells)
           });
         }
       }
@@ -131,13 +132,12 @@
     return player == BLACK ? WHITE : BLACK;
   }
 
-  function canAttack(board, x, y, player) {
-    return listVulnerableCells(board, x, y, player).length;
+  function canAttack(vulnerableCells) {
+    return vulnerableCells.length;
   }
 
-  function makeAttackedBoard(board, x, y, player) {
+  function makeAttackedBoard(board, vulnerableCells, player) {
     var newBoard = JSON.parse(JSON.stringify(board));
-    var vulnerableCells = listVulnerableCells(board, x, y, player);
     for (i = 0; i < vulnerableCells.length; i++)
       newBoard[vulnerableCells[i]] = player;
     return newBoard;
