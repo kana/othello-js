@@ -249,7 +249,7 @@
               x: m.x,
               y: m.y,
               gameTreePromise: delay(function () {
-                return limitGameTreeDepth(gameTree, depth - 1);
+                return limitGameTreeDepth(force(m.gameTreePromise), depth - 1);
               })
             };
           })
