@@ -68,14 +68,13 @@
     return board;
   }
 
-  function _makeGameTree(board, player, wasPassed, nest) {
+  function makeGameTree(board, player, wasPassed, nest) {
     return {
       board: board,
       player: player,
       moves: listPossibleMoves(board, player, wasPassed, nest)
     };
   }
-  var makeGameTree = memoize(_makeGameTree);
 
   function listPossibleMoves(board, player, wasPassed, nest) {
     return completePassingMove(
@@ -144,7 +143,7 @@
     return newBoard;
   }
 
-  function _listVulnerableCells(board, x, y, player) {
+  function listVulnerableCells(board, x, y, player) {
     var vulnerableCells = [];
 
     if (board[[x, y]] != EMPTY)
@@ -174,7 +173,6 @@
 
     return vulnerableCells;
   }
-  var listVulnerableCells = memoize(_listVulnerableCells);
 
 
 
