@@ -418,12 +418,9 @@
     );
   }
 
-  var currentTree;
   var playerTypeTable = {};
 
   function shiftToNewGameTree(gameTree) {
-    currentTree = gameTree;
-
     drawGameBoard(gameTree.board, gameTree.player, gameTree.moves);
     resetUI();
     if (gameTree.moves.length == 0) {
