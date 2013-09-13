@@ -319,8 +319,15 @@ var othello = {};
 
   // API {{{1
 
+  var lastAIType;
+
+  othello.registerAI = function (ai) {
+    aiTable[lastAIType] = ai;
+  };
+
   function loadExternalAI(aiType, then) {
     if (aiTable[aiType] == null) {
+      lastAIType = aiType;
       $.getScript(aiType, function () {
         then();
       });
