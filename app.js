@@ -465,7 +465,17 @@
     $('#preference-pane :input').attr('disabled', 'disabled');
     playerTypeTable[BLACK] = $('#black-player-type').val();
     playerTypeTable[WHITE] = $('#white-player-type').val();
-    shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
+    loadExternalAI(
+      playerTypeTable[BLACK],
+      function () {
+        loadExternalAI(
+          playerTypeTable[WHITE],
+          function () {
+            shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
+          }
+        );
+      }
+    );
   }
 
 
