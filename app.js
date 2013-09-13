@@ -315,6 +315,21 @@
 
 
 
+  // API {{{1
+
+  function loadExternalAI(aiType, then) {
+    if (aiTable[aiType] == null) {
+      $.getScript(aiType, function () {
+        then();
+      });
+    } else {
+      then();
+    }
+  }
+
+
+
+
   // UI {{{1
 
   function drawGameBoard(board, player, moves) {
