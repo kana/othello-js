@@ -1,3 +1,5 @@
+var othello = {};
+
 (function () {
   // Utilities {{{1
 
