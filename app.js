@@ -325,14 +325,18 @@ var othello = {};
     aiTable[lastAIType] = ai;
   };
 
-  function loadExternalAI(aiType, then) {
-    if (aiTable[aiType] == null) {
-      lastAIType = aiType;
-      $.getScript(aiType, function () {
-        then();
+  function addNewAI() {
+    var aiUrl = $('#new-ai-url').val();
+    if (aiTable[aiUrl] == null) {
+      lastAIType = aiUrl;
+      var originalLabel = $('#add-new-ai-button').text();
+      $('#add-new-ai-button').text('Loading...').prop('disabled', true);
+      $.getScript(aiUrl, function () {
+        $('#black-player-type, #white-player-type').append(
+          '<option value="' + aiUrl + '">' + aiUrl + '</option>'
+        );
+        $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
       });
-    } else {
-      then();
     }
   }
 
@@ -474,26 +478,7 @@ var othello = {};
     $('#preference-pane :input').attr('disabled', 'disabled');
     playerTypeTable[BLACK] = $('#black-player-type').val();
     playerTypeTable[WHITE] = $('#white-player-type').val();
-    loadExternalAI(
-      playerTypeTable[BLACK],
-      function () {
-        loadExternalAI(
-          playerTypeTable[WHITE],
-          function () {
-            shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
-          }
-        );
-      }
-    );
-  }
-
-  function addNewAI() {
-    var url = $('#new-ai-url').val();
-    if (aiTable[url] == null) {
-      $('#black-player-type, #white-player-type').append(
-        '<option value="' + url + '">' + url + '</option>'
-      );
-    }
+    shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
 
