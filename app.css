@@ -18,6 +18,12 @@
   margin-top: 2em;
 }
 
+#add-new-ai-button
+{
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
 #game-board > table
 {
   margin: 0 auto;

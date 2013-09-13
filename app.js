@@ -487,12 +487,22 @@ var othello = {};
     );
   }
 
+  function addNewAI() {
+    var url = $('#new-ai-url').val();
+    if (aiTable[url] == null) {
+      $('#black-player-type, #white-player-type').append(
+        '<option value="' + url + '">' + url + '</option>'
+      );
+    }
+  }
+
 
 
 
   // Startup {{{1
 
   $('#start-button').click(function () {startNewGame();});
+  $('#add-new-ai-button').click(function () {addNewAI();});
   resetGame();
   drawGameBoard(makeInitialGameBoard(), '-', []);
 })();
