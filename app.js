@@ -202,23 +202,26 @@
            sum($.map(board, function (v, p) {return (v == opponent) * wt[p];}));
   }
 
-  var aiTable = {
-    'test-4': {level: 4, scoreBoard: scoreBoardBySimpleCount},
-    'weighted-4': {level: 4, scoreBoard: scoreBoardByWeightedCount}
-  };
-
-  function findTheBestMoveByAI(gameTree, playerType) {
-    var ai = aiTable[playerType];
-    var ratings = calculateMaxRatings(
-      limitGameTreeDepth(gameTree, ai.level),
-      gameTree.player,
-      Number.MIN_VALUE,
-      Number.MAX_VALUE,
-      ai.scoreBoard
-    );
-    var maxRating = Math.max.apply(null, ratings);
-    return gameTree.moves[ratings.indexOf(maxRating)];
+  function makeAI(config) {
+    return {
+      findTheBestMove: function (gameTree) {
+        var ratings = calculateMaxRatings(
+          limitGameTreeDepth(gameTree, config.level),
+          gameTree.player,
+          Number.MIN_VALUE,
+          Number.MAX_VALUE,
+          config.scoreBoard
+        );
+        var maxRating = Math.max.apply(null, ratings);
+        return gameTree.moves[ratings.indexOf(maxRating)];
+      }
+    };
   }
+
+  var aiTable = {
+    'test-4': makeAI({level: 4, scoreBoard: scoreBoardBySimpleCount}),
+    'weighted-4': makeAI({level: 4, scoreBoard: scoreBoardByWeightedCount})
+  };
 
   function limitGameTreeDepth(gameTree, depth) {
     return {
@@ -390,12 +393,12 @@
     resetGame();
   }
 
-  function chooseMoveByAI(gameTree, playerType) {
+  function chooseMoveByAI(gameTree, ai) {
     $('#message').text('Now thinking...');
     setTimeout(
       function () {
         shiftToNewGameTree(
-          force(findTheBestMoveByAI(gameTree, playerType).gameTreePromise)
+          force(ai.findTheBestMove(gameTree).gameTreePromise)
         );
       },
       500
@@ -428,10 +431,12 @@
       setUpUIToReset();
     } else {
       var playerType = playerTypeTable[gameTree.player];
-      if (playerType == 'human')
+      if (playerType == 'human') {
         setUpUIToChooseMove(gameTree);
-      else
-        chooseMoveByAI(gameTree, playerType);
+      } else {
+        var ai = aiTable[playerType];
+        chooseMoveByAI(gameTree, ai);
+      }
     }
   }
 
