@@ -335,6 +335,7 @@ var othello = {};
         $('#black-player-type, #white-player-type').append(
           '<option value="' + aiUrl + '">' + aiUrl + '</option>'
         );
+        $('#white-player-type').val(aiUrl);
         $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
       });
     } else {
