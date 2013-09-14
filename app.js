@@ -325,6 +325,13 @@ var othello = {};
     aiTable[lastAIType] = ai;
   };
 
+  othello.force = force;
+  othello.delay = delay;
+  othello.EMPTY = EMPTY;
+  othello.WHITE = WHITE;
+  othello.BLACK = BLACK;
+  othello.nextPlayer = nextPlayer;
+
   function addNewAI() {
     var aiUrl = $('#new-ai-url').val();
     var originalLabel = $('#add-new-ai-button').text();
