@@ -327,9 +327,9 @@ var othello = {};
 
   function addNewAI() {
     var aiUrl = $('#new-ai-url').val();
+    var originalLabel = $('#add-new-ai-button').text();
     if (aiTable[aiUrl] == null) {
       lastAIType = aiUrl;
-      var originalLabel = $('#add-new-ai-button').text();
       $('#add-new-ai-button').text('Loading...').prop('disabled', true);
       $.getScript(aiUrl, function () {
         $('#black-player-type, #white-player-type').append(
@@ -337,6 +337,14 @@ var othello = {};
         );
         $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
       });
+    } else {
+      $('#add-new-ai-button').text('Already loaded').prop('disabled', true);
+      setTimeout(
+        function () {
+          $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
+        },
+        1000
+      );
     }
   }
 
