@@ -460,6 +460,12 @@ var othello = {};
 
   var playerTypeTable = {};
 
+  function swapPlayerTypes() {
+    var t = $('#black-player-type').val();
+    $('#black-player-type').val($('#white-player-type').val());
+    $('#white-player-type').val(t);
+  }
+
   function shiftToNewGameTree(gameTree) {
     drawGameBoard(gameTree.board, gameTree.player, gameTree.moves);
     resetUI();
@@ -497,6 +503,7 @@ var othello = {};
 
   $('#start-button').click(function () {startNewGame();});
   $('#add-new-ai-button').click(function () {addNewAI();});
+  $('#swap-player-types-button').click(function () {swapPlayerTypes();});
   resetGame();
   drawGameBoard(makeInitialGameBoard(), '-', []);
 })();
