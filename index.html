@@ -28,22 +28,29 @@
       <div id="message"></div>
       <div id="console"></div>
       <div id="preference-pane">
-        <label>
-          Black:
-          <select id="black-player-type">
-            <option value="human" selected>Human</option>
-            <option value="test-4">Test AI (looks ahead 4 moves)</option>
-            <option value="weighted-4">Weighted AI (looks ahead 4 moves)</option>
-          </select>
-        </label>
-        <label>
-          White:
-          <select id="white-player-type">
-            <option value="human">Human</option>
-            <option value="test-4">Test AI (looks ahead 4 moves)</option>
-            <option value="weighted-4" selected>Weighted AI (looks ahead 4 moves)</option>
-          </select>
-        </label>
+        <div id="player-type-forms">
+          <label>
+            Black:
+            <select id="black-player-type">
+              <option value="human" selected>Human</option>
+              <option value="test-4">Test AI (looks ahead 4 moves)</option>
+              <option value="weighted-4">Weighted AI (looks ahead 4 moves)</option>
+            </select>
+          </label>
+          <label>
+            White:
+            <select id="white-player-type">
+              <option value="human">Human</option>
+              <option value="test-4">Test AI (looks ahead 4 moves)</option>
+              <option value="weighted-4" selected>Weighted AI (looks ahead 4 moves)</option>
+            </select>
+          </label>
+        </div>
+        <button id="swap-player-types-button" class="btn" type="button">⇅</button>
+        <div>
+          <input id="new-ai-url" type="text" value="http://kana.github.io/othello-js/random-ai.js">
+          <button id="add-new-ai-button" class="btn" type="button">Add new AI</button>
+        </div>
         <button id="start-button" class="btn btn-primary" type="submit">Start a new game</button>
       </div>
     </div>

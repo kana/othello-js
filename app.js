@@ -1,3 +1,5 @@
+var othello = {};
+
 (function () {
   // Utilities {{{1
 
@@ -202,23 +204,26 @@
            sum($.map(board, function (v, p) {return (v == opponent) * wt[p];}));
   }
 
-  var aiTable = {
-    'test-4': {level: 4, scoreBoard: scoreBoardBySimpleCount},
-    'weighted-4': {level: 4, scoreBoard: scoreBoardByWeightedCount}
-  };
-
-  function findTheBestMoveByAI(gameTree, playerType) {
-    var ai = aiTable[playerType];
-    var ratings = calculateMaxRatings(
-      limitGameTreeDepth(gameTree, ai.level),
-      gameTree.player,
-      Number.MIN_VALUE,
-      Number.MAX_VALUE,
-      ai.scoreBoard
-    );
-    var maxRating = Math.max.apply(null, ratings);
-    return gameTree.moves[ratings.indexOf(maxRating)];
+  function makeAI(config) {
+    return {
+      findTheBestMove: function (gameTree) {
+        var ratings = calculateMaxRatings(
+          limitGameTreeDepth(gameTree, config.level),
+          gameTree.player,
+          Number.MIN_VALUE,
+          Number.MAX_VALUE,
+          config.scoreBoard
+        );
+        var maxRating = Math.max.apply(null, ratings);
+        return gameTree.moves[ratings.indexOf(maxRating)];
+      }
+    };
   }
+
+  var aiTable = {
+    'test-4': makeAI({level: 4, scoreBoard: scoreBoardBySimpleCount}),
+    'weighted-4': makeAI({level: 4, scoreBoard: scoreBoardByWeightedCount})
+  };
 
   function limitGameTreeDepth(gameTree, depth) {
     return {
@@ -312,6 +317,48 @@
 
 
 
+  // API {{{1
+
+  var lastAIType;
+
+  othello.registerAI = function (ai) {
+    aiTable[lastAIType] = ai;
+  };
+
+  othello.force = force;
+  othello.delay = delay;
+  othello.EMPTY = EMPTY;
+  othello.WHITE = WHITE;
+  othello.BLACK = BLACK;
+  othello.nextPlayer = nextPlayer;
+
+  function addNewAI() {
+    var aiUrl = $('#new-ai-url').val();
+    var originalLabel = $('#add-new-ai-button').text();
+    if (aiTable[aiUrl] == null) {
+      lastAIType = aiUrl;
+      $('#add-new-ai-button').text('Loading...').prop('disabled', true);
+      $.getScript(aiUrl, function () {
+        $('#black-player-type, #white-player-type').append(
+          '<option value="' + aiUrl + '">' + aiUrl + '</option>'
+        );
+        $('#white-player-type').val(aiUrl);
+        $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
+      });
+    } else {
+      $('#add-new-ai-button').text('Already loaded').prop('disabled', true);
+      setTimeout(
+        function () {
+          $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
+        },
+        1000
+      );
+    }
+  }
+
+
+
+
   // UI {{{1
 
   function drawGameBoard(board, player, moves) {
@@ -390,12 +437,12 @@
     resetGame();
   }
 
-  function chooseMoveByAI(gameTree, playerType) {
+  function chooseMoveByAI(gameTree, ai) {
     $('#message').text('Now thinking...');
     setTimeout(
       function () {
         shiftToNewGameTree(
-          force(findTheBestMoveByAI(gameTree, playerType).gameTreePromise)
+          force(ai.findTheBestMove(gameTree).gameTreePromise)
         );
       },
       500
@@ -420,6 +467,12 @@
 
   var playerTypeTable = {};
 
+  function swapPlayerTypes() {
+    var t = $('#black-player-type').val();
+    $('#black-player-type').val($('#white-player-type').val());
+    $('#white-player-type').val(t);
+  }
+
   function shiftToNewGameTree(gameTree) {
     drawGameBoard(gameTree.board, gameTree.player, gameTree.moves);
     resetUI();
@@ -428,10 +481,12 @@
       setUpUIToReset();
     } else {
       var playerType = playerTypeTable[gameTree.player];
-      if (playerType == 'human')
+      if (playerType == 'human') {
         setUpUIToChooseMove(gameTree);
-      else
-        chooseMoveByAI(gameTree, playerType);
+      } else {
+        var ai = aiTable[playerType];
+        chooseMoveByAI(gameTree, ai);
+      }
     }
   }
 
@@ -454,6 +509,8 @@
   // Startup {{{1
 
   $('#start-button').click(function () {startNewGame();});
+  $('#add-new-ai-button').click(function () {addNewAI();});
+  $('#swap-player-types-button').click(function () {swapPlayerTypes();});
   resetGame();
   drawGameBoard(makeInitialGameBoard(), '-', []);
 })();
