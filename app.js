@@ -206,6 +206,18 @@ var othello = {};
             (y == 0 || y == N - 1 ? 10 : 1);
       return t;
     })();
+  var betterWeightTable =
+    (function () {
+      var t = {};
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[[x, y]] =
+            (x == 0 || x == N - 1 ? 10 : 1) *
+            (y == 0 || y == N - 1 ? 10 : 1);
+      t[[0, 1]] = t[[0, N - 2]] = t[[N - 1, 1]] = t[[N - 1, N - 2]] =
+      t[[1, 0]] = t[[N - 2, 0]] = t[[1, N - 1]] = t[[N - 2, N - 1]] = 0;
+      return t;
+    })();
 
   function makeAI(config) {
     return {
@@ -225,7 +237,8 @@ var othello = {};
 
   var aiTable = {
     'test-4': makeAI({level: 4, scoreBoard: scoreBoardBySimpleCount}),
-    'weighted-4': makeAI({level: 4, scoreBoard: makeScoreBoardWith(weightTable)})
+    'weighted-4': makeAI({level: 4, scoreBoard: makeScoreBoardWith(weightTable)}),
+    'better-weighted-4': makeAI({level: 4, scoreBoard: makeScoreBoardWith(betterWeightTable)})
   };
 
   function limitGameTreeDepth(gameTree, depth) {
