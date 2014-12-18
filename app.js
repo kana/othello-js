@@ -47,7 +47,8 @@ var othello = {};
 
   // Core logic {{{1
 
-  var N = 8;
+  var m = location.href.match(/\?n=(\d+)$/);
+  var N = m == null ? 8 : parseInt(m[1]);
 
   var EMPTY = 'empty';
   var WHITE = 'white';
@@ -402,9 +403,9 @@ var othello = {};
           ss.push('<span class="disc"></span>');
           ss.push('</td>');
         } else if (0 <= x && y == -1) {
-          ss.push('<th>' + 'abcdefgh'[x] + '</th>');
+          ss.push('<th>' + String.fromCharCode('a'.charCodeAt(0)+x) + '</th>');
         } else if (x == -1 && 0 <= y) {
-          ss.push('<th>' + '12345678'[y] + '</th>');
+          ss.push('<th>' + (y + 1) + '</th>');
         } else /* if (x == -1 && y == -1) */ {
           ss.push('<th></th>');
         }
