@@ -187,6 +187,15 @@ var othello = {};
            sum($.map(board, function (v) { return v == opponent;}));
   }
 
+  function makeScoreBoardWith(weightTable) {
+    var wt = weightTable;
+    return function (board, player) {
+      var opponent = nextPlayer(player);
+      return sum($.map(board, function (v,p) {return (v==player) * wt[p];})) -
+             sum($.map(board, function (v,p) {return (v==opponent) * wt[p];}));
+    };
+  }
+
   var weightTable =
     (function () {
       var t = {};
@@ -197,12 +206,6 @@ var othello = {};
             (y == 0 || y == N - 1 ? 10 : 1);
       return t;
     })();
-  function scoreBoardByWeightedCount(board, player) {
-    var opponent = nextPlayer(player);
-    var wt = weightTable;
-    return sum($.map(board, function (v, p) {return (v == player) * wt[p];})) -
-           sum($.map(board, function (v, p) {return (v == opponent) * wt[p];}));
-  }
 
   function makeAI(config) {
     return {
@@ -222,7 +225,7 @@ var othello = {};
 
   var aiTable = {
     'test-4': makeAI({level: 4, scoreBoard: scoreBoardBySimpleCount}),
-    'weighted-4': makeAI({level: 4, scoreBoard: scoreBoardByWeightedCount})
+    'weighted-4': makeAI({level: 4, scoreBoard: makeScoreBoardWith(weightTable)})
   };
 
   function limitGameTreeDepth(gameTree, depth) {
