@@ -47,7 +47,8 @@ var othello = {};
 
   // Core logic {{{1
 
-  var N = 8;
+  var m = location.href.match(/\?n=(\d+)$/);
+  var N = m == null ? 8 : parseInt(m[1]);
 
   var EMPTY = 'empty';
   var WHITE = 'white';
