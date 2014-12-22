@@ -54,19 +54,23 @@ var othello = {};
   var WHITE = 'white';
   var BLACK = 'black';
 
+  function I(x, y) {
+    return x + y * N;
+  }
+
   function makeInitialGameBoard() {
-    var board = {};
+    var board = [];
 
     for (var x = 0; x < N; x++)
       for (var y = 0; y < N; y++)
-        board[[x, y]] = EMPTY;
+        board[I(x, y)] = EMPTY;
 
     var x2 = x >> 1;
     var y2 = y >> 1;
-    board[[x2 - 1, y2 - 1]] = WHITE;
-    board[[x2 - 1, y2 - 0]] = BLACK;
-    board[[x2 - 0, y2 - 1]] = BLACK;
-    board[[x2 - 0, y2 - 0]] = WHITE;
+    board[I(x2 - 1, y2 - 1)] = WHITE;
+    board[I(x2 - 1, y2 - 0)] = BLACK;
+    board[I(x2 - 0, y2 - 1)] = BLACK;
+    board[I(x2 - 0, y2 - 0)] = WHITE;
 
     return board;
   }
@@ -149,7 +153,7 @@ var othello = {};
   function listVulnerableCells(board, x, y, player) {
     var vulnerableCells = [];
 
-    if (board[[x, y]] != EMPTY)
+    if (board[I(x, y)] != EMPTY)
       return vulnerableCells;
 
     var opponent = nextPlayer(player);
@@ -162,10 +166,10 @@ var othello = {};
           var ny = y + i * dy;
           if (nx < 0 || N <= nx || ny < 0 || N <= ny)
             break;
-          var cell = board[[nx, ny]];
+          var cell = board[I(nx, ny)];
           if (cell == player && 2 <= i) {
             for (j = 0; j < i; j++)
-              vulnerableCells.push([x + j * dx, y + j * dy]);
+              vulnerableCells.push(I(x + j * dx, y + j * dy));
             break;
           }
           if (cell != opponent)
@@ -199,24 +203,24 @@ var othello = {};
 
   var weightTable =
     (function () {
-      var t = {};
+      var t = [];
       for (var x = 0; x < N; x++)
         for (var y = 0; y < N; y++)
-          t[[x, y]] =
+          t[I(x, y)] =
             (x == 0 || x == N - 1 ? 10 : 1) *
             (y == 0 || y == N - 1 ? 10 : 1);
       return t;
     })();
   var betterWeightTable =
     (function () {
-      var t = {};
+      var t = [];
       for (var x = 0; x < N; x++)
         for (var y = 0; y < N; y++)
-          t[[x, y]] =
+          t[I(x, y)] =
             (x == 0 || x == N - 1 ? 10 : 1) *
             (y == 0 || y == N - 1 ? 10 : 1);
-      t[[0, 1]] = t[[0, N - 2]] = t[[N - 1, 1]] = t[[N - 1, N - 2]] =
-      t[[1, 0]] = t[[N - 2, 0]] = t[[1, N - 1]] = t[[N - 2, N - 1]] = 0;
+      t[I(0, 1)] = t[I(0, N - 2)] = t[I(N - 1, 1)] = t[I(N - 1, N - 2)] =
+      t[I(1, 0)] = t[I(N - 2, 0)] = t[I(1, N - 1)] = t[I(N - 2, N - 1)] = 0;
       return t;
     })();
 
@@ -380,10 +384,10 @@ var othello = {};
 
   function drawGameBoard(board, player, moves) {
     var ss = [];
-    var attackable = {};
+    var attackable = [];
     moves.forEach(function (m) {
       if (!m.isPassingMove)
-        attackable[[m.x, m.y]] = true;
+        attackable[I(m.x, m.y)] = true;
     });
 
     ss.push('<table>');
@@ -394,9 +398,9 @@ var othello = {};
           ss.push('<td class="');
           ss.push('cell');
           ss.push(' ');
-          ss.push(attackable[[x, y]] ? player : board[[x, y]]);
+          ss.push(attackable[I(x, y)] ? player : board[I(x, y)]);
           ss.push(' ');
-          ss.push(attackable[[x, y]] ? 'attackable' : '');
+          ss.push(attackable[I(x, y)] ? 'attackable' : '');
           ss.push('" id="');
           ss.push('cell' + x + y);
           ss.push('">');
@@ -473,7 +477,7 @@ var othello = {};
 
     for (var x = 0; x < N; x++)
       for (var y = 0; y < N; y++)
-        nt[board[[x, y]]]++;
+        nt[board[I(x, y)]]++;
 
     $('#message').text(
       nt[BLACK] == nt[WHITE]
