@@ -463,11 +463,18 @@ var othello = {};
     $('#message').text('Now thinking...');
     setTimeout(
       function () {
-        shiftToNewGameTree(
-          force(ai.findTheBestMove(gameTree).gameTreePromise)
+        var start = Date.now();
+        var newGameTree = force(ai.findTheBestMove(gameTree).gameTreePromise);
+        var end = Date.now();
+        var delta = end - start;
+        setTimeout(
+          function () {
+            shiftToNewGameTree(newGameTree);
+          },
+          Math.max(minimumDelayForAI - delta, 1)
         );
       },
-      minimumDelayForAI
+      1
     );
   }
 
