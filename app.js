@@ -384,7 +384,7 @@ var othello = {};
 
   function drawGameBoard(board, player, moves) {
     var ss = [];
-    var attackable = {};
+    var attackable = [];
     moves.forEach(function (m) {
       if (!m.isPassingMove)
         attackable[I(m.x, m.y)] = true;
