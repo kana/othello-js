@@ -458,6 +458,7 @@ var othello = {};
     resetGame();
   }
 
+  var minimumDelayForAI = 500;  // milliseconds
   function chooseMoveByAI(gameTree, ai) {
     $('#message').text('Now thinking...');
     setTimeout(
@@ -466,7 +467,7 @@ var othello = {};
           force(ai.findTheBestMove(gameTree).gameTreePromise)
         );
       },
-      500
+      minimumDelayForAI
     );
   }
 
