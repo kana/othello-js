@@ -59,7 +59,7 @@ var othello = {};
   }
 
   function makeInitialGameBoard() {
-    var board = {};
+    var board = [];
 
     for (var x = 0; x < N; x++)
       for (var y = 0; y < N; y++)
