@@ -241,9 +241,9 @@ var othello = {};
   }
 
   var aiTable = {
-    'test-4': makeAI({level: 5000, scoreBoard: scoreBoardBySimpleCount}),
-    'weighted-4': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)}),
-    'better-weighted-4': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(betterWeightTable)})
+    'simple-count': makeAI({level: 5000, scoreBoard: scoreBoardBySimpleCount}),
+    'simple-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)}),
+    'better-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(betterWeightTable)})
   };
 
   function limitGameTreeWithFeasibleDepth(gameTree, maxBoards) {
