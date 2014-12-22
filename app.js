@@ -203,7 +203,7 @@ var othello = {};
 
   var weightTable =
     (function () {
-      var t = {};
+      var t = [];
       for (var x = 0; x < N; x++)
         for (var y = 0; y < N; y++)
           t[I(x, y)] =
@@ -213,7 +213,7 @@ var othello = {};
     })();
   var betterWeightTable =
     (function () {
-      var t = {};
+      var t = [];
       for (var x = 0; x < N; x++)
         for (var y = 0; y < N; y++)
           t[I(x, y)] =
