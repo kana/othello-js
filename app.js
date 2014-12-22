@@ -536,6 +536,10 @@ var othello = {};
     var t = $('#black-player-type').val();
     $('#black-player-type').val($('#white-player-type').val());
     $('#white-player-type').val(t);
+
+    var l = $('#black-player-level').val();
+    $('#black-player-level').val($('#white-player-level').val());
+    $('#white-player-level').val(l);
   }
 
   function shiftToNewGameTree(gameTree) {
