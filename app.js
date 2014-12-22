@@ -228,7 +228,7 @@ var othello = {};
     return {
       findTheBestMove: function (gameTree) {
         var ratings = calculateMaxRatings(
-          limitGameTreeDepth(gameTree, config.level),
+          limitGameTreeWithFeasibleDepth(gameTree, config.level),
           gameTree.player,
           Number.MIN_VALUE,
           Number.MAX_VALUE,
@@ -241,10 +241,28 @@ var othello = {};
   }
 
   var aiTable = {
-    'test-4': makeAI({level: 4, scoreBoard: scoreBoardBySimpleCount}),
-    'weighted-4': makeAI({level: 4, scoreBoard: makeScoreBoardWith(weightTable)}),
-    'better-weighted-4': makeAI({level: 4, scoreBoard: makeScoreBoardWith(betterWeightTable)})
+    'test-4': makeAI({level: 5000, scoreBoard: scoreBoardBySimpleCount}),
+    'weighted-4': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)}),
+    'better-weighted-4': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(betterWeightTable)})
   };
+
+  function limitGameTreeWithFeasibleDepth(gameTree, maxBoards) {
+    return limitGameTreeDepth(
+      gameTree,
+      estimateFeasibleDepth(gameTree, maxBoards)
+    );
+  }
+
+  function estimateFeasibleDepth(gameTree, maxBoards) {
+    var approxBoards = 1;
+    var depth = 0;
+    while (approxBoards <= maxBoards && 1 <= gameTree.moves.length) {
+      approxBoards *= gameTree.moves.length;
+      depth += 1;
+      gameTree = force(gameTree.moves[0].gameTreePromise);
+    }
+    return depth;
+  }
 
   function limitGameTreeDepth(gameTree, depth) {
     return {
