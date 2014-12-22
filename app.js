@@ -55,7 +55,7 @@ var othello = {};
   var BLACK = 'black';
 
   function I(x, y) {
-    return [x, y];
+    return x + y * N;
   }
 
   function makeInitialGameBoard() {
