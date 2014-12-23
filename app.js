@@ -385,7 +385,7 @@ var othello = {};
         $('#black-player-type, #white-player-type').append(
           '<option value="' + aiUrl + '">' + aiUrl + '</option>'
         );
-        $('#white-player-type').val(aiUrl);
+        $('#white-player-type').val(aiUrl).change();
         $('#add-new-ai-button').text(originalLabel).removeProp('disabled');
       });
     } else {
@@ -532,10 +532,19 @@ var othello = {};
     }
   }
 
+  function adjustPlayerUI($type, $level) {
+    $type.change(function () {
+      var available = $type.val() in weightTables;
+      $level
+        .toggleClass('disabled', !available)
+        .prop('disabled', !available);
+    }).change();
+  }
+
   function swapPlayerTypes() {
     var t = $('#black-player-type').val();
-    $('#black-player-type').val($('#white-player-type').val());
-    $('#white-player-type').val(t);
+    $('#black-player-type').val($('#white-player-type').val()).change();
+    $('#white-player-type').val(t).change();
 
     var l = $('#black-player-level').val();
     $('#black-player-level').val($('#white-player-level').val());
@@ -576,6 +585,8 @@ var othello = {};
   $('#start-button').click(function () {startNewGame();});
   $('#add-new-ai-button').click(function () {addNewAI();});
   $('#swap-player-types-button').click(function () {swapPlayerTypes();});
+  adjustPlayerUI($('#black-player-type'), $('#black-player-level'));
+  adjustPlayerUI($('#white-player-type'), $('#white-player-level'));
   resetGame();
   drawGameBoard(makeInitialGameBoard(), '-', []);
 })();
