@@ -203,7 +203,7 @@ var othello = {};
           t[I(x, y)] = 1;
       return t;
     })();
-  var weightTable =
+  var basicWeightTable =
     (function () {
       var t = [];
       for (var x = 0; x < N; x++)
@@ -244,7 +244,7 @@ var othello = {};
 
   var aiTable = {
     'simple-count': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(simpleCountWeightTable)}),
-    'simple-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)}),
+    'simple-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(basicWeightTable)}),
     'better-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(betterWeightTable)})
   };
 
