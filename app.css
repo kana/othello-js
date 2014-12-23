@@ -22,6 +22,11 @@
 {
   display: inline-block;
 }
+#black-player-level,
+#white-player-level
+{
+  width: auto;
+}
 #swap-player-types-button
 {
   position: relative;
