@@ -518,14 +518,14 @@ var othello = {};
 
   var playerTable = {};
 
-  function makePlayer(playerType) {
+  function makePlayer(playerType, level) {
     if (playerType == 'human') {
       return setUpUIToChooseMove;
     } else {
       var weightTable = weightTables[playerType];
       var ai = weightTable === undefined
         ? externalAITable[playerType]
-        : makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)});
+        : makeAI({level: level, scoreBoard: makeScoreBoardWith(weightTable)});
       return function (gameTree) {
         chooseMoveByAI(gameTree, ai);
       };
@@ -561,8 +561,10 @@ var othello = {};
   function startNewGame() {
     $('#preference-pane').addClass('disabled');
     $('#preference-pane :input').attr('disabled', 'disabled');
-    playerTable[BLACK] = makePlayer($('#black-player-type').val());
-    playerTable[WHITE] = makePlayer($('#white-player-type').val());
+    playerTable[BLACK] = makePlayer($('#black-player-type').val(),
+                                    parseInt($('#black-player-level').val()));
+    playerTable[WHITE] = makePlayer($('#white-player-type').val(),
+                                    parseInt($('#white-player-level').val()));
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
