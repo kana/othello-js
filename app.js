@@ -244,9 +244,6 @@ var othello = {};
     };
   }
 
-  var externalAITable = {
-  };
-
   function limitGameTreeWithFeasibleDepth(gameTree, maxBoards) {
     return limitGameTreeDepth(
       gameTree,
@@ -362,6 +359,8 @@ var othello = {};
 
 
   // API {{{1
+
+  var externalAITable = {};
 
   var lastAIType;
 
