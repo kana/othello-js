@@ -254,14 +254,18 @@ var othello = {};
   }
 
   function estimateFeasibleDepth(gameTree, maxBoards) {
-    var approxBoards = 1;
+    var oldApproxBoards = 1;
+    var newApproxBoards = 1;
     var depth = 0;
-    while (approxBoards <= maxBoards && 1 <= gameTree.moves.length) {
-      approxBoards *= gameTree.moves.length;
+    while (newApproxBoards <= maxBoards && 1 <= gameTree.moves.length) {
+      oldApproxBoards = newApproxBoards;
+      newApproxBoards *= gameTree.moves.length;
       depth += 1;
       gameTree = force(gameTree.moves[0].gameTreePromise);
     }
-    return depth;
+    var oldDiff = oldApproxBoards - maxBoards;
+    var newDiff = newApproxBoards - maxBoards;
+    return Math.abs(newDiff) - Math.abs(oldDiff) <= 0 ? depth : depth - 1;
   }
 
   function limitGameTreeDepth(gameTree, depth) {
