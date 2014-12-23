@@ -195,36 +195,38 @@ var othello = {};
     };
   }
 
-  var simpleCountWeightTable =
-    (function () {
-      var t = [];
-      for (var x = 0; x < N; x++)
-        for (var y = 0; y < N; y++)
-          t[I(x, y)] = 1;
-      return t;
-    })();
-  var basicWeightTable =
-    (function () {
-      var t = [];
-      for (var x = 0; x < N; x++)
-        for (var y = 0; y < N; y++)
-          t[I(x, y)] =
-            (x == 0 || x == N - 1 ? 10 : 1) *
-            (y == 0 || y == N - 1 ? 10 : 1);
-      return t;
-    })();
-  var betterWeightTable =
-    (function () {
-      var t = [];
-      for (var x = 0; x < N; x++)
-        for (var y = 0; y < N; y++)
-          t[I(x, y)] =
-            (x == 0 || x == N - 1 ? 10 : 1) *
-            (y == 0 || y == N - 1 ? 10 : 1);
-      t[I(0, 1)] = t[I(0, N - 2)] = t[I(N - 1, 1)] = t[I(N - 1, N - 2)] =
-      t[I(1, 0)] = t[I(N - 2, 0)] = t[I(1, N - 1)] = t[I(N - 2, N - 1)] = 0;
-      return t;
-    })();
+  var weightTables = {
+    simpleCount:
+      (function () {
+        var t = [];
+        for (var x = 0; x < N; x++)
+          for (var y = 0; y < N; y++)
+            t[I(x, y)] = 1;
+        return t;
+      })(),
+    basic:
+      (function () {
+        var t = [];
+        for (var x = 0; x < N; x++)
+          for (var y = 0; y < N; y++)
+            t[I(x, y)] =
+              (x == 0 || x == N - 1 ? 10 : 1) *
+              (y == 0 || y == N - 1 ? 10 : 1);
+        return t;
+      })(),
+    better:
+      (function () {
+        var t = [];
+        for (var x = 0; x < N; x++)
+          for (var y = 0; y < N; y++)
+            t[I(x, y)] =
+              (x == 0 || x == N - 1 ? 10 : 1) *
+              (y == 0 || y == N - 1 ? 10 : 1);
+        t[I(0, 1)] = t[I(0, N - 2)] = t[I(N - 1, 1)] = t[I(N - 1, N - 2)] =
+        t[I(1, 0)] = t[I(N - 2, 0)] = t[I(1, N - 1)] = t[I(N - 2, N - 1)] = 0;
+        return t;
+      })()
+  };
 
   function makeAI(config) {
     return {
@@ -243,9 +245,6 @@ var othello = {};
   }
 
   var aiTable = {
-    'simpleCount': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(simpleCountWeightTable)}),
-    'basic': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(basicWeightTable)}),
-    'better': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(betterWeightTable)})
   };
 
   function limitGameTreeWithFeasibleDepth(gameTree, maxBoards) {
@@ -524,7 +523,10 @@ var othello = {};
     if (playerType == 'human') {
       return setUpUIToChooseMove;
     } else {
-      var ai = aiTable[playerType];
+      var weightTable = weightTables[playerType];
+      var ai = weightTable === undefined
+        ? aiTable[playerType]
+        : makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)});
       return function (gameTree) {
         chooseMoveByAI(gameTree, ai);
       };
