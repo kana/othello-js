@@ -244,7 +244,7 @@ var othello = {};
     };
   }
 
-  var aiTable = {
+  var externalAITable = {
   };
 
   function limitGameTreeWithFeasibleDepth(gameTree, maxBoards) {
@@ -366,7 +366,7 @@ var othello = {};
   var lastAIType;
 
   othello.registerAI = function (ai) {
-    aiTable[lastAIType] = ai;
+    externalAITable[lastAIType] = ai;
   };
 
   othello.force = force;
@@ -379,7 +379,7 @@ var othello = {};
   function addNewAI() {
     var aiUrl = $('#new-ai-url').val();
     var originalLabel = $('#add-new-ai-button').text();
-    if (aiTable[aiUrl] == null) {
+    if (externalAITable[aiUrl] == null) {
       lastAIType = aiUrl;
       $('#add-new-ai-button').text('Loading...').prop('disabled', true);
       $.getScript(aiUrl, function () {
@@ -525,7 +525,7 @@ var othello = {};
     } else {
       var weightTable = weightTables[playerType];
       var ai = weightTable === undefined
-        ? aiTable[playerType]
+        ? externalAITable[playerType]
         : makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)});
       return function (gameTree) {
         chooseMoveByAI(gameTree, ai);
