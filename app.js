@@ -186,12 +186,6 @@ var othello = {};
 
   // AI {{{1
 
-  function scoreBoardBySimpleCount(board, player) {
-    var opponent = nextPlayer(player);
-    return sum($.map(board, function (v) { return v == player;})) -
-           sum($.map(board, function (v) { return v == opponent;}));
-  }
-
   function makeScoreBoardWith(weightTable) {
     var wt = weightTable;
     return function (board, player) {
@@ -201,6 +195,14 @@ var othello = {};
     };
   }
 
+  var simpleCountWeightTable =
+    (function () {
+      var t = [];
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[I(x, y)] = 1;
+      return t;
+    })();
   var weightTable =
     (function () {
       var t = [];
@@ -241,7 +243,7 @@ var othello = {};
   }
 
   var aiTable = {
-    'simple-count': makeAI({level: 5000, scoreBoard: scoreBoardBySimpleCount}),
+    'simple-count': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(simpleCountWeightTable)}),
     'simple-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(weightTable)}),
     'better-weighted': makeAI({level: 5000, scoreBoard: makeScoreBoardWith(betterWeightTable)})
   };
