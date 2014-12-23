@@ -516,7 +516,18 @@ var othello = {};
     );
   }
 
-  var playerTypeTable = {};
+  var playerTable = {};
+
+  function makePlayer(playerType) {
+    if (playerType == 'human') {
+      return setUpUIToChooseMove;
+    } else {
+      var ai = aiTable[playerType];
+      return function (gameTree) {
+        chooseMoveByAI(gameTree, ai);
+      };
+    }
+  }
 
   function swapPlayerTypes() {
     var t = $('#black-player-type').val();
@@ -531,13 +542,7 @@ var othello = {};
       showWinner(gameTree.board);
       setUpUIToReset();
     } else {
-      var playerType = playerTypeTable[gameTree.player];
-      if (playerType == 'human') {
-        setUpUIToChooseMove(gameTree);
-      } else {
-        var ai = aiTable[playerType];
-        chooseMoveByAI(gameTree, ai);
-      }
+      playerTable[gameTree.player](gameTree);
     }
   }
 
@@ -549,8 +554,8 @@ var othello = {};
   function startNewGame() {
     $('#preference-pane').addClass('disabled');
     $('#preference-pane :input').attr('disabled', 'disabled');
-    playerTypeTable[BLACK] = $('#black-player-type').val();
-    playerTypeTable[WHITE] = $('#white-player-type').val();
+    playerTable[BLACK] = makePlayer($('#black-player-type').val());
+    playerTable[WHITE] = makePlayer($('#white-player-type').val());
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
