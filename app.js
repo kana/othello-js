@@ -424,7 +424,7 @@ var othello = {};
           ss.push(' ');
           ss.push(attackable[I(x, y)] ? 'attackable' : '');
           ss.push('" id="');
-          ss.push('cell' + x + y);
+          ss.push('cell_' + x + '_' + y);
           ss.push('">');
           ss.push('<span class="disc"></span>');
           ss.push('</td>');
@@ -461,7 +461,7 @@ var othello = {};
           })
         );
       } else {
-        $('#cell' + m.x + m.y)
+        $('#cell_' + m.x + '_' + m.y)
         .click(function () {
           shiftToNewGameTree(force(m.gameTreePromise));
         })
