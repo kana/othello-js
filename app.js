@@ -190,8 +190,8 @@ var othello = {};
     var wt = weightTable;
     return function (board, player) {
       var opponent = nextPlayer(player);
-      return sum($.map(board, function (v,p) {return (v==player) * wt[p];})) -
-             sum($.map(board, function (v,p) {return (v==opponent) * wt[p];}));
+      return sum(board.map(function (v,p) {return (v==player) * wt[p];})) -
+             sum(board.map(function (v,p) {return (v==opponent) * wt[p];}));
     };
   }
 
