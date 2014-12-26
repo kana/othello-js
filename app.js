@@ -145,7 +145,7 @@ var othello = {};
 
   function makeAttackedBoard(board, vulnerableCells, player) {
     var newBoard = JSON.parse(JSON.stringify(board));
-    for (i = 0; i < vulnerableCells.length; i++)
+    for (var i = 0; i < vulnerableCells.length; i++)
       newBoard[vulnerableCells[i]] = player;
     return newBoard;
   }
