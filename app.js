@@ -228,7 +228,7 @@ var othello = {};
       })()
   };
 
-  function makeAI(playerType, level) {
+  function makeAI(playerType) {
     if (playerType in externalAITable) {
       return externalAITable[playerType];
     } else {
@@ -624,34 +624,21 @@ var othello = {};
 
   var playerTable = {};
 
-  function makePlayer(playerType, level) {
+  function makePlayer(playerType) {
     if (playerType == 'human') {
       return setUpUIToChooseMove;
     } else {
-      var ai = makeAI(playerType, level);
+      var ai = makeAI(playerType);
       return function (gameTree) {
         chooseMoveByAI(gameTree, ai);
       };
     }
   }
 
-  function adjustPlayerUI($type, $level) {
-    $type.change(function () {
-      var available = $type.val() in weightTables;
-      $level
-        .toggleClass('disabled', !available)
-        .prop('disabled', !available);
-    }).change();
-  }
-
   function swapPlayerTypes() {
     var t = $('#black-player-type').val();
     $('#black-player-type').val($('#white-player-type').val()).change();
     $('#white-player-type').val(t).change();
-
-    var l = $('#black-player-level').val();
-    $('#black-player-level').val($('#white-player-level').val());
-    $('#white-player-level').val(l);
   }
 
   function shiftToNewGameTree(gameTree) {
@@ -673,10 +660,8 @@ var othello = {};
   function startNewGame() {
     $('#preference-pane').addClass('disabled');
     $('#preference-pane :input').attr('disabled', 'disabled');
-    playerTable[BLACK] = makePlayer($('#black-player-type').val(),
-                                    parseInt($('#black-player-level').val()));
-    playerTable[WHITE] = makePlayer($('#white-player-type').val(),
-                                    parseInt($('#white-player-level').val()));
+    playerTable[BLACK] = makePlayer($('#black-player-type').val());
+    playerTable[WHITE] = makePlayer($('#white-player-type').val());
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
@@ -688,8 +673,6 @@ var othello = {};
   $('#start-button').click(function () {startNewGame();});
   $('#add-new-ai-button').click(function () {addNewAI();});
   $('#swap-player-types-button').click(function () {swapPlayerTypes();});
-  adjustPlayerUI($('#black-player-type'), $('#black-player-level'));
-  adjustPlayerUI($('#white-player-type'), $('#white-player-level'));
   resetGame();
   drawGameBoard(makeInitialGameBoard(), '-', []);
 })();
