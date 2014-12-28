@@ -229,10 +229,10 @@ var othello = {};
   };
 
   function makeAI(playerType, level) {
-    var weightTable = weightTables[playerType];
-    if (weightTable === undefined) {
+    if (playerType in externalAITable) {
       return externalAITable[playerType];
     } else {
+      var weightTable = weightTables[playerType];
       return makeWeightTableBasedAI({
         level: level,
         scoreBoard: makeScoreBoardWith(weightTable)
