@@ -232,7 +232,10 @@ var othello = {};
     if (playerType in externalAITable) {
       return externalAITable[playerType];
     } else {
-      var weightTable = weightTables[playerType];
+      var tokens = playerType.split('-');
+      var aiType = tokens[0];
+      var level = parseInt(tokens[1]);
+      var weightTable = weightTables[aiType];
       return makeWeightTableBasedAI({
         level: level,
         scoreBoard: makeScoreBoardWith(weightTable)
