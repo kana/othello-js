@@ -228,7 +228,19 @@ var othello = {};
       })()
   };
 
-  function makeAI(config) {
+  function makeAI(playerType, level) {
+    var weightTable = weightTables[playerType];
+    if (weightTable === undefined) {
+      return externalAITable[playerType];
+    } else {
+      return makeWeightTableBasedAI({
+        level: level,
+        scoreBoard: makeScoreBoardWith(weightTable)
+      });
+    }
+  }
+
+  function makeWeightTableBasedAI(config) {
     return {
       findTheBestMove: function (gameTree) {
         var ratings = calculateMaxRatings(
@@ -613,10 +625,7 @@ var othello = {};
     if (playerType == 'human') {
       return setUpUIToChooseMove;
     } else {
-      var weightTable = weightTables[playerType];
-      var ai = weightTable === undefined
-        ? externalAITable[playerType]
-        : makeAI({level: level, scoreBoard: makeScoreBoardWith(weightTable)});
+      var ai = makeAI(playerType, level);
       return function (gameTree) {
         chooseMoveByAI(gameTree, ai);
       };
