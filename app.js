@@ -144,8 +144,8 @@ var othello = {};
   }
 
   function makeAttackedBoard(board, vulnerableCells, player) {
-    var newBoard = JSON.parse(JSON.stringify(board));
-    for (i = 0; i < vulnerableCells.length; i++)
+    var newBoard = board.slice();
+    for (var i = 0; i < vulnerableCells.length; i++)
       newBoard[vulnerableCells[i]] = player;
     return newBoard;
   }
@@ -190,8 +190,8 @@ var othello = {};
     var wt = weightTable;
     return function (board, player) {
       var opponent = nextPlayer(player);
-      return sum($.map(board, function (v,p) {return (v==player) * wt[p];})) -
-             sum($.map(board, function (v,p) {return (v==opponent) * wt[p];}));
+      return sum(board.map(function (v,p) {return (v==player) * wt[p];})) -
+             sum(board.map(function (v,p) {return (v==opponent) * wt[p];}));
     };
   }
 
