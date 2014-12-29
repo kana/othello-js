@@ -33,38 +33,30 @@
             Black:
             <select id="black-player-type">
               <option value="human" selected>Human</option>
-              <option value="simpleCount">AI (Type A; try to get many disks)</option>
-              <option value="basic">AI (Type B; try to own corner positions)</option>
-              <option value="better">AI (Type C; try to own corner positions carefully)</option>
-            </select>
-            <select id="black-player-level" disabled>
-              <option value="1024">Lv 1</option>
-              <option value="2048">Lv 2</option>
-              <option value="4096">Lv 3</option>
-              <option value="8192">Lv 4</option>
-              <option value="16384">Lv 5</option>
-              <option value="32768">Lv 6</option>
-              <option value="65536">Lv 7</option>
-              <option value="131072">Lv 8</option>
+              <option value="simpleCount-131072">AI (Type A; try to get many disks)</option>
+              <option value="basic-131072">AI (Type B; try to own corner positions)</option>
+              <option value="better-131072">AI (Type C; try to own corner positions carefully)</option>
+              <option value="mcts-128">AI (Type M-128; Monte Carlo Tree Search with 128 iterations)</option>
+              <option value="mcts-256">AI (Type M-256; Monte Carlo Tree Search with 256 iterations)</option>
+              <option value="mcts-512">AI (Type M-512; Monte Carlo Tree Search with 512 iterations)</option>
+              <option value="mcts-1024">AI (Type M-1024; Monte Carlo Tree Search with 1024 iterations)</option>
+              <option value="mcts-2048">AI (Type M-2048; Monte Carlo Tree Search with 2048 iterations)</option>
+              <option value="mcts-4096">AI (Type M-4096; Monte Carlo Tree Search with 4096 iterations)</option>
             </select>
           </label>
           <label>
             White:
             <select id="white-player-type">
               <option value="human">Human</option>
-              <option value="simpleCount">AI (Type A; try to get many disks)</option>
-              <option value="basic">AI (Type B; try to own corner positions)</option>
-              <option value="better" selected>AI (Type C; try to own corner positions carefully)</option>
-            </select>
-            <select id="white-player-level">
-              <option value="1024">Lv 1</option>
-              <option value="2048">Lv 2</option>
-              <option value="4096">Lv 3</option>
-              <option value="8192">Lv 4</option>
-              <option value="16384">Lv 5</option>
-              <option value="32768">Lv 6</option>
-              <option value="65536">Lv 7</option>
-              <option value="131072">Lv 8</option>
+              <option value="simpleCount-131072">AI (Type A; try to get many disks)</option>
+              <option value="basic-131072">AI (Type B; try to own corner positions)</option>
+              <option value="better-131072" selected>AI (Type C; try to own corner positions carefully)</option>
+              <option value="mcts-128">AI (Type M-128; Monte Carlo Tree Search with 128 iterations)</option>
+              <option value="mcts-256">AI (Type M-256; Monte Carlo Tree Search with 256 iterations)</option>
+              <option value="mcts-512">AI (Type M-512; Monte Carlo Tree Search with 512 iterations)</option>
+              <option value="mcts-1024">AI (Type M-1024; Monte Carlo Tree Search with 1024 iterations)</option>
+              <option value="mcts-2048">AI (Type M-2048; Monte Carlo Tree Search with 2048 iterations)</option>
+              <option value="mcts-4096">AI (Type M-4096; Monte Carlo Tree Search with 4096 iterations)</option>
             </select>
           </label>
         </div>
