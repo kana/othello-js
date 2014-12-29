@@ -236,10 +236,14 @@ var othello = {};
       var aiType = tokens[0];
       var level = parseInt(tokens[1]);
       var weightTable = weightTables[aiType];
-      return makeWeightTableBasedAI({
-        level: level,
-        scoreBoard: makeScoreBoardWith(weightTable)
-      });
+      if (weightTable !== undefined) {
+        return makeWeightTableBasedAI({
+          level: level,
+          scoreBoard: makeScoreBoardWith(weightTable)
+        });
+      } else {
+        return makeMonteCarloTreeSearchBasedAI(level);
+      }
     }
   }
 
@@ -374,6 +378,14 @@ var othello = {};
 
 
   // Monte Carlo Tree Search {{{1
+
+  function makeMonteCarloTreeSearchBasedAI(level) {
+    return {
+      findTheBestMove: function (gameTree) {
+        return tryMonteCarloTreeSearch(gameTree, level);
+      }
+    };
+  }
 
   function tryMonteCarloTreeSearch(rootGameTree, maxTries) {
     var root = new Node(rootGameTree);
