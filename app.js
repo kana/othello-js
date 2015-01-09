@@ -242,7 +242,9 @@ var othello = {};
           scoreBoard: makeScoreBoardWith(weightTable)
         });
       } else {
-        return makeMonteCarloTreeSearchBasedAI(level);
+        return makeMonteCarloTreeSearchBasedAI({
+          level: level
+        });
       }
     }
   }
@@ -379,10 +381,10 @@ var othello = {};
 
   // Monte Carlo Tree Search {{{1
 
-  function makeMonteCarloTreeSearchBasedAI(level) {
+  function makeMonteCarloTreeSearchBasedAI(options) {
     return {
       findTheBestMove: function (gameTree) {
-        return tryMonteCarloTreeSearch(gameTree, level);
+        return tryMonteCarloTreeSearch(gameTree, options.level);
       }
     };
   }
