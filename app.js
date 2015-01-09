@@ -181,6 +181,16 @@ var othello = {};
     return vulnerableCells;
   }
 
+  function judge(board) {
+    var b = board.filter(function (c) {return c == othello.BLACK;}).length;
+    var w = board.filter(function (c) {return c == othello.WHITE;}).length;
+    if (b > w)
+      return 1;
+    if (b < w)
+      return -1;
+    return 0;
+  }
+
 
 
 
@@ -514,16 +524,6 @@ var othello = {};
     while (gt.moves.length != 0)
       gt = othello.force(gt.moves[Math.floor(Math.random() * gt.moves.length)].gameTreePromise);
     return judge(gt.board) * (player == BLACK ? 1 : -1);
-  }
-
-  function judge(board) {
-    var b = board.filter(function (c) {return c == othello.BLACK;}).length;
-    var w = board.filter(function (c) {return c == othello.WHITE;}).length;
-    if (b > w)
-      return 1;
-    if (b < w)
-      return -1;
-    return 0;
   }
 
 
