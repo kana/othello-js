@@ -702,6 +702,14 @@ var othello = {};
     }
   }
 
+  function blackPlayerType() {
+    return $('#black-player-type').val();
+  }
+
+  function whitePlayerType() {
+    return $('#white-player-type').val();
+  }
+
   function swapPlayerTypes() {
     var t = $('#black-player-type').val();
     $('#black-player-type').val($('#white-player-type').val()).change();
