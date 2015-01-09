@@ -672,18 +672,11 @@ var othello = {};
   }
 
   function showWinner(board) {
-    var nt = {};
-    nt[BLACK] = 0;
-    nt[WHITE] = 0;
-
-    for (var x = 0; x < N; x++)
-      for (var y = 0; y < N; y++)
-        nt[board[I(x, y)]]++;
-
+    var r = judge(board);
     $('#message').text(
-      nt[BLACK] == nt[WHITE]
+      r == 0
       ? 'The game ends in a draw.'
-      : 'The winner is ' + (nt[WHITE] < nt[BLACK] ? BLACK : WHITE) + '.'
+      : 'The winner is ' + (r == 1 ? BLACK : WHITE) + '.'
     );
   }
 
