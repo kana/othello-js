@@ -229,7 +229,8 @@ var othello = {};
   };
 
   var aiMakers = {
-    mcts: makeMonteCarloTreeSearchBasedAI
+    mcts: makeMonteCarloTreeSearchBasedAI,
+    pmc: makePrimitiveMonteCarloBasedAI
   };
 
   function makeAI(playerType) {
@@ -478,6 +479,47 @@ var othello = {};
       ss.push(this.childNodes[i].visualize(indent + 1));
     return ss.join('');
   };
+
+
+
+
+  // AI: Primitive Monte Carlo {{{1
+
+  function makePrimitiveMonteCarloBasedAI(options) {
+    return {
+      findTheBestMove: function (gameTree) {
+        return tryPrimitiveMonteCarloSimulation(gameTree, options.level);
+      }
+    };
+  }
+
+  function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries) {
+    var scores = rootGameTree.moves.map(function (m) {
+      var s = 0;
+      for (var i = 0; i < maxTries; i++)
+        s += simulateRandomGame(m, rootGameTree.player);
+      return s;
+    });
+    var maxScore = Math.max.apply(null, scores);
+    return rootGameTree.moves[scores.indexOf(maxScore)];
+  }
+
+  function simulateRandomGame(move, player) {
+    var gt = othello.force(move.gameTreePromise);
+    while (gt.moves.length != 0)
+      gt = othello.force(gt.moves[Math.floor(Math.random() * gt.moves.length)].gameTreePromise);
+    return judge(gt.board) * (player == BLACK ? 1 : -1);
+  }
+
+  function judge(board) {
+    var b = board.filter(function (c) {return c == othello.BLACK;}).length;
+    var w = board.filter(function (c) {return c == othello.WHITE;}).length;
+    if (b > w)
+      return 1;
+    if (b < w)
+      return -1;
+    return 0;
+  }
 
 
 
