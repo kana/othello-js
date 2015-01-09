@@ -182,11 +182,16 @@ var othello = {};
   }
 
   function judge(board) {
-    var b = board.filter(function (c) {return c == othello.BLACK;}).length;
-    var w = board.filter(function (c) {return c == othello.WHITE;}).length;
-    if (b > w)
+    var n = {};
+    n[BLACK] = 0;
+    n[WHITE] = 0;
+    n[EMPTY] = 0;
+    for (var i = 0; i < board.length; i++)
+      n[board[i]]++;
+
+    if (n[BLACK] > n[WHITE])
       return 1;
-    if (b < w)
+    if (n[BLACK] < n[WHITE])
       return -1;
     return 0;
   }
