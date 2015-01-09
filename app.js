@@ -42,6 +42,10 @@ var othello = {};
     return ns.reduce(function (t, n) {return t + n;});
   }
 
+  function random(n) {
+    return Math.floor(Math.random() * n);
+  }
+
 
 
 
@@ -181,10 +185,56 @@ var othello = {};
     return vulnerableCells;
   }
 
+  function judge(board) {
+    var n = {};
+    n[BLACK] = 0;
+    n[WHITE] = 0;
+    n[EMPTY] = 0;
+    for (var i = 0; i < board.length; i++)
+      n[board[i]]++;
+
+    if (n[BLACK] > n[WHITE])
+      return 1;
+    if (n[BLACK] < n[WHITE])
+      return -1;
+    return 0;
+  }
+
 
 
 
   // AI {{{1
+
+  var aiMakers = {
+    mcts: makeMonteCarloTreeSearchBasedAI,
+    pmc: makePrimitiveMonteCarloBasedAI
+  };
+
+  function makeAI(playerType) {
+    if (playerType in externalAITable) {
+      return externalAITable[playerType];
+    } else {
+      var tokens = playerType.split('-');
+      var aiType = tokens[0];
+      var level = parseInt(tokens[1]);
+      var weightTable = weightTables[aiType];
+      if (weightTable !== undefined) {
+        return makeWeightTableBasedAI({
+          level: level,
+          scoreBoard: makeScoreBoardWith(weightTable)
+        });
+      } else {
+        return aiMakers[aiType]({
+          level: level
+        });
+      }
+    }
+  }
+
+
+
+
+  // AI: Weight table based + alpha-beta pruning {{{1
 
   function makeScoreBoardWith(weightTable) {
     var wt = weightTable;
@@ -227,25 +277,6 @@ var othello = {};
         return t;
       })()
   };
-
-  function makeAI(playerType) {
-    if (playerType in externalAITable) {
-      return externalAITable[playerType];
-    } else {
-      var tokens = playerType.split('-');
-      var aiType = tokens[0];
-      var level = parseInt(tokens[1]);
-      var weightTable = weightTables[aiType];
-      if (weightTable !== undefined) {
-        return makeWeightTableBasedAI({
-          level: level,
-          scoreBoard: makeScoreBoardWith(weightTable)
-        });
-      } else {
-        return makeMonteCarloTreeSearchBasedAI(level);
-      }
-    }
-  }
 
   function makeWeightTableBasedAI(config) {
     return {
@@ -377,12 +408,12 @@ var othello = {};
 
 
 
-  // Monte Carlo Tree Search {{{1
+  // AI: Monte Carlo Tree Search {{{1
 
-  function makeMonteCarloTreeSearchBasedAI(level) {
+  function makeMonteCarloTreeSearchBasedAI(options) {
     return {
       findTheBestMove: function (gameTree) {
-        return tryMonteCarloTreeSearch(gameTree, level);
+        return tryMonteCarloTreeSearch(gameTree, options.level);
       }
     };
   }
@@ -428,7 +459,7 @@ var othello = {};
   };
 
   Node.prototype.expandChild = function () {
-    var i = Math.floor(Math.random() * this.untriedMoves.length);
+    var i = random(this.untriedMoves.length);
     var move = this.untriedMoves.splice(i, 1)[0];
     var child = new Node(force(move.gameTreePromise), this, move);
     this.childNodes.push(child);
@@ -438,7 +469,7 @@ var othello = {};
   Node.prototype.simulate = function (player) {
     var gameTree = this.gameTree;
     while (gameTree.moves.length != 0) {
-      var i = Math.floor(Math.random() * gameTree.moves.length);
+      var i = random(gameTree.moves.length);
       gameTree = force(gameTree.moves[i].gameTreePromise);
     }
     return 0 < makeScoreBoardWith(weightTables.simpleCount)(
@@ -472,6 +503,37 @@ var othello = {};
       ss.push(this.childNodes[i].visualize(indent + 1));
     return ss.join('');
   };
+
+
+
+
+  // AI: Primitive Monte Carlo {{{1
+
+  function makePrimitiveMonteCarloBasedAI(options) {
+    return {
+      findTheBestMove: function (gameTree) {
+        return tryPrimitiveMonteCarloSimulation(gameTree, options.level);
+      }
+    };
+  }
+
+  function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries) {
+    var scores = rootGameTree.moves.map(function (m) {
+      var s = 0;
+      for (var i = 0; i < maxTries; i++)
+        s += simulateRandomGame(m, rootGameTree.player);
+      return s;
+    });
+    var maxScore = Math.max.apply(null, scores);
+    return rootGameTree.moves[scores.indexOf(maxScore)];
+  }
+
+  function simulateRandomGame(move, player) {
+    var gt = othello.force(move.gameTreePromise);
+    while (gt.moves.length != 0)
+      gt = othello.force(gt.moves[random(gt.moves.length)].gameTreePromise);
+    return judge(gt.board) * (player == BLACK ? 1 : -1);
+  }
 
 
 
@@ -619,18 +681,11 @@ var othello = {};
   }
 
   function showWinner(board) {
-    var nt = {};
-    nt[BLACK] = 0;
-    nt[WHITE] = 0;
-
-    for (var x = 0; x < N; x++)
-      for (var y = 0; y < N; y++)
-        nt[board[I(x, y)]]++;
-
+    var r = judge(board);
     $('#message').text(
-      nt[BLACK] == nt[WHITE]
+      r == 0
       ? 'The game ends in a draw.'
-      : 'The winner is ' + (nt[WHITE] < nt[BLACK] ? BLACK : WHITE) + '.'
+      : 'The winner is ' + (r == 1 ? BLACK : WHITE) + '.'
     );
   }
 
