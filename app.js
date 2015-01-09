@@ -228,6 +228,10 @@ var othello = {};
       })()
   };
 
+  var aiMakers = {
+    mcts: makeMonteCarloTreeSearchBasedAI
+  };
+
   function makeAI(playerType) {
     if (playerType in externalAITable) {
       return externalAITable[playerType];
@@ -242,7 +246,7 @@ var othello = {};
           scoreBoard: makeScoreBoardWith(weightTable)
         });
       } else {
-        return makeMonteCarloTreeSearchBasedAI({
+        return aiMakers[aiType]({
           level: level
         });
       }
