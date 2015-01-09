@@ -459,7 +459,7 @@ var othello = {};
   };
 
   Node.prototype.expandChild = function () {
-    var i = Math.floor(Math.random() * this.untriedMoves.length);
+    var i = random(this.untriedMoves.length);
     var move = this.untriedMoves.splice(i, 1)[0];
     var child = new Node(force(move.gameTreePromise), this, move);
     this.childNodes.push(child);
@@ -469,7 +469,7 @@ var othello = {};
   Node.prototype.simulate = function (player) {
     var gameTree = this.gameTree;
     while (gameTree.moves.length != 0) {
-      var i = Math.floor(Math.random() * gameTree.moves.length);
+      var i = random(gameTree.moves.length);
       gameTree = force(gameTree.moves[i].gameTreePromise);
     }
     return 0 < makeScoreBoardWith(weightTables.simpleCount)(
@@ -531,7 +531,7 @@ var othello = {};
   function simulateRandomGame(move, player) {
     var gt = othello.force(move.gameTreePromise);
     while (gt.moves.length != 0)
-      gt = othello.force(gt.moves[Math.floor(Math.random() * gt.moves.length)].gameTreePromise);
+      gt = othello.force(gt.moves[random(gt.moves.length)].gameTreePromise);
     return judge(gt.board) * (player == BLACK ? 1 : -1);
   }
 
