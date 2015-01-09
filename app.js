@@ -752,13 +752,15 @@ var othello = {};
   }
 
   function resetGame() {
-    $('#preference-pane').removeClass('disabled');
-    $('#preference-pane :input').removeAttr('disabled');
+    $('#preference-pane :input')
+      .removeClass('disabled')
+      .removeAttr('disabled');
   }
 
   function startNewGame() {
-    $('#preference-pane').addClass('disabled');
-    $('#preference-pane :input').attr('disabled', 'disabled');
+    $('#preference-pane :input')
+      .addClass('disabled')
+      .attr('disabled', 'disabled');
     playerTable[BLACK] = makePlayer(blackPlayerType());
     playerTable[WHITE] = makePlayer(whitePlayerType());
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
