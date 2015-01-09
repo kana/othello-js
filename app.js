@@ -658,6 +658,8 @@ var othello = {};
 
   function setUpUIToReset() {
     resetGame();
+    if ($('#repeat-games:checked').length)
+      startNewGame();
   }
 
   var minimumDelayForAI = 500;  // milliseconds
@@ -702,6 +704,14 @@ var othello = {};
     }
   }
 
+  function blackPlayerType() {
+    return $('#black-player-type').val();
+  }
+
+  function whitePlayerType() {
+    return $('#white-player-type').val();
+  }
+
   function swapPlayerTypes() {
     var t = $('#black-player-type').val();
     $('#black-player-type').val($('#white-player-type').val()).change();
@@ -713,22 +723,46 @@ var othello = {};
     resetUI();
     if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
+      recordStat(gameTree.board);
+      if ($('#repeat-games:checked').length)
+        showStat();
       setUpUIToReset();
     } else {
       playerTable[gameTree.player](gameTree);
     }
   }
 
+  var stats = {};
+
+  function recordStat(board) {
+    var s = stats[[blackPlayerType(), whitePlayerType()]] || {b: 0, w: 0, d: 0};
+    var r = judge(board);
+    if (r == 1)
+      s.b++;
+    if (r == 0)
+      s.d++;
+    if (r == -1)
+      s.w++;
+    stats[[blackPlayerType(), whitePlayerType()]] = s;
+  }
+
+  function showStat() {
+    var s = stats[[blackPlayerType(), whitePlayerType()]];
+    $('#stats').text('Black: ' + s.b + ', White: ' + s.w + ', Draw: ' + s.d);
+  }
+
   function resetGame() {
-    $('#preference-pane').removeClass('disabled');
-    $('#preference-pane :input').removeAttr('disabled');
+    $('#preference-pane :input:not(#repeat-games)')
+      .removeClass('disabled')
+      .removeAttr('disabled');
   }
 
   function startNewGame() {
-    $('#preference-pane').addClass('disabled');
-    $('#preference-pane :input').attr('disabled', 'disabled');
-    playerTable[BLACK] = makePlayer($('#black-player-type').val());
-    playerTable[WHITE] = makePlayer($('#white-player-type').val());
+    $('#preference-pane :input:not(#repeat-games)')
+      .addClass('disabled')
+      .attr('disabled', 'disabled');
+    playerTable[BLACK] = makePlayer(blackPlayerType());
+    playerTable[WHITE] = makePlayer(whitePlayerType());
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 

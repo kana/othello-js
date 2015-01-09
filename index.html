@@ -27,6 +27,7 @@
       <div id="current-player">Current player: <span id="current-player-name">-</span></div>
       <div id="message"></div>
       <div id="console"></div>
+      <div id="stats"></div>
       <div id="preference-pane">
         <div id="player-type-forms">
           <label>
@@ -68,6 +69,12 @@
         <div>
           <input id="new-ai-url" type="text" value="http://kana.github.io/othello-js/random-ai.js">
           <button id="add-new-ai-button" class="btn" type="button">Add new AI</button>
+        </div>
+        <div>
+          <label>
+            <input id="repeat-games" type="checkbox">
+            Repeat games
+          </label>
         </div>
         <button id="start-button" class="btn btn-primary" type="submit">Start a new game</button>
       </div>
