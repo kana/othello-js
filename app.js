@@ -42,6 +42,10 @@ var othello = {};
     return ns.reduce(function (t, n) {return t + n;});
   }
 
+  function random(n) {
+    return Math.floor(Math.random() * n);
+  }
+
 
 
 
