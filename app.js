@@ -658,6 +658,8 @@ var othello = {};
 
   function setUpUIToReset() {
     resetGame();
+    if ($('#repeat-games:checked').length)
+      startNewGame();
   }
 
   var minimumDelayForAI = 500;  // milliseconds
