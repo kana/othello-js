@@ -735,8 +735,8 @@ var othello = {};
   function startNewGame() {
     $('#preference-pane').addClass('disabled');
     $('#preference-pane :input').attr('disabled', 'disabled');
-    playerTable[BLACK] = makePlayer($('#black-player-type').val());
-    playerTable[WHITE] = makePlayer($('#white-player-type').val());
+    playerTable[BLACK] = makePlayer(blackPlayerType());
+    playerTable[WHITE] = makePlayer(whitePlayerType());
     shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
   }
 
