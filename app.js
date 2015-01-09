@@ -752,13 +752,13 @@ var othello = {};
   }
 
   function resetGame() {
-    $('#preference-pane :input')
+    $('#preference-pane :input:not(#repeat-games)')
       .removeClass('disabled')
       .removeAttr('disabled');
   }
 
   function startNewGame() {
-    $('#preference-pane :input')
+    $('#preference-pane :input:not(#repeat-games)')
       .addClass('disabled')
       .attr('disabled', 'disabled');
     playerTable[BLACK] = makePlayer(blackPlayerType());
