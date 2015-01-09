@@ -186,6 +186,37 @@ var othello = {};
 
   // AI {{{1
 
+  var aiMakers = {
+    mcts: makeMonteCarloTreeSearchBasedAI,
+    pmc: makePrimitiveMonteCarloBasedAI
+  };
+
+  function makeAI(playerType) {
+    if (playerType in externalAITable) {
+      return externalAITable[playerType];
+    } else {
+      var tokens = playerType.split('-');
+      var aiType = tokens[0];
+      var level = parseInt(tokens[1]);
+      var weightTable = weightTables[aiType];
+      if (weightTable !== undefined) {
+        return makeWeightTableBasedAI({
+          level: level,
+          scoreBoard: makeScoreBoardWith(weightTable)
+        });
+      } else {
+        return aiMakers[aiType]({
+          level: level
+        });
+      }
+    }
+  }
+
+
+
+
+  // AI: Weight table based + alpha-beta pruning {{{1
+
   function makeScoreBoardWith(weightTable) {
     var wt = weightTable;
     return function (board, player) {
@@ -227,32 +258,6 @@ var othello = {};
         return t;
       })()
   };
-
-  var aiMakers = {
-    mcts: makeMonteCarloTreeSearchBasedAI,
-    pmc: makePrimitiveMonteCarloBasedAI
-  };
-
-  function makeAI(playerType) {
-    if (playerType in externalAITable) {
-      return externalAITable[playerType];
-    } else {
-      var tokens = playerType.split('-');
-      var aiType = tokens[0];
-      var level = parseInt(tokens[1]);
-      var weightTable = weightTables[aiType];
-      if (weightTable !== undefined) {
-        return makeWeightTableBasedAI({
-          level: level,
-          scoreBoard: makeScoreBoardWith(weightTable)
-        });
-      } else {
-        return aiMakers[aiType]({
-          level: level
-        });
-      }
-    }
-  }
 
   function makeWeightTableBasedAI(config) {
     return {
@@ -384,7 +389,7 @@ var othello = {};
 
 
 
-  // Monte Carlo Tree Search {{{1
+  // AI: Monte Carlo Tree Search {{{1
 
   function makeMonteCarloTreeSearchBasedAI(options) {
     return {
