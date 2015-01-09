@@ -721,10 +721,25 @@ var othello = {};
     resetUI();
     if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
+      recordStat(gameTree.board);
       setUpUIToReset();
     } else {
       playerTable[gameTree.player](gameTree);
     }
+  }
+
+  var stats = {};
+
+  function recordStat(board) {
+    var s = stats[[blackPlayerType(), whitePlayerType()]] || {b: 0, w: 0, d: 0};
+    var r = judge(board);
+    if (r == 1)
+      s.b++;
+    if (r == 0)
+      s.d++;
+    if (r == -1)
+      s.w++;
+    stats[[blackPlayerType(), whitePlayerType()]] = s;
   }
 
   function resetGame() {
