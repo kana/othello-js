@@ -724,6 +724,8 @@ var othello = {};
     if (gameTree.moves.length == 0) {
       showWinner(gameTree.board);
       recordStat(gameTree.board);
+      if ($('#repeat-games:checked').length)
+        showStat();
       setUpUIToReset();
     } else {
       playerTable[gameTree.player](gameTree);
@@ -742,6 +744,11 @@ var othello = {};
     if (r == -1)
       s.w++;
     stats[[blackPlayerType(), whitePlayerType()]] = s;
+  }
+
+  function showStat() {
+    var s = stats[[blackPlayerType(), whitePlayerType()]];
+    $('#stats').text('Black: ' + s.b + ', White: ' + s.w + ', Draw: ' + s.d);
   }
 
   function resetGame() {
