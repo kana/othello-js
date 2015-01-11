@@ -241,8 +241,11 @@ var othello = {};
     var wt = weightTable;
     return function (board, player) {
       var opponent = nextPlayer(player);
-      return sum(board.map(function (v,p) {return (v==player) * wt[p];})) -
-             sum(board.map(function (v,p) {return (v==opponent) * wt[p];}));
+      var ct = {};
+      ct[player] = 1;
+      ct[opponent] = -1;
+      ct[EMPTY] = 0;
+      return sum(board.map(function (v,p) {return ct[v] * wt[p];}));
     };
   }
 
