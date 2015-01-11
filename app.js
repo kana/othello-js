@@ -245,7 +245,7 @@ var othello = {};
       ct[player] = 1;
       ct[opponent] = -1;
       ct[EMPTY] = 0;
-      return sum(board.map(function (v,p) {return ct[v] * wt[p];}));
+      return board.reduce(function (t, v, i) {return t + ct[v] * wt[i];}, 0);
     };
   }
 
