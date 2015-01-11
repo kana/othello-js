@@ -124,7 +124,7 @@ var othello = {};
             gameTreePromise: (function (x, y, vulnerableCells) {
               return delay(function () {
                 return makeGameTree(
-                  makeAttackedBoard(board, vulnerableCells, player),
+                  makeAttackedBoard(board, x, y, vulnerableCells, player),
                   nextPlayer(player),
                   false,
                   nest + 1
@@ -147,8 +147,9 @@ var othello = {};
     return vulnerableCells.length;
   }
 
-  function makeAttackedBoard(board, vulnerableCells, player) {
+  function makeAttackedBoard(board, x, y, vulnerableCells, player) {
     var newBoard = board.slice();
+    newBoard[I(x, y)] = player;
     for (var i = 0; i < vulnerableCells.length; i++)
       newBoard[vulnerableCells[i]] = player;
     return newBoard;
@@ -172,7 +173,7 @@ var othello = {};
             break;
           var cell = board[I(nx, ny)];
           if (cell == player && 2 <= i) {
-            for (j = 0; j < i; j++)
+            for (j = 1; j < i; j++)
               vulnerableCells.push(I(x + j * dx, y + j * dy));
             break;
           }
