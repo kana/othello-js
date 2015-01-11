@@ -479,10 +479,7 @@ var othello = {};
       var i = random(gameTree.moves.length);
       gameTree = force(gameTree.moves[i].gameTreePromise);
     }
-    return 0 < makeScoreBoardWith(weightTables.simpleCount)(
-      gameTree.board,
-      player
-    );
+    return judge(gameTree.board) * (player == BLACK ? 1 : -1);
   };
 
   Node.prototype.backpropagate = function (result) {
