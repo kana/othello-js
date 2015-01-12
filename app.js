@@ -494,15 +494,16 @@ var othello = {};
   Node.prototype.visualize = function (indent) {
     indent = indent || 0;
     var ss = [];
+    var i;
     ss.push('\n');
-    for (var i = 0; i < indent; i++)
+    for (i = 0; i < indent; i++)
       ss.push('| ');
     ss.push('W='); ss.push(this.wins);
     ss.push('/');
     ss.push('V='); ss.push(this.visits);
     ss.push('/');
     ss.push('U='); ss.push(this.untriedMoves.length);
-    for (var i = 0; i < this.childNodes.length; i++)
+    for (i = 0; i < this.childNodes.length; i++)
       ss.push(this.childNodes[i].visualize(indent + 1));
     return ss.join('');
   };
