@@ -175,7 +175,7 @@ var othello = {};
             break;
           var cell = board[I(nx, ny)];
           if (cell == player && 2 <= i) {
-            for (j = 1; j < i; j++)
+            for (var j = 1; j < i; j++)
               vulnerableCells.push(I(x + j * dx, y + j * dy));
             break;
           }
