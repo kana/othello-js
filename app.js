@@ -647,7 +647,7 @@ var othello = {};
         $('#cell_' + m.x + '_' + m.y)
         .click(function () {
           shiftToNewGameTree(force(m.gameTreePromise));
-        })
+        });
       }
     });
   }
