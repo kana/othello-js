@@ -1,6 +1,8 @@
 var othello = {};
 
 (function () {
+  'use strict';
+
   // Utilities {{{1
 
   function memoize(f) {
