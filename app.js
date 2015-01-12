@@ -10,7 +10,7 @@ var othello = {};
     var first = 0;
     var second = 0;
     return function () {
-      if (arguments[0] == 'stat')
+      if (arguments[0] === 'stat')
         return [first, second];
       var key = JSON.stringify(arguments);
       if (memo[key] === undefined) {
@@ -54,7 +54,7 @@ var othello = {};
   // Core logic {{{1
 
   var m = location.href.match(/\?n=(\d+)$/);
-  var N = m == null ? 8 : parseInt(m[1]);
+  var N = m === null ? 8 : parseInt(m[1]);
 
   var EMPTY = 'empty';
   var WHITE = 'white';
@@ -142,7 +142,7 @@ var othello = {};
   }
 
   function nextPlayer(player) {
-    return player == BLACK ? WHITE : BLACK;
+    return player === BLACK ? WHITE : BLACK;
   }
 
   function canAttack(vulnerableCells) {
@@ -160,13 +160,13 @@ var othello = {};
   function listVulnerableCells(board, x, y, player) {
     var vulnerableCells = [];
 
-    if (board[I(x, y)] != EMPTY)
+    if (board[I(x, y)] !== EMPTY)
       return vulnerableCells;
 
     var opponent = nextPlayer(player);
     for (var dx = -1; dx <= 1; dx++) {
       for (var dy = -1; dy <= 1; dy++) {
-        if (dx == 0 && dy == 0)
+        if (dx === 0 && dy === 0)
           continue;
         for (var i = 1; i < N; i++) {
           var nx = x + i * dx;
@@ -174,12 +174,12 @@ var othello = {};
           if (nx < 0 || N <= nx || ny < 0 || N <= ny)
             break;
           var cell = board[I(nx, ny)];
-          if (cell == player && 2 <= i) {
+          if (cell === player && 2 <= i) {
             for (var j = 1; j < i; j++)
               vulnerableCells.push(I(x + j * dx, y + j * dy));
             break;
           }
-          if (cell != opponent)
+          if (cell !== opponent)
             break;
         }
       }
@@ -269,8 +269,8 @@ var othello = {};
         for (var x = 0; x < N; x++)
           for (var y = 0; y < N; y++)
             t[I(x, y)] =
-              (x == 0 || x == N - 1 ? 10 : 1) *
-              (y == 0 || y == N - 1 ? 10 : 1);
+              (x === 0 || x === N - 1 ? 10 : 1) *
+              (y === 0 || y === N - 1 ? 10 : 1);
         return t;
       })(),
     better:
@@ -279,8 +279,8 @@ var othello = {};
         for (var x = 0; x < N; x++)
           for (var y = 0; y < N; y++)
             t[I(x, y)] =
-              (x == 0 || x == N - 1 ? 10 : 1) *
-              (y == 0 || y == N - 1 ? 10 : 1);
+              (x === 0 || x === N - 1 ? 10 : 1) *
+              (y === 0 || y === N - 1 ? 10 : 1);
         t[I(0, 1)] = t[I(0, N - 2)] = t[I(N - 1, 1)] = t[I(N - 1, N - 2)] =
         t[I(1, 0)] = t[I(N - 2, 0)] = t[I(1, N - 1)] = t[I(N - 2, N - 1)] = 0;
         return t;
@@ -330,7 +330,7 @@ var othello = {};
       board: gameTree.board,
       player: gameTree.player,
       moves:
-        depth == 0
+        depth === 0
         ? []
         : gameTree.moves.map(function (m) {
             return {
@@ -347,7 +347,7 @@ var othello = {};
 
   function ratePosition(gameTree, player, scoreBoard) {
     if (1 <= gameTree.moves.length) {
-      var choose = gameTree.player == player ? Math.max : Math.min;
+      var choose = gameTree.player === player ? Math.max : Math.min;
       return choose.apply(null, calculateRatings(gameTree, player, scoreBoard));
     } else {
       return scoreBoard(gameTree.board, player);
@@ -363,11 +363,11 @@ var othello = {};
   function ratePositionWithAlphaBetaPruning(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
     if (1 <= gameTree.moves.length) {
       var judge =
-        gameTree.player == player
+        gameTree.player === player
         ? Math.max
         : Math.min;
       var rate =
-        gameTree.player == player
+        gameTree.player === player
         ? calculateMaxRatings
         : calculateMinRatings;
       return judge.apply(null, rate(gameTree, player, lowerLimit, upperLimit, scoreBoard));
@@ -428,15 +428,15 @@ var othello = {};
   }
 
   function tryMonteCarloTreeSearch(rootGameTree, maxTries) {
-    var root = new Node(rootGameTree);
+    var root = new Node(rootGameTree, null, null);
 
     for (var i = 0; i < maxTries; i++) {
       var node = root;
 
-      while (node.untriedMoves.length == 0 && node.childNodes.length != 0)
+      while (node.untriedMoves.length === 0 && node.childNodes.length !== 0)
         node = node.selectChild();
 
-      if (node.untriedMoves.length != 0)
+      if (node.untriedMoves.length !== 0)
         node = node.expandChild();
 
       var won = node.simulate(rootGameTree.player);
@@ -477,15 +477,15 @@ var othello = {};
 
   Node.prototype.simulate = function (player) {
     var gameTree = this.gameTree;
-    while (gameTree.moves.length != 0) {
+    while (gameTree.moves.length !== 0) {
       var i = random(gameTree.moves.length);
       gameTree = force(gameTree.moves[i].gameTreePromise);
     }
-    return judge(gameTree.board) * (player == BLACK ? 1 : -1);
+    return judge(gameTree.board) * (player === BLACK ? 1 : -1);
   };
 
   Node.prototype.backpropagate = function (result) {
-    for (var node = this; node != null; node = node.parentNode)
+    for (var node = this; node !== null; node = node.parentNode)
       node.update(result);
   };
 
@@ -536,9 +536,9 @@ var othello = {};
 
   function simulateRandomGame(move, player) {
     var gt = othello.force(move.gameTreePromise);
-    while (gt.moves.length != 0)
+    while (gt.moves.length !== 0)
       gt = othello.force(gt.moves[random(gt.moves.length)].gameTreePromise);
-    return judge(gt.board) * (player == BLACK ? 1 : -1);
+    return judge(gt.board) * (player === BLACK ? 1 : -1);
   }
 
 
@@ -564,7 +564,7 @@ var othello = {};
   function addNewAI() {
     var aiUrl = $('#new-ai-url').val();
     var originalLabel = $('#add-new-ai-button').text();
-    if (externalAITable[aiUrl] == null) {
+    if (externalAITable[aiUrl] === undefined) {
       lastAIType = aiUrl;
       $('#add-new-ai-button').text('Loading...').prop('disabled', true);
       $.getScript(aiUrl, function () {
@@ -614,11 +614,11 @@ var othello = {};
           ss.push('">');
           ss.push('<span class="disc"></span>');
           ss.push('</td>');
-        } else if (0 <= x && y == -1) {
+        } else if (0 <= x && y === -1) {
           ss.push('<th>' + String.fromCharCode('a'.charCodeAt(0)+x) + '</th>');
-        } else if (x == -1 && 0 <= y) {
+        } else if (x === -1 && 0 <= y) {
           ss.push('<th>' + (y + 1) + '</th>');
-        } else /* if (x == -1 && y == -1) */ {
+        } else /* if (x === -1 && y === -1) */ {
           ss.push('<th></th>');
         }
       }
@@ -691,16 +691,16 @@ var othello = {};
   function showWinner(board) {
     var r = judge(board);
     $('#message').text(
-      r == 0
+      r === 0
       ? 'The game ends in a draw.'
-      : 'The winner is ' + (r == 1 ? BLACK : WHITE) + '.'
+      : 'The winner is ' + (r === 1 ? BLACK : WHITE) + '.'
     );
   }
 
   var playerTable = {};
 
   function makePlayer(playerType) {
-    if (playerType == 'human') {
+    if (playerType === 'human') {
       return setUpUIToChooseMove;
     } else {
       var ai = makeAI(playerType);
@@ -727,7 +727,7 @@ var othello = {};
   function shiftToNewGameTree(gameTree) {
     drawGameBoard(gameTree.board, gameTree.player, gameTree.moves);
     resetUI();
-    if (gameTree.moves.length == 0) {
+    if (gameTree.moves.length === 0) {
       showWinner(gameTree.board);
       recordStat(gameTree.board);
       if ($('#repeat-games:checked').length)
@@ -743,11 +743,11 @@ var othello = {};
   function recordStat(board) {
     var s = stats[[blackPlayerType(), whitePlayerType()]] || {b: 0, w: 0, d: 0};
     var r = judge(board);
-    if (r == 1)
+    if (r === 1)
       s.b++;
-    if (r == 0)
+    if (r === 0)
       s.d++;
-    if (r == -1)
+    if (r === -1)
       s.w++;
     stats[[blackPlayerType(), whitePlayerType()]] = s;
   }
