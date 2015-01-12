@@ -60,7 +60,7 @@ var othello = {};
   var WHITE = 'white';
   var BLACK = 'black';
 
-  function I(x, y) {
+  function ix(x, y) {
     return x + y * N;
   }
 
@@ -69,14 +69,14 @@ var othello = {};
 
     for (var x = 0; x < N; x++)
       for (var y = 0; y < N; y++)
-        board[I(x, y)] = EMPTY;
+        board[ix(x, y)] = EMPTY;
 
     var x2 = N >> 1;
     var y2 = N >> 1;
-    board[I(x2 - 1, y2 - 1)] = WHITE;
-    board[I(x2 - 1, y2 - 0)] = BLACK;
-    board[I(x2 - 0, y2 - 1)] = BLACK;
-    board[I(x2 - 0, y2 - 0)] = WHITE;
+    board[ix(x2 - 1, y2 - 1)] = WHITE;
+    board[ix(x2 - 1, y2 - 0)] = BLACK;
+    board[ix(x2 - 0, y2 - 1)] = BLACK;
+    board[ix(x2 - 0, y2 - 0)] = WHITE;
 
     return board;
   }
@@ -151,7 +151,7 @@ var othello = {};
 
   function makeAttackedBoard(board, x, y, vulnerableCells, player) {
     var newBoard = board.slice();
-    newBoard[I(x, y)] = player;
+    newBoard[ix(x, y)] = player;
     for (var i = 0; i < vulnerableCells.length; i++)
       newBoard[vulnerableCells[i]] = player;
     return newBoard;
@@ -160,7 +160,7 @@ var othello = {};
   function listVulnerableCells(board, x, y, player) {
     var vulnerableCells = [];
 
-    if (board[I(x, y)] !== EMPTY)
+    if (board[ix(x, y)] !== EMPTY)
       return vulnerableCells;
 
     var opponent = nextPlayer(player);
@@ -173,10 +173,10 @@ var othello = {};
           var ny = y + i * dy;
           if (nx < 0 || N <= nx || ny < 0 || N <= ny)
             break;
-          var cell = board[I(nx, ny)];
+          var cell = board[ix(nx, ny)];
           if (cell === player && 2 <= i) {
             for (var j = 1; j < i; j++)
-              vulnerableCells.push(I(x + j * dx, y + j * dy));
+              vulnerableCells.push(ix(x + j * dx, y + j * dy));
             break;
           }
           if (cell !== opponent)
@@ -260,7 +260,7 @@ var othello = {};
         var t = [];
         for (var x = 0; x < N; x++)
           for (var y = 0; y < N; y++)
-            t[I(x, y)] = 1;
+            t[ix(x, y)] = 1;
         return t;
       })(),
     basic:
@@ -268,7 +268,7 @@ var othello = {};
         var t = [];
         for (var x = 0; x < N; x++)
           for (var y = 0; y < N; y++)
-            t[I(x, y)] =
+            t[ix(x, y)] =
               (x === 0 || x === N - 1 ? 10 : 1) *
               (y === 0 || y === N - 1 ? 10 : 1);
         return t;
@@ -278,11 +278,11 @@ var othello = {};
         var t = [];
         for (var x = 0; x < N; x++)
           for (var y = 0; y < N; y++)
-            t[I(x, y)] =
+            t[ix(x, y)] =
               (x === 0 || x === N - 1 ? 10 : 1) *
               (y === 0 || y === N - 1 ? 10 : 1);
-        t[I(0, 1)] = t[I(0, N - 2)] = t[I(N - 1, 1)] = t[I(N - 1, N - 2)] =
-        t[I(1, 0)] = t[I(N - 2, 0)] = t[I(1, N - 1)] = t[I(N - 2, N - 1)] = 0;
+        t[ix(0, 1)] = t[ix(0, N - 2)] = t[ix(N - 1, 1)] = t[ix(N - 1, N - 2)] =
+        t[ix(1, 0)] = t[ix(N - 2, 0)] = t[ix(1, N - 1)] = t[ix(N - 2, N - 1)] = 0;
         return t;
       })()
   };
@@ -593,7 +593,7 @@ var othello = {};
     var attackable = [];
     moves.forEach(function (m) {
       if (!m.isPassingMove)
-        attackable[I(m.x, m.y)] = true;
+        attackable[ix(m.x, m.y)] = true;
     });
 
     ss.push('<table>');
@@ -604,9 +604,9 @@ var othello = {};
           ss.push('<td class="');
           ss.push('cell');
           ss.push(' ');
-          ss.push(attackable[I(x, y)] ? player : board[I(x, y)]);
+          ss.push(attackable[ix(x, y)] ? player : board[ix(x, y)]);
           ss.push(' ');
-          ss.push(attackable[I(x, y)] ? 'attackable' : '');
+          ss.push(attackable[ix(x, y)] ? 'attackable' : '');
           ss.push('" id="');
           ss.push('cell_' + x + '_' + y);
           ss.push('">');
