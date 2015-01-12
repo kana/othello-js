@@ -71,8 +71,8 @@ var othello = {};
       for (var y = 0; y < N; y++)
         board[I(x, y)] = EMPTY;
 
-    var x2 = x >> 1;
-    var y2 = y >> 1;
+    var x2 = N >> 1;
+    var y2 = N >> 1;
     board[I(x2 - 1, y2 - 1)] = WHITE;
     board[I(x2 - 1, y2 - 0)] = BLACK;
     board[I(x2 - 0, y2 - 1)] = BLACK;
