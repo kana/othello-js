@@ -329,19 +329,16 @@ var othello = {};
     return {
       board: gameTree.board,
       player: gameTree.player,
-      moves:
-        depth === 0
-        ? []
-        : gameTree.moves.map(function (m) {
-            return {
-              isPassingMove: m.isPassingMove,
-              x: m.x,
-              y: m.y,
-              gameTreePromise: delay(function () {
-                return limitGameTreeDepth(force(m.gameTreePromise), depth - 1);
-              })
-            };
+      moves: depth === 0 ? [] : gameTree.moves.map(function (m) {
+        return {
+          isPassingMove: m.isPassingMove,
+          x: m.x,
+          y: m.y,
+          gameTreePromise: delay(function () {
+            return limitGameTreeDepth(force(m.gameTreePromise), depth - 1);
           })
+        };
+      })
     };
   }
 
@@ -363,13 +360,13 @@ var othello = {};
   function ratePositionWithAlphaBetaPruning(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
     if (1 <= gameTree.moves.length) {
       var judge =
-        gameTree.player === player
-        ? Math.max
-        : Math.min;
+        gameTree.player === player ?
+        Math.max :
+        Math.min;
       var rate =
-        gameTree.player === player
-        ? calculateMaxRatings
-        : calculateMinRatings;
+        gameTree.player === player ?
+        calculateMaxRatings :
+        calculateMinRatings;
       return judge.apply(null, rate(gameTree, player, lowerLimit, upperLimit, scoreBoard));
     } else {
       return scoreBoard(gameTree.board, player);
@@ -691,9 +688,9 @@ var othello = {};
   function showWinner(board) {
     var r = judge(board);
     $('#message').text(
-      r === 0
-      ? 'The game ends in a draw.'
-      : 'The winner is ' + (r === 1 ? BLACK : WHITE) + '.'
+      r === 0 ?
+      'The game ends in a draw.' :
+      'The winner is ' + (r === 1 ? BLACK : WHITE) + '.'
     );
   }
 
