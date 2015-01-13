@@ -241,8 +241,14 @@ var othello = {};
     var wt = weightTable;
     return function (board, player) {
       var opponent = nextPlayer(player);
-      return sum(board.map(function (v,p) {return (v==player) * wt[p];})) -
-             sum(board.map(function (v,p) {return (v==opponent) * wt[p];}));
+      var ct = {};
+      ct[player] = 1;
+      ct[opponent] = -1;
+      ct[EMPTY] = 0;
+      var s = 0;
+      for (var i = 0; i < board.length; i++)
+        s += ct[board[i]] * wt[i];
+      return s;
     };
   }
 
@@ -473,10 +479,7 @@ var othello = {};
       var i = random(gameTree.moves.length);
       gameTree = force(gameTree.moves[i].gameTreePromise);
     }
-    return 0 < makeScoreBoardWith(weightTables.simpleCount)(
-      gameTree.board,
-      player
-    );
+    return judge(gameTree.board) * (player == BLACK ? 1 : -1);
   };
 
   Node.prototype.backpropagate = function (result) {
