@@ -206,6 +206,62 @@ var othello = {};
 
 
 
+  // Core logic: Bit board  {{{1
+  //
+  // Naming conventions:
+  //   b = black
+  //   w = white
+  //   o = offense
+  //   d = defense
+  //   e = empty
+  //   a = attackable
+  //   u = upper half of a board
+  //   l = lower half of a board
+  //
+  // Assumption: N = 8
+
+  function makeBitBoard(board) {
+    //                    MSB                   LSB
+    //                     1a 1b 1c 1d 1e 1f 1g 1h MSB
+    //                     2a 2b 2c 2d 2e 2f 2g 2h
+    //             upper   3a 3b 3c 3d 3e 3f 3g 3h
+    //                     4a 4b 4c 4d 4e 4f 4g 4h
+    // bit board =   +   =
+    //                     5a 5b 5c 5d 5e 5f 5g 5h
+    //             lower   6a 6b 6c 6d 6e 6f 6g 6h
+    //                     7a 7b 7c 7d 7e 7f 7g 7h
+    //                     8a 8b 8c 8d 8e 8f 8g 8h LSB
+    var bu = 0;
+    var bl = 0;
+    var wu = 0;
+    var wl = 0;
+    var nu = (N >> 1) - 1;
+    var nl = N - 1;
+    var n = N - 1;
+    for (var y = 0; y < N; y++) {
+      for (var x = 0; x < N; x++) {
+        if (y < (N >> 1)) {
+          var i = ix(x, y);
+          bu |= (board[i] === BLACK ? 1 : 0) << (n-x) << ((nu-y) * N);
+          wu |= (board[i] === WHITE ? 1 : 0) << (n-x) << ((nu-y) * N);
+        } else {
+          var j = ix(x, y);
+          bl |= (board[j] === BLACK ? 1 : 0) << (n-x) << ((nl-y) * N);
+          wl |= (board[j] === WHITE ? 1 : 0) << (n-x) << ((nl-y) * N);
+        }
+      }
+    }
+    return {
+      blackUpper: bu,
+      blackLower: bl,
+      whiteUpper: wu,
+      whiteLower: wl
+    };
+  }
+
+
+
+
   // AI {{{1
 
   var aiMakers = {
