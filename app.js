@@ -331,19 +331,19 @@ var othello = {};
   function cellPositionsFromBitBoard(au, al) {
     var positions = [];
 
-    for (var yu = N2 - 1; 0 <= yu && au; yu--) {
-      for (var xu = N - 1; 0 <= xu && au; xu--) {
-        if (au & 1)
+    for (var yu = 0; yu < N2 && au; yu++) {
+      for (var xu = 0; xu < N && au; xu++) {
+        if (au & 0x80000000)
           positions.push(ix(xu, yu));
-        au >>>= 1;
+        au <<= 1;
       }
     }
 
-    for (var yl = N - 1; N2 <= yl && al; yl--) {
-      for (var xl = N - 1; 0 <= xl && al; xl--) {
-        if (al & 1)
+    for (var yl = N2; yl < N && al; yl++) {
+      for (var xl = 0; xl < N && al; xl++) {
+        if (al & 0x80000000)
           positions.push(ix(xl, yl));
-        al >>>= 1;
+        al <<= 1;
       }
     }
 
