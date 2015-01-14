@@ -116,8 +116,8 @@ var othello = {};
   function listAttackingMovesN(board, player, nest) {
     var moves = [];
 
-    for (var x = 0; x < N; x++) {
-      for (var y = 0; y < N; y++) {
+    for (var y = 0; y < N; y++) {
+      for (var x = 0; x < N; x++) {
         var vulnerableCells = listVulnerableCells(board, x, y, player);
         if (canAttack(vulnerableCells)) {
           moves.push({
