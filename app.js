@@ -282,6 +282,16 @@ var othello = {};
     return positions;
   }
 
+  function shiftUp(u, l) {
+    return (u << N) |
+           (l >>> (N * ((N >> 1) - 1)));
+  }
+
+  function shiftDown(u, l) {
+    return (l >>> N) |
+           ((u & 0x000000ff) << (N * ((N >> 1) - 1)));
+  }
+
 
 
 
