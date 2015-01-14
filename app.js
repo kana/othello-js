@@ -113,7 +113,7 @@ var othello = {};
       return [];
   }
 
-  function listAttackingMoves(board, player, nest) {
+  function listAttackingMovesN(board, player, nest) {
     var moves = [];
 
     for (var x = 0; x < N; x++) {
@@ -140,6 +140,8 @@ var othello = {};
 
     return moves;
   }
+
+  var listAttackingMoves = listAttackingMovesN;
 
   function nextPlayer(player) {
     return player === BLACK ? WHITE : BLACK;
