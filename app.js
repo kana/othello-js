@@ -292,6 +292,154 @@ var othello = {};
            ((u & 0x000000ff) << (N * ((N >> 1) - 1)));
   }
 
+  function listAttackableBitsAtUp(ou, ol, _du, _dl, eu, el) {
+    var du = _du & 0x00ffffff;
+    var dl = _dl & 0xffffff00;
+    var tu = du & shiftUp(ou, ol);
+    var tl = dl & shiftUp(ol, 0);
+    tu |= du & shiftUp(tu, tl);
+    tl |= dl & shiftUp(tl, 0);
+    tu |= du & shiftUp(tu, tl);
+    tl |= dl & shiftUp(tl, 0);
+    tu |= du & shiftUp(tu, tl);
+    tl |= dl & shiftUp(tl, 0);
+    tu |= du & shiftUp(tu, tl);
+    tl |= dl & shiftUp(tl, 0);
+    tu |= du & shiftUp(tu, tl);
+    tl |= dl & shiftUp(tl, 0);
+    return {
+      upper: eu & shiftUp(tu, tl),
+      lower: el & shiftUp(tl, 0)
+    };
+  }
+
+  function listAttackableBitsAtRightUp(ou, ol, _du, _dl, eu, el) {
+    var du = _du & 0x007e7e7e;
+    var dl = _dl & 0x7e7e7e00;
+    var tu = du & (shiftUp(ou, ol) >>> 1);
+    var tl = dl & (shiftUp(ol, 0) >>> 1);
+    tu |= du & (shiftUp(tu, tl) >>> 1);
+    tl |= dl & (shiftUp(tl, 0) >>> 1);
+    tu |= du & (shiftUp(tu, tl) >>> 1);
+    tl |= dl & (shiftUp(tl, 0) >>> 1);
+    tu |= du & (shiftUp(tu, tl) >>> 1);
+    tl |= dl & (shiftUp(tl, 0) >>> 1);
+    tu |= du & (shiftUp(tu, tl) >>> 1);
+    tl |= dl & (shiftUp(tl, 0) >>> 1);
+    tu |= du & (shiftUp(tu, tl) >>> 1);
+    tl |= dl & (shiftUp(tl, 0) >>> 1);
+    return {
+      upper: eu & (shiftUp(tu, tl) >>> 1),
+      lower: el & (shiftUp(tl, 0) >>> 1)
+    };
+  }
+
+  function listAttackableBitsAtRight(o, _d, e) {
+    var d = _d & 0x7e7e7e7e;
+    var t = d & (o >>> 1);
+    t |= d & (t >>> 1);
+    t |= d & (t >>> 1);
+    t |= d & (t >>> 1);
+    t |= d & (t >>> 1);
+    t |= d & (t >>> 1);
+    return e & (t >>> 1);
+  }
+
+  function listAttackableBitsAtRightDown(ou, ol, _du, _dl, eu, el) {
+    var du = _du & 0x007e7e7e;
+    var dl = _dl & 0x7e7e7e00;
+    var tl = dl & (shiftDown(ou, ol) >>> 1);
+    var tu = du & (shiftDown(0, ou) >>> 1);
+    tl |= dl & (shiftDown(tu, tl) >>> 1);
+    tu |= du & (shiftDown(0, tu) >>> 1);
+    tl |= dl & (shiftDown(tu, tl) >>> 1);
+    tu |= du & (shiftDown(0, tu) >>> 1);
+    tl |= dl & (shiftDown(tu, tl) >>> 1);
+    tu |= du & (shiftDown(0, tu) >>> 1);
+    tl |= dl & (shiftDown(tu, tl) >>> 1);
+    tu |= du & (shiftDown(0, tu) >>> 1);
+    tl |= dl & (shiftDown(tu, tl) >>> 1);
+    tu |= du & (shiftDown(0, tu) >>> 1);
+    return {
+      upper: eu & (shiftDown(0, tu) >>> 1),
+      lower: el & (shiftDown(tu, tl) >>> 1)
+    };
+  }
+
+  function listAttackableBitsAtDown(ou, ol, _du, _dl, eu, el) {
+    var du = _du & 0x00ffffff;
+    var dl = _dl & 0xffffff00;
+    var tl = dl & shiftDown(ou, ol);
+    var tu = du & shiftDown(0, ou);
+    tl |= dl & shiftDown(tu, tl);
+    tu |= du & shiftDown(0, tu);
+    tl |= dl & shiftDown(tu, tl);
+    tu |= du & shiftDown(0, tu);
+    tl |= dl & shiftDown(tu, tl);
+    tu |= du & shiftDown(0, tu);
+    tl |= dl & shiftDown(tu, tl);
+    tu |= du & shiftDown(0, tu);
+    tl |= dl & shiftDown(tu, tl);
+    tu |= du & shiftDown(0, tu);
+    return {
+      upper: eu & shiftDown(0, tu),
+      lower: el & shiftDown(tu, tl)
+    };
+  }
+
+  function listAttackableBitsAtLeftDown(ou, ol, _du, _dl, eu, el) {
+    var du = _du & 0x007e7e7e;
+    var dl = _dl & 0x7e7e7e00;
+    var tl = dl & (shiftDown(ou, ol) << 1);
+    var tu = du & (shiftDown(0, ou) << 1);
+    tl |= dl & (shiftDown(tu, tl) << 1);
+    tu |= du & (shiftDown(0, tu) << 1);
+    tl |= dl & (shiftDown(tu, tl) << 1);
+    tu |= du & (shiftDown(0, tu) << 1);
+    tl |= dl & (shiftDown(tu, tl) << 1);
+    tu |= du & (shiftDown(0, tu) << 1);
+    tl |= dl & (shiftDown(tu, tl) << 1);
+    tu |= du & (shiftDown(0, tu) << 1);
+    tl |= dl & (shiftDown(tu, tl) << 1);
+    tu |= du & (shiftDown(0, tu) << 1);
+    return {
+      upper: eu & (shiftDown(0, tu) << 1),
+      lower: el & (shiftDown(tu, tl) << 1)
+    };
+  }
+
+  function listAttackableBitsAtLeft(o, _d, e) {
+    var d = _d & 0x7e7e7e7e;
+    var t = d & (o << 1);
+    t |= d & (t << 1);
+    t |= d & (t << 1);
+    t |= d & (t << 1);
+    t |= d & (t << 1);
+    t |= d & (t << 1);
+    return e & (t << 1);
+  }
+
+  function listAttackableBitsAtLeftUp(ou, ol, _du, _dl, eu, el) {
+    var du = _du & 0x007e7e7e;
+    var dl = _dl & 0x7e7e7e00;
+    var tu = du & (shiftUp(ou, ol) << 1);
+    var tl = dl & (shiftUp(ol, 0) << 1);
+    tu |= du & (shiftUp(tu, tl) << 1);
+    tl |= dl & (shiftUp(tl, 0) << 1);
+    tu |= du & (shiftUp(tu, tl) << 1);
+    tl |= dl & (shiftUp(tl, 0) << 1);
+    tu |= du & (shiftUp(tu, tl) << 1);
+    tl |= dl & (shiftUp(tl, 0) << 1);
+    tu |= du & (shiftUp(tu, tl) << 1);
+    tl |= dl & (shiftUp(tl, 0) << 1);
+    tu |= du & (shiftUp(tu, tl) << 1);
+    tl |= dl & (shiftUp(tl, 0) << 1);
+    return {
+      upper: eu & (shiftUp(tu, tl) << 1),
+      lower: el & (shiftUp(tl, 0) << 1)
+    };
+  }
+
 
 
 
