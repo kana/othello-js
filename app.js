@@ -141,7 +141,27 @@ var othello = {};
     return moves;
   }
 
-  var listAttackingMoves = listAttackingMovesN;
+  function listAttackingMoves8(board, player, nest) {
+    return listAttackableCells(board, player).map(function (c) {
+      var x = c & 0x07;
+      var y = c >> 3;
+      return {
+        x: x,
+        y: y,
+        gameTreePromise: delay(function () {
+          var vulnerableCells = listVulnerableCells(board, x, y, player);
+          return makeGameTree(
+            makeAttackedBoard(board, x, y, vulnerableCells, player),
+            nextPlayer(player),
+            false,
+            nest + 1
+          );
+        })
+      };
+    });
+  }
+
+  var listAttackingMoves = N === 8 ? listAttackingMoves8 : listAttackingMovesN;
 
   function nextPlayer(player) {
     return player === BLACK ? WHITE : BLACK;
