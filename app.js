@@ -220,6 +220,8 @@ var othello = {};
   //
   // Assumption: N = 8
 
+  var N2 = N >> 1;
+
   function listAttackableCells(board, player) {
     var bb = makeBitBoard(board);
     var ou = player === BLACK ? bb.blackUpper : bb.whiteUpper;
@@ -280,12 +282,12 @@ var othello = {};
     var bl = 0;
     var wu = 0;
     var wl = 0;
-    var nu = (N >> 1) - 1;
+    var nu = N2 - 1;
     var nl = N - 1;
     var n = N - 1;
     for (var y = 0; y < N; y++) {
       for (var x = 0; x < N; x++) {
-        if (y < (N >> 1)) {
+        if (y < N2) {
           var i = ix(x, y);
           bu |= (board[i] === BLACK ? 1 : 0) << (n-x) << ((nu-y) * N);
           wu |= (board[i] === WHITE ? 1 : 0) << (n-x) << ((nu-y) * N);
@@ -306,7 +308,6 @@ var othello = {};
 
   function cellPositionsFromBitBoard(au, al) {
     var positions = [];
-    var N2 = N >> 1;
 
     for (var yu = N2 - 1; 0 <= yu && au; yu--) {
       for (var xu = N - 1; 0 <= xu && au; xu--) {
@@ -329,12 +330,12 @@ var othello = {};
 
   function shiftUp(u, l) {
     return (u << N) |
-           (l >>> (N * ((N >> 1) - 1)));
+           (l >>> (N * (N2 - 1)));
   }
 
   function shiftDown(u, l) {
     return (l >>> N) |
-           ((u & 0x000000ff) << (N * ((N >> 1) - 1)));
+           ((u & 0x000000ff) << (N * (N2 - 1)));
   }
 
   function listAttackableBitsAtUp(ou, ol, _du, _dl, eu, el) {
