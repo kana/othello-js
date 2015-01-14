@@ -220,6 +220,51 @@ var othello = {};
   //
   // Assumption: N = 8
 
+  function listAttackableCells(board, player) {
+    var bb = makeBitBoard(board);
+    var ou = player === BLACK ? bb.blackUpper : bb.whiteUpper;
+    var ol = player === BLACK ? bb.blackLower : bb.whiteLower;
+    var du = player === BLACK ? bb.whiteUpper : bb.blackUpper;
+    var dl = player === BLACK ? bb.whiteLower : bb.blackLower;
+    var eu = ~(ou | du);
+    var el = ~(ol | dl);
+    var au = 0;
+    var al = 0;
+    var at;
+
+    at = listAttackableBitsAtUp(ou, ol, du, dl, eu, el);
+    au |= at.upper;
+    al |= at.lower;
+
+    at = listAttackableBitsAtRightUp(ou, ol, du, dl, eu, el);
+    au |= at.upper;
+    al |= at.lower;
+
+    au |= listAttackableBitsAtRight(ou, du, eu);
+    al |= listAttackableBitsAtRight(ol, dl, el);
+
+    at = listAttackableBitsAtRightDown(ou, ol, du, dl, eu, el);
+    au |= at.upper;
+    al |= at.lower;
+
+    at = listAttackableBitsAtDown(ou, ol, du, dl, eu, el);
+    au |= at.upper;
+    al |= at.lower;
+
+    at = listAttackableBitsAtLeftDown(ou, ol, du, dl, eu, el);
+    au |= at.upper;
+    al |= at.lower;
+
+    au |= listAttackableBitsAtLeft(ou, du, eu);
+    al |= listAttackableBitsAtLeft(ol, dl, el);
+
+    at = listAttackableBitsAtLeftUp(ou, ol, du, dl, eu, el);
+    au |= at.upper;
+    al |= at.lower;
+
+    return cellPositionsFromBitBoard(au, al);
+  }
+
   function makeBitBoard(board) {
     //                    MSB                   LSB
     //                     1a 1b 1c 1d 1e 1f 1g 1h MSB
