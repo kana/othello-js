@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Black</th>
+      <th>White</th>
+      <th>State</th>
+      <th>Started at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="g in games">
+      <td><a ng-href="#/games/{{g.id}}">Watch</a></td>
+      <td>{{g.black}}</td>
+      <td>{{g.white}}</td>
+      <td>{{g.state}}</td>
+      <td>{{g.created_at}}</td>
+    </tr>
+  </tbody>
+</table>
