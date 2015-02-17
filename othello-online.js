@@ -1,6 +1,17 @@
 angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 .config(function ($routeProvider) {
-  // TODO
+  $routeProvider
+    .when('/games', {
+      controller: 'GameList',
+      templateUrl: 'othello-online-game-list.html'
+    })
+    .when('/games/:gameId', {
+      controller: 'GameDetail',
+      templateUrl: 'othello-online-game-detail.html'
+    })
+    .otherwise({
+      redirectTo: '/games'
+    });
 })
 .controller('GameList', function ($scope) {
   // TODO
