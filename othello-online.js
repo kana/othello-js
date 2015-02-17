@@ -23,6 +23,12 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   ];
 })
 .controller('GameDetail', function ($scope) {
-  // TODO
+  // TODO: Fetch the details of a game from Firebase.
+  $scope.black = 'Ian';
+  $scope.white = 'Julia';
+  $scope.turn = 'black';
+  $scope.state = 'playing';
+  $scope.moves = ['a1', 'b2', 'c8', 'd2', 'pass', 'f3'];
+  $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
 });
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
