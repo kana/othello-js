@@ -1,6 +1,6 @@
 <ul>
-  <li>Black: {{black}}</li>
-  <li>White: {{white}}</li>
+  <li>Black: {{black}}</li>  <!-- TODO: Join as Black (only for authorized users) -->
+  <li>White: {{white}}</li>  <!-- TODO: Join as White (only for authorized users) -->
   <li>Turn: {{turn}}</li>
   <li>State: {{state}}</li>
   <li>
@@ -9,5 +9,6 @@
       <li ng-repeat="m in moves">{{m}}</li>
     </ol>
   </li>
-  <li>Board: {{board}}</li>
+  <li>Board: {{board}}</li>  <!-- TODO: Visualize the current board -->
+  <!-- TODO: Embed UI to choose a move (only for joined players) -->
 </ul>
