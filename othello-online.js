@@ -1,4 +1,5 @@
 angular.module('OthelloOnline', ['ngRoute', 'firebase'])
+.value('fbUrl', 'https://brilliant-inferno-6551.firebaseio.com/')
 .config(function ($routeProvider) {
   $routeProvider
     .when('/games', {
