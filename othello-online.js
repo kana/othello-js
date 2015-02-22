@@ -48,7 +48,15 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     })
     .when('/games/:gameId', {
       controller: 'GameDetail',
-      templateUrl: 'othello-online-game-detail.html'
+      templateUrl: 'othello-online-game-detail.html',
+      resolve: {
+        gameOutline: function ($route, Fetcher) {
+          return Fetcher.fetch('gameOutlines/' + $route.current.params.gameId);
+        },
+        gameDetail: function ($route, Fetcher) {
+          return Fetcher.fetch('gameDetails/' + $route.current.params.gameId);
+        }
+      }
     })
     .otherwise({
       redirectTo: '/games'
@@ -70,13 +78,13 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   });
   $location.path('/games/' + go.key());
 })
-.controller('GameDetail', function ($scope) {
-  // TODO: Fetch the details of a game from Firebase.
-  $scope.black = 'Ian';
-  $scope.white = 'Julia';
-  $scope.turn = 'black';
-  $scope.state = 'playing';
-  $scope.moves = ['a1', 'b2', 'c8', 'd2', 'pass', 'f3'];
+.controller('GameDetail', function ($scope, gameOutline, gameDetail) {
+  $scope.black = gameOutline.black;
+  $scope.white = gameOutline.white;
+  $scope.turn = gameDetail.turn;
+  $scope.state = gameOutline.state;
+  $scope.moves = gameDetail.moves;
+  // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
 });
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
