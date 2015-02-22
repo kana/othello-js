@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <tr ng-repeat="g in games">
-      <td><a ng-href="#/games/{{g.id}}">Watch</a></td>
+      <td><a ng-href="#/games/{{g.$id}}">Watch</a></td>
       <td>{{g.black || '-'}}</td>
       <td>{{g.white || '-'}}</td>
       <td>{{g.state}}</td>
