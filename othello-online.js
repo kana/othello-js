@@ -20,6 +20,17 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     return deferred.promise;
   };
 })
+.service('Fetcher', function($q, $firebase, fbRef) {
+  this.fetch = function (path) {
+    var deferred = $q.defer();
+    var ref = fbRef.child(path);
+    var $ref = $firebase(ref);
+    ref.on('value', function (snapshot) {
+      deferred.resolve($ref.$asObject());
+    });
+    return deferred.promise;
+  };
+})
 .config(function ($routeProvider) {
   $routeProvider
     .when('/games', {
