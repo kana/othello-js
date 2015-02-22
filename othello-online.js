@@ -3,6 +3,23 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 .service('fbRef', function(fbUrl) {
   return new Firebase(fbUrl)
 })
+.service('GameOutlines', function($q, $firebase, fbRef) {
+  var self = this;
+  self.fetch = function () {
+    if (self.gameOutlines)
+      return $q.when(self.gameOutlines);
+    var deferred = $q.defer();
+    var ref = fbRef.child('gameOutlines');
+    var $gameOutlines = $firebase(ref);
+    ref.on('value', function (snapshot) {
+      if (snapshot.val() === null)
+        $gameOutlines.$set([]);
+      self.gameOutlines = $gameOutlines.$asArray();
+      deferred.resolve(self.gameOutlines);
+    });
+    return deferred.promise;
+  };
+})
 .config(function ($routeProvider) {
   $routeProvider
     .when('/games', {
