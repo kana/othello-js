@@ -31,6 +31,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
         }
       }
     })
+    .when('/games/new', {
+      controller: 'GameCreation',
+      templateUrl: 'othello-online-game-detail.html'
+    })
     .when('/games/:gameId', {
       controller: 'GameDetail',
       templateUrl: 'othello-online-game-detail.html'
@@ -41,6 +45,19 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 })
 .controller('GameList', function ($scope, gameOutlines) {
   $scope.games = gameOutlines;
+})
+.controller('GameCreation', function ($scope, fbRef, $location) {
+  var go = fbRef.child('gameOutlines').push({
+    black: null,
+    white: null,
+    state: 'preparing',
+    created_at: Firebase.ServerValue.TIMESTAMP
+  });
+  var gd = fbRef.child('gameDetails').child(go.key()).set({
+    moves: [],
+    turn: 'black'
+  });
+  $location.path('/games/' + go.key());
 })
 .controller('GameDetail', function ($scope) {
   // TODO: Fetch the details of a game from Firebase.
