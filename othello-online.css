@@ -1,0 +1,2 @@
+.block {margin-top: 1em;}
+.block:first-child {margin-top: 0em;}
