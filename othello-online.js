@@ -79,11 +79,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $location.path('/games/' + go.key());
 })
 .controller('GameDetail', function ($scope, gameOutline, gameDetail) {
-  $scope.black = gameOutline.black;
-  $scope.white = gameOutline.white;
-  $scope.turn = gameDetail.turn;
-  $scope.state = gameOutline.state;
-  $scope.moves = gameDetail.moves;
+  $scope.outline = gameOutline;
+  $scope.detail = gameDetail;
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
 });

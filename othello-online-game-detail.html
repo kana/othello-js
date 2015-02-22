@@ -3,14 +3,14 @@
 </div>
 
 <ul class="block">
-  <li>Black: {{black}}</li>  <!-- TODO: Join as Black (only for authorized users) -->
-  <li>White: {{white}}</li>  <!-- TODO: Join as White (only for authorized users) -->
-  <li>Turn: {{turn}}</li>
-  <li>State: {{state}}</li>
+  <li>Black: {{outline.black || '-'}}</li>  <!-- TODO: Join as Black (only for authorized users) -->
+  <li>White: {{outline.white || '-'}}</li>  <!-- TODO: Join as White (only for authorized users) -->
+  <li>Turn: {{detail.turn}}</li>
+  <li>State: {{outline.state}}</li>
   <li>
     Moves:
     <ol>
-      <li ng-repeat="m in moves">{{m}}</li>
+      <li ng-repeat="m in detail.moves">{{m}}</li>
     </ol>
   </li>
   <li>Board: {{board}}</li>  <!-- TODO: Visualize the current board -->
