@@ -97,10 +97,16 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   });
   $location.path('/games/' + go.key());
 })
-.controller('GameDetail', function ($scope, gameOutline, gameDetail) {
+.controller('GameDetail', function ($scope, gameOutline, gameDetail, fbAuth) {
   $scope.outline = gameOutline;
   $scope.detail = gameDetail;
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
+  $scope.join = function (player) {
+    fbAuth().then(function (auth) {
+      gameOutline[player] = auth.uid;
+      gameOutline.$save();
+    });
+  };
 });
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
