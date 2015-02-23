@@ -138,23 +138,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   });
   $location.path('/games/' + go.key());
 })
-.controller('GameDetail', function ($scope, gameOutline, gameDetail, fbCache) {
+.controller('GameDetail', function ($scope, gameOutline, gameDetail) {
   $scope.outline = gameOutline;
-
-  // TODO: Tidy up.
-  gameOutline.$watch(function () {
-    ['black', 'white'].forEach(function (color) {
-      if (gameOutline[color]) {
-        fbCache('users/' + gameOutline[color]).then(function (user) {
-          $scope[color + 'Player'] = user;
-        });
-      } else {
-        $scope[color + 'Player'] = null;
-      }
-    });
-  });
-  gameOutline.$$notify();
-
   $scope.detail = gameDetail;
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
