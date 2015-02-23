@@ -39,11 +39,6 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     return deferred.promise;
   }
 })
-.service('fbUnauth', function ($firebaseAuth, fbRef) {
-  return function () {
-    $firebaseAuth(fbRef).$unauth();
-  };
-})
 .service('GameOutlines', function ($q, $firebase, fbRef) {
   var self = this;
   self.fetch = function () {
