@@ -4,29 +4,37 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   return new Firebase(fbUrl)
 })
 .service('fbAuth', function ($q, $firebase, $firebaseAuth, fbRef) {
-  var auth;
+  function simplifyAuthData(auth) {
+    return {
+      id: auth.uid,
+      name: auth.twitter.username
+    };
+  }
+  var user;
   return function (mode) {
     if (mode === 'signOut') {
-      auth = null;
+      user = null;
       $firebaseAuth(fbRef).$unauth();
       return;
     }
 
-    if (auth)
-      return $q.when(auth);
+    if (user)
+      return $q.when(user);
 
     var authObj = $firebaseAuth(fbRef);
-    auth = authObj.$getAuth();
-    if (auth)
-      return $q.when(auth);
+    var auth = authObj.$getAuth();
+    if (auth) {
+      user = simplifyAuthData(auth);
+      return $q.when(user);
+    }
 
     if (mode === 'check')
       return $q.when(null);
 
     var deferred = $q.defer();
-    authObj.$authWithOAuthPopup('twitter').then(function (authData) {
-      auth = authData;
-      deferred.resolve(authData);
+    authObj.$authWithOAuthPopup('twitter').then(function (auth) {
+      user = simplifyAuthData(auth);
+      deferred.resolve(user);
     }).catch(function (error) {
       console.log(error);
       alert(error);
