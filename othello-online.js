@@ -128,15 +128,14 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   });
   $location.path('/games/' + go.key());
 })
-.controller('GameDetail', function ($scope, gameOutline, gameDetail, fbAuth) {
+.controller('GameDetail', function ($scope, gameOutline, gameDetail) {
   $scope.outline = gameOutline;
   $scope.detail = gameDetail;
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
-  // TODO: Update .profile on this change.
   // TODO: Start a game if both players are ready.
   $scope.join = function (player) {
-    fbAuth('signIn').then(function (auth) {
+    $scope.$parent.signIn().then(function (auth) {
       gameOutline[player] = auth.uid;
       gameOutline.$save();
     });
