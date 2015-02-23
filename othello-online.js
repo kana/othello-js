@@ -108,8 +108,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     return fbAuth('signIn').then(fetchAndBindUser);
   };
   $scope.signOut = function () {
-    fbAuth('signOut');
     $scope.user = null;
+    return fbAuth('signOut');
   };
 })
 .controller('GameList', function ($scope, gameOutlines) {
