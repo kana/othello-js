@@ -39,21 +39,16 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     return deferred.promise;
   }
 })
-.service('GameOutlines', function ($q, $firebase, fbRef) {
+.service('GameOutlines', function ($q, fbFetch) {
   var self = this;
   self.fetch = function () {
     if (self.gameOutlines)
       return $q.when(self.gameOutlines);
-    var deferred = $q.defer();
-    var ref = fbRef.child('gameOutlines');
-    var $gameOutlines = $firebase(ref);
-    ref.on('value', function (snapshot) {
-      if (snapshot.val() === null)
-        $gameOutlines.$set([]);
-      self.gameOutlines = $gameOutlines.$asArray();
-      deferred.resolve(self.gameOutlines);
+
+    return fbFetch('gameOutlines', 'Array').then(function (data) {
+      self.gameOutlines = data;
+      return data;
     });
-    return deferred.promise;
   };
 })
 .service('fbFetch', function ($q, $firebase, fbRef) {
