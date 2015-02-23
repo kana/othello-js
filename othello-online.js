@@ -1,9 +1,9 @@
 angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 .value('fbUrl', 'https://brilliant-inferno-6551.firebaseio.com/')
-.service('fbRef', function(fbUrl) {
+.service('fbRef', function (fbUrl) {
   return new Firebase(fbUrl)
 })
-.service('GameOutlines', function($q, $firebase, fbRef) {
+.service('GameOutlines', function ($q, $firebase, fbRef) {
   var self = this;
   self.fetch = function () {
     if (self.gameOutlines)
@@ -20,7 +20,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     return deferred.promise;
   };
 })
-.service('Fetcher', function($q, $firebase, fbRef) {
+.service('Fetcher', function ($q, $firebase, fbRef) {
   this.fetch = function (path) {
     var deferred = $q.defer();
     var ref = fbRef.child(path);
