@@ -6,6 +6,12 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 .service('fbAuth', function ($q, $firebase, $firebaseAuth, fbRef) {
   var auth;
   return function (mode) {
+    if (mode === 'signOut') {
+      auth = null;
+      $firebaseAuth(fbRef).$unauth();
+      return;
+    }
+
     if (auth)
       return $q.when(auth);
 
