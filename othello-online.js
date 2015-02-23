@@ -57,7 +57,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   };
 })
 .service('fbFetch', function ($q, $firebase, fbRef) {
-  this.fetch = function (path) {
+  return function (path) {
     var deferred = $q.defer();
     var ref = fbRef.child(path);
     var $ref = $firebase(ref);
@@ -87,10 +87,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       templateUrl: 'othello-online-game-detail.html',
       resolve: {
         gameOutline: function ($route, fbFetch) {
-          return fbFetch.fetch('gameOutlines/' + $route.current.params.gameId);
+          return fbFetch('gameOutlines/' + $route.current.params.gameId);
         },
         gameDetail: function ($route, fbFetch) {
-          return fbFetch.fetch('gameDetails/' + $route.current.params.gameId);
+          return fbFetch('gameDetails/' + $route.current.params.gameId);
         }
       }
     })
@@ -101,7 +101,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 .controller('Base', function ($scope, fbAuth, fbFetch) {
   function fetchAndBindUser(auth) {
     if (auth) {
-      fbFetch.fetch('users/' + auth.uid).then(function (user) {
+      fbFetch('users/' + auth.uid).then(function (user) {
         $scope.user = user;
       });
     }
