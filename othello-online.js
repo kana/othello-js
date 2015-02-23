@@ -90,11 +90,12 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     });
 })
 .controller('Base', function ($scope, fbAuth, Fetcher) {
-  fbAuth().then(function (auth) {
+  function fetchAndBindUser(auth) {
     Fetcher.fetch('users/' + auth.uid).then(function (user) {
       $scope.user = user;
     });
-  });
+  }
+  fbAuth().then(fetchAndBindUser);
 })
 .controller('GameList', function ($scope, gameOutlines) {
   $scope.games = gameOutlines;
