@@ -96,7 +96,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 })
 .controller('Base', function ($scope, fbAuth, fbFetch) {
   function fetchAndBindUser(auth) {
-    if (auth) {
+    if (auth && !$scope.user) {
       fbFetch('users/' + auth.uid).then(function (user) {
         $scope.user = user;
       });
