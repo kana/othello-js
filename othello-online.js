@@ -17,6 +17,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     var deferred = $q.defer();
     authObj.$authWithOAuthPopup('twitter').then(function (authData) {
       auth = authData;
+      fbRef.child('users/' + auth.uid).set({
+        userName: auth.twitter.username,
+        displayName: auth.twitter.displayName,
+        iconImageUrl: auth.twitter.cachedUserProfile.profile_image_url
+      });
       deferred.resolve(authData);
     }).catch(function (error) {
       console.log(error);
