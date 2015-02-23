@@ -89,6 +89,9 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       redirectTo: '/games'
     });
 })
+.controller('Base', function ($scope) {
+  // TODO: Fetch user data.
+})
 .controller('GameList', function ($scope, gameOutlines) {
   $scope.games = gameOutlines;
 })
