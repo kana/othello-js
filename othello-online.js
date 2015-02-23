@@ -57,12 +57,13 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   };
 })
 .service('fbFetch', function ($q, $firebase, fbRef) {
-  return function (path) {
+  return function (path, opt_type) {
+    var type = opt_type || 'Object';
     var deferred = $q.defer();
     var ref = fbRef.child(path);
     var $ref = $firebase(ref);
     ref.on('value', function (snapshot) {
-      deferred.resolve($ref.$asObject());
+      deferred.resolve($ref['$as' + type]());
     });
     return deferred.promise;
   };
