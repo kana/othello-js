@@ -5,21 +5,13 @@
 <ul class="block">
   <li>
     Black:
-    <span ng-if="blackPlayer">
-      <img ng-src="{{blackPlayer.iconImageUrl}}" alt="" width="48" height="48">
-      @{{blackPlayer.userName}}
-    </span>
-    <span ng-if="!blackPlayer && outline.black">{{outline.black}}</span>
-    <button ng-if="!outline.black" ng-click="join('black')" class="btn btn-default">Join</button>
+    <span ng-if="outline.blackId">@{{outline.blackName}}</span>
+    <button ng-if="!outline.blackId" ng-click="join('black')" class="btn btn-default">Join</button>
   </li>
   <li>
     White:
-    <span ng-if="whitePlayer">
-      <img ng-src="{{whitePlayer.iconImageUrl}}" alt="" width="48" height="48">
-      @{{whitePlayer.userName}}
-    </span>
-    <span ng-if="!whitePlayer && outline.white">{{outline.white}}</span>
-    <button ng-if="!outline.white" ng-click="join('white')" class="btn btn-default">Join</button>
+    <span ng-if="outline.whiteId">@{{outline.whiteName}}</span>
+    <button ng-if="!outline.whiteId" ng-click="join('white')" class="btn btn-default">Join</button>
   </li>
   <li>Turn: {{detail.turn}}</li>
   <li>State: {{outline.state}}</li>
