@@ -105,10 +105,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       redirectTo: '/games'
     });
 })
-.controller('Base', function ($scope, fbAuth, fbFetch) {
+.controller('Base', function ($scope, fbAuth, fbCache) {
   function fetchAndBindUser(auth) {
     if (auth && !$scope.user) {
-      fbFetch('users/' + auth.uid).then(function (user) {
+      fbCache('users/' + auth.uid).then(function (user) {
         $scope.user = user;
       });
     }
@@ -139,14 +139,14 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   });
   $location.path('/games/' + go.key());
 })
-.controller('GameDetail', function ($scope, gameOutline, gameDetail, fbFetch) {
+.controller('GameDetail', function ($scope, gameOutline, gameDetail, fbCache) {
   $scope.outline = gameOutline;
 
   // TODO: Tidy up.
   gameOutline.$watch(function () {
     ['black', 'white'].forEach(function (color) {
       if (gameOutline[color]) {
-        fbFetch('users/' + gameOutline[color]).then(function (user) {
+        fbCache('users/' + gameOutline[color]).then(function (user) {
           $scope[color + 'Player'] = user;
         });
       } else {
