@@ -153,5 +153,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       gameOutline.$save();
     });
   };
+  // TODO: Add UI to leave the game if it is not finished.
+  // TODO: Add UI to replay the game if it is finished.
 });
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
