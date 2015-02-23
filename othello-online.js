@@ -127,8 +127,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 })
 .controller('GameCreation', function ($scope, fbRef, $location) {
   var go = fbRef.child('gameOutlines').push({
-    black: null,
-    white: null,
+    blackId: null,
+    blackName: null,
+    whiteId: null,
+    whiteName: null,
     state: 'preparing',
     created_at: Firebase.ServerValue.TIMESTAMP
   });
