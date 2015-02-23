@@ -5,13 +5,13 @@
 <ul class="block">
   <li>
     Black:
-    <span ng-if="outline.black != null">{{outline.black}}</span>
-    <button ng-if="outline.black == null" ng-click="join('black')" class="btn btn-default">Join</button>
+    <span ng-if="outline.black">{{outline.black}}</span>
+    <button ng-if="!outline.black" ng-click="join('black')" class="btn btn-default">Join</button>
   </li>
   <li>
     White:
-    <span ng-if="outline.white != null">{{outline.white}}</span>
-    <button ng-if="outline.white == null" ng-click="join('white')" class="btn btn-default">Join</button>
+    <span ng-if="outline.white">{{outline.white}}</span>
+    <button ng-if="!outline.white" ng-click="join('white')" class="btn btn-default">Join</button>
   </li>
   <li>Turn: {{detail.turn}}</li>
   <li>State: {{outline.state}}</li>
