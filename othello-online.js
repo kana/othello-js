@@ -97,7 +97,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       redirectTo: '/games'
     });
 })
-.controller('Base', function ($scope, fbAuth, Fetcher) {
+.controller('Base', function ($scope, fbAuth, fbUnauth, Fetcher) {
   function fetchAndBindUser(auth) {
     if (auth) {
       Fetcher.fetch('users/' + auth.uid).then(function (user) {
@@ -108,6 +108,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   fbAuth(false).then(fetchAndBindUser);
   $scope.signIn = function () {
     fbAuth(true).then(fetchAndBindUser);
+  };
+  $scope.signOut = function () {
+    fbUnauth();
+    $scope.user = null;
   };
 })
 .controller('GameList', function ($scope, gameOutlines) {
