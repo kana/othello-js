@@ -101,10 +101,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
         $scope.user = user;
       });
     }
+    return auth;
   }
   fbAuth('check').then(fetchAndBindUser);
   $scope.signIn = function () {
-    fbAuth('signIn').then(fetchAndBindUser);
+    return fbAuth('signIn').then(fetchAndBindUser);
   };
   $scope.signOut = function () {
     fbAuth('signOut');
