@@ -5,7 +5,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 })
 .service('fbAuth', function ($q, $firebase, $firebaseAuth, fbRef) {
   var auth;
-  return function (signIn) {
+  return function (mode) {
     if (auth)
       return $q.when(auth);
 
@@ -14,7 +14,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     if (auth)
       return $q.when(auth);
 
-    if (!signIn)
+    if (mode === 'check')
       return $q.when(null);
 
     var deferred = $q.defer();
@@ -105,9 +105,9 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       });
     }
   }
-  fbAuth(false).then(fetchAndBindUser);
+  fbAuth('check').then(fetchAndBindUser);
   $scope.signIn = function () {
-    fbAuth(true).then(fetchAndBindUser);
+    fbAuth('signIn').then(fetchAndBindUser);
   };
   $scope.signOut = function () {
     fbUnauth();
@@ -136,7 +136,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
   $scope.join = function (player) {
-    fbAuth(true).then(function (auth) {
+    fbAuth('signIn').then(function (auth) {
       gameOutline[player] = auth.uid;
       gameOutline.$save();
     });
