@@ -11,8 +11,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="othello-online.css">
   </head>
-  <body class="container">
-    <h1>OthelloOnline</h1>
+  <body ng-controller="Base" class="container">
+    <div>
+      <h1>OthelloOnline</h1>
+      <div class="profile">
+        <span ng-if="user">
+          <img ng-src="{{user.iconImageUrl}}" alt="" width="48" height="48">
+          @{{user.userName}}
+          <button ng-click="signOut()" class="btn btn-default">Sign out</button>
+        </span>
+        <span ng-if="!user">
+          <button ng-click="signIn()" class="btn btn-default">Sign in</button>
+        </span>
+      </div>
+    </div>
     <div ng-view></div>
   </body>
 </html>
