@@ -63,6 +63,17 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     return deferred.promise;
   };
 })
+.service('fbCache', function ($q, fbFetch) {
+  var memo = {};
+  return function (path, opt_type) {
+    if (memo[path])
+      return $q.when(memo[path]);
+    return fbFetch(path, opt_type).then(function (data) {
+      memo[path] = data;
+      return data;
+    });
+  };
+})
 .config(function ($routeProvider) {
   $routeProvider
     .when('/games', {
