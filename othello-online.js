@@ -18,6 +18,9 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     authObj.$authWithOAuthPopup('twitter').then(function (authData) {
       auth = authData;
       deferred.resolve(authData);
+    }).catch(function (error) {
+      console.log(error);
+      alert(error);
     });
     return deferred.promise;
   }
