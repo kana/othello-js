@@ -15,8 +15,8 @@
   <tbody>
     <tr ng-repeat="g in games">
       <td><a ng-href="#/games/{{g.$id}}">Watch</a></td>
-      <td>{{g.black || '-'}}</td>
-      <td>{{g.white || '-'}}</td>
+      <td>{{g.blackId ? '@' + g.blackName : '-'}}</td>
+      <td>{{g.whiteId ? '@' + g.whiteName : '-'}}</td>
       <td>{{g.state}}</td>
       <td>{{g.created_at | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
     </tr>
