@@ -3,6 +3,25 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 .service('fbRef', function (fbUrl) {
   return new Firebase(fbUrl)
 })
+.service('fbAuth', function ($q, $firebase, $firebaseAuth, fbRef) {
+  var auth;
+  return function () {
+    if (auth)
+      return $q.when(auth);
+
+    var authObj = $firebaseAuth(fbRef);
+    auth = authObj.$getAuth();
+    if (auth)
+      return $q.when(auth);
+
+    var deferred = $q.defer();
+    authObj.$authWithOAuthPopup('twitter').then(function (authData) {
+      auth = authData;
+      deferred.resolve(authData);
+    });
+    return deferred.promise;
+  }
+})
 .service('GameOutlines', function ($q, $firebase, fbRef) {
   var self = this;
   self.fetch = function () {
