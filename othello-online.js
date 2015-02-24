@@ -145,6 +145,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $scope.detail = gameDetail;
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
+
   // TODO: Start a game if both players are ready.
   $scope.join = function (color) {
     $scope.signIn().then(function (user) {
@@ -161,5 +162,33 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     $scope.outline.$save();
   };
   // TODO: Add UI to replay the game if it is finished.
+
+  // TODO: Replace with the actual game engine.
+  function random(n) {
+    return Math.floor(Math.random() * n);
+  }
+  function makeGameTree(color) {
+    return {
+      turn: color,
+      moves: generateMoves(color)
+    };
+  }
+  function generateMoves(color) {
+    var moveNames = [];
+    var x = random(8);
+    var y = random(8);
+    for (var i = 0; i < 4; i++)
+      moveNames.push('abcdefgh'[(x + i) % 8] + '12345678'[(y + 3*i) % 8]);
+    moveNames.push('pass');
+    return moveNames.map(function (moveName) {
+      return {
+        name: moveName,
+        gameTreePromise: delay(function () {
+          return makeGameTree(color === 'black' ? 'white' : 'black');
+        })
+      };
+    });
+  }
+  $scope.gameTree = makeGameTree('black');
 });
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
