@@ -190,5 +190,23 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     });
   }
   $scope.gameTree = makeGameTree('black');
+  $scope.choose = function (moveName) {
+    var validMoveNames = $scope.gameTree.moves.map(function (m) {return m.name;});
+    var i = validMoveNames.indexOf(moveName);
+    if (0 <= i) {
+      $scope.gameTree = force($scope.gameTree.moves[i].gameTreePromise);
+      $scope.detail.moves.push(moveName);
+      $scope.detail.$save();
+      if ($scope.gameTree.moves.length === 0) {
+        $scope.outline.state = 'finished';
+        $scope.outline.$save();
+      }
+    } else {
+      alert(
+        'Error: Unexpected move "' + moveName + '" is chosen\n' +
+        'but valid moves are ' + validMoveNames.join(', ') + '.'
+      );
+    }
+  };
 });
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
