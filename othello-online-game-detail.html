@@ -6,14 +6,26 @@
   <li>
     Black:
     <span ng-if="outline.blackId">@{{outline.blackName}}</span>
-    <button ng-if="!outline.blackId" ng-click="join('black')" class="btn btn-default">Join</button>
-    <button ng-if="outline.state === 'preparing' && user.id === outline.blackId" ng-click="leave('black')" class="btn btn-default">Leave</button>
+    <button
+      ng-if="!outline.blackId"
+      ng-click="join('black')"
+      class="btn btn-default">Join</button>
+    <button
+      ng-if="outline.state === 'preparing' && user.id === outline.blackId"
+      ng-click="leave('black')"
+      class="btn btn-default">Leave</button>
   </li>
   <li>
     White:
     <span ng-if="outline.whiteId">@{{outline.whiteName}}</span>
-    <button ng-if="!outline.whiteId" ng-click="join('white')" class="btn btn-default">Join</button>
-    <button ng-if="outline.state === 'preparing' && user.id === outline.whiteId" ng-click="leave('white')" class="btn btn-default">Leave</button>
+    <button
+      ng-if="!outline.whiteId"
+      ng-click="join('white')"
+      class="btn btn-default">Join</button>
+    <button
+      ng-if="outline.state === 'preparing' && user.id === outline.whiteId"
+      ng-click="leave('white')"
+      class="btn btn-default">Leave</button>
   </li>
   <li>Turn: {{detail.turn}}</li>
   <li>State: {{outline.state}}</li>
