@@ -36,5 +36,14 @@
     </ol>
   </li>
   <li>Board: {{board}}</li>  <!-- TODO: Visualize the current board -->
+  <li ng-if="outline.state === 'playing'">
+    Choose a move:
+    <span class="btn-group">
+      <button
+        ng-repeat="m in gameTree.moves"
+        ng-click="choose(m.name)"
+        class="btn btn-default">{{m.name}}</button>
+    </span>
+  </li>
   <!-- TODO: Embed UI to choose a move (only for joined players) -->
 </ul>
