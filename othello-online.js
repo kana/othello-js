@@ -150,6 +150,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     $scope.signIn().then(function (user) {
       $scope.outline[color + 'Id'] = user.id;
       $scope.outline[color + 'Name'] = user.name;
+      if ($scope.outline.blackId && $scope.outline.whiteId)
+        $scope.outline.state = 'playing';
       $scope.outline.$save();
     });
   };
