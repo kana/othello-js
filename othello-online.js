@@ -164,6 +164,12 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   // TODO: Add UI to replay the game if it is finished.
 
   // TODO: Replace with the actual game engine.
+  function delay(expressionAsFunction) {
+    return expressionAsFunction;
+  }
+  function force(promise) {
+    return promise();
+  }
   function random(n) {
     return Math.floor(Math.random() * n);
   }
