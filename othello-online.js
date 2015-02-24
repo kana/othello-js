@@ -148,15 +148,15 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   // TODO: Start a game if both players are ready.
   $scope.join = function (color) {
     $scope.signIn().then(function (user) {
-      gameOutline[color + 'Id'] = user.id;
-      gameOutline[color + 'Name'] = user.name;
-      gameOutline.$save();
+      $scope.outline[color + 'Id'] = user.id;
+      $scope.outline[color + 'Name'] = user.name;
+      $scope.outline.$save();
     });
   };
   $scope.leave = function (color) {
-    gameOutline[color + 'Id'] = null;
-    gameOutline[color + 'Name'] = null;
-    gameOutline.$save();
+    $scope.outline[color + 'Id'] = null;
+    $scope.outline[color + 'Name'] = null;
+    $scope.outline.$save();
   };
   // TODO: Add UI to replay the game if it is finished.
 });
