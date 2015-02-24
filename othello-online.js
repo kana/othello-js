@@ -135,8 +135,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     created_at: Firebase.ServerValue.TIMESTAMP
   });
   var gd = fbRef.child('gameDetails').child(go.key()).set({
-    moves: [],
-    turn: 'black'
+    moves: []
   });
   $location.path('/games/' + go.key());
 })
