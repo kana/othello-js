@@ -213,6 +213,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       );
     }
   }
+  $scope.judge = function (board) {
+    return board.indexOf('b') !== -1 ? 'black' :
+           board.indexOf('3') !== -1 ? 'white' :
+           'draw';
+  };
 
   $scope.gameTree = makeGameTree(1, 'black', 0);
   $scope.moves.$loaded(function () {
