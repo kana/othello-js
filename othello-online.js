@@ -99,8 +99,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
         gameOutline: function ($route, fbFetch) {
           return fbFetch('gameOutlines/' + $route.current.params.gameId);
         },
-        gameDetail: function ($route, fbFetch) {
-          return fbFetch('gameDetails/' + $route.current.params.gameId);
+        moves: function ($route, fbFetch) {
+          return fbFetch(
+            'gameDetails/' + $route.current.params.gameId + '/moves',
+            'Array'
+          );
         }
       }
     })
@@ -140,9 +143,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   // });
   $location.path('/games/' + go.key());
 })
-.controller('GameDetail', function ($scope, gameOutline, gameDetail) {
+.controller('GameDetail', function ($scope, gameOutline, moves) {
+  // gameDetails/$game_id/moves is directly watched, because it is troublesome
+  // to deal with empty moves by watching gameDetails/$game_id.
   $scope.outline = gameOutline;
-  $scope.detail = gameDetail;
+  $scope.moves = moves;
   // TODO: Construct from moves.
   $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
 
@@ -206,8 +211,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     var i = validMoveNames.indexOf(moveName);
     if (0 <= i) {
       $scope.gameTree = force($scope.gameTree.moves[i].gameTreePromise);
-      $scope.detail.moves.push(moveName);
-      $scope.detail.$save();
+      $scope.moves.push(moveName);
+      $scope.moves.$save();
       if ($scope.gameTree.moves.length === 0) {
         $scope.outline.state = 'finished';
         $scope.outline.$save();
