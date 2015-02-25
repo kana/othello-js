@@ -175,9 +175,6 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   function force(promise) {
     return promise();
   }
-  function random(n) {
-    return Math.floor(Math.random() * n);
-  }
   function makeGameTree(color, passedCount) {
     return {
       turn: color,
@@ -188,8 +185,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     if (passedCount === 2)
       return [];
     var moveNames = [];
-    var x = random(8);
-    var y = random(8);
+    var x = 314;
+    var y = 159;
     for (var i = 0; i < 4; i++)
       moveNames.push('abcdefgh'[(x + i) % 8] + '12345678'[(y + 3*i) % 8]);
     moveNames.push('pass');
