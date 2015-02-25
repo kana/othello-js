@@ -2,48 +2,56 @@
   <a href="#/" class="btn btn-default" role="button">Return to the game list</a>
 </div>
 
-<ul class="block">
-  <li>
-    Black:
-    <span ng-if="outline.blackId">@{{outline.blackName}}</span>
-    <button
-      ng-click="join('black')"
-      ng-if="!outline.blackId"
-      class="btn btn-default">Join</button>
-    <button
-      ng-click="leave('black')"
-      ng-if="outline.state === 'preparing' && user.id === outline.blackId"
-      class="btn btn-default">Leave</button>
-  </li>
-  <li>
-    White:
-    <span ng-if="outline.whiteId">@{{outline.whiteName}}</span>
-    <button
-      ng-click="join('white')"
-      ng-if="!outline.whiteId"
-      class="btn btn-default">Join</button>
-    <button
-      ng-click="leave('white')"
-      ng-if="outline.state === 'preparing' && user.id === outline.whiteId"
-      class="btn btn-default">Leave</button>
-  </li>
-  <li>Turn: {{gameTree.turn}}</li>
-  <li>State: {{outline.state}}</li>
-  <li>
-    Moves:
-    <ol>
-      <li ng-repeat="m in moves">{{m.$value}}</li>
-    </ol>
-  </li>
-  <li>Board: {{gameTree.board}}</li>  <!-- TODO: Visualize the current board -->
-  <li ng-if="outline.state === 'playing'">
-    Choose a move:
-    <span class="btn-group">
-      <button
-        ng-repeat="m in gameTree.moves"
-        ng-click="choose(m.name)"
-        ng-disabled="user.id !== outline[gameTree.turn + 'Id']"
-        class="btn btn-default">{{m.name}}</button>
-    </span>
-  </li>
-</ul>
+<div class="block row">
+  <div class="col-xs-4">
+    <div>
+      Board: {{gameTree.board}}  <!-- TODO: Visualize the current board -->
+    </div>
+    <div ng-if="outline.state === 'playing'">
+      Choose a move:
+      <span class="btn-group">
+        <button
+          ng-repeat="m in gameTree.moves"
+          ng-click="choose(m.name)"
+          ng-disabled="user.id !== outline[gameTree.turn + 'Id']"
+          class="btn btn-default">{{m.name}}</button>
+      </span>
+    </div>
+  </div>
+  <div class="col-xs-4">
+    <ul class="block">
+      <li>
+        Black:
+        <span ng-if="outline.blackId">@{{outline.blackName}}</span>
+        <button
+          ng-click="join('black')"
+          ng-if="!outline.blackId"
+          class="btn btn-default">Join</button>
+        <button
+          ng-click="leave('black')"
+          ng-if="outline.state === 'preparing' && user.id === outline.blackId"
+          class="btn btn-default">Leave</button>
+      </li>
+      <li>
+        White:
+        <span ng-if="outline.whiteId">@{{outline.whiteName}}</span>
+        <button
+          ng-click="join('white')"
+          ng-if="!outline.whiteId"
+          class="btn btn-default">Join</button>
+        <button
+          ng-click="leave('white')"
+          ng-if="outline.state === 'preparing' && user.id === outline.whiteId"
+          class="btn btn-default">Leave</button>
+      </li>
+      <li>State: {{outline.state}}</li>
+      <li>Turn: {{gameTree.turn}}</li>
+      <li>
+        Moves:
+        <ol>
+          <li ng-repeat="m in moves">{{m.$value}}</li>
+        </ol>
+      </li>
+    </ul>
+  </div>
+</div>
