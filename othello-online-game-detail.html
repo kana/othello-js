@@ -35,7 +35,7 @@
       <li ng-repeat="m in moves">{{m.$value}}</li>
     </ol>
   </li>
-  <li>Board: {{board}}</li>  <!-- TODO: Visualize the current board -->
+  <li>Board: {{gameTree.board}}</li>  <!-- TODO: Visualize the current board -->
   <li ng-if="outline.state === 'playing'">
     Choose a move:
     <span class="btn-group">

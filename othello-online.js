@@ -148,8 +148,6 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   // to deal with empty moves by watching gameDetails/$game_id.
   $scope.outline = gameOutline;
   $scope.moves = moves;
-  // TODO: Construct from moves.
-  $scope.board = '__bbbw_________bbww___b____ww___w____bbb________________________';
 
   // TODO: Start a game if both players are ready.
   $scope.join = function (color) {
