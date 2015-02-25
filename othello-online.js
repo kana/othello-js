@@ -214,7 +214,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
         $scope.outline.$save();
       }
     } else {
-      alert(
+      throw new Error(
         'Error: Unexpected move "' + moveName + '" is chosen\n' +
         'but valid moves are ' + validMoveNames.join(', ') + '.'
       );
