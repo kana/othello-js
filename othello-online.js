@@ -177,6 +177,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   }
   function makeGameTree(turnCount, color, passedCount) {
     return {
+      board: turnCount + '-' + color + '-' + passedCount,
       turn: color,
       moves: generateMoves(turnCount, color, passedCount)
     };
