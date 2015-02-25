@@ -126,17 +126,18 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $scope.games = gameOutlines;
 })
 .controller('GameCreation', function ($scope, fbRef, $location) {
+  // NB: Firebase does not save "empty" objects by design.
   var go = fbRef.child('gameOutlines').push({
-    blackId: null,
-    blackName: null,
-    whiteId: null,
-    whiteName: null,
+    // blackId: null,
+    // blackName: null,
+    // whiteId: null,
+    // whiteName: null,
     state: 'preparing',
     created_at: Firebase.ServerValue.TIMESTAMP
   });
-  var gd = fbRef.child('gameDetails').child(go.key()).set({
-    moves: []
-  });
+  // var gd = fbRef.child('gameDetails').child(go.key()).set({
+  //   moves: []
+  // });
   $location.path('/games/' + go.key());
 })
 .controller('GameDetail', function ($scope, gameOutline, gameDetail) {
