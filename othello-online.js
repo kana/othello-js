@@ -175,13 +175,13 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   function force(promise) {
     return promise();
   }
-  function makeGameTree(color, passedCount) {
+  function makeGameTree(turnCount, color, passedCount) {
     return {
       turn: color,
-      moves: generateMoves(color, passedCount)
+      moves: generateMoves(turnCount, color, passedCount)
     };
   }
-  function generateMoves(color, passedCount) {
+  function generateMoves(turnCount, color, passedCount) {
     if (passedCount === 2)
       return [];
     var moveNames = [];
@@ -195,6 +195,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
         name: moveName,
         gameTreePromise: delay(function () {
           return makeGameTree(
+            turnCount + 1,
             color === 'black' ? 'white' : 'black',
             passedCount + (moveName === 'pass' ? 1 : 0)
           );
@@ -202,7 +203,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       };
     });
   }
-  $scope.gameTree = makeGameTree('black', 0);
+  $scope.gameTree = makeGameTree(1, 'black', 0);
   $scope.choose = function (moveName) {
     var validMoveNames = $scope.gameTree.moves.map(function (m) {return m.name;});
     var i = validMoveNames.indexOf(moveName);
