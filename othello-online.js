@@ -202,22 +202,25 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       };
     });
   }
-  $scope.gameTree = makeGameTree(1, 'black', 0);
-  $scope.choose = function (moveName) {
+  function play(moveName) {
     var validMoveNames = $scope.gameTree.moves.map(function (m) {return m.name;});
     var i = validMoveNames.indexOf(moveName);
     if (0 <= i) {
       $scope.gameTree = force($scope.gameTree.moves[i].gameTreePromise);
-      $scope.moves.$add(moveName);
-      if ($scope.gameTree.moves.length === 0) {
-        $scope.outline.state = 'finished';
-        $scope.outline.$save();
-      }
     } else {
       throw new Error(
         'Error: Unexpected move "' + moveName + '" is chosen\n' +
         'but valid moves are ' + validMoveNames.join(', ') + '.'
       );
+    }
+  }
+  $scope.gameTree = makeGameTree(1, 'black', 0);
+  $scope.choose = function (moveName) {
+    play(moveName);
+    $scope.moves.$add(moveName);
+    if ($scope.gameTree.moves.length === 0) {
+      $scope.outline.state = 'finished';
+      $scope.outline.$save();
     }
   };
 });
