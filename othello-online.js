@@ -185,8 +185,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     if (passedCount === 2)
       return [];
     var moveNames = [];
-    var x = 314;
-    var y = 159;
+    var x = 314 + 3*turnCount;
+    var y = 159 + 5*turnCount;
     for (var i = 0; i < 4; i++)
       moveNames.push('abcdefgh'[(x + i) % 8] + '12345678'[(y + 3*i) % 8]);
     moveNames.push('pass');
