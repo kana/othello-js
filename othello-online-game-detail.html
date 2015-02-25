@@ -42,8 +42,8 @@
       <button
         ng-repeat="m in gameTree.moves"
         ng-click="choose(m.name)"
+        ng-disabled="user.id !== outline[gameTree.turn + 'Id']"
         class="btn btn-default">{{m.name}}</button>
     </span>
   </li>
-  <!-- TODO: Embed UI to choose a move (only for joined players) -->
 </ul>
