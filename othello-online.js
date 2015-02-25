@@ -214,7 +214,14 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       );
     }
   }
+
   $scope.gameTree = makeGameTree(1, 'black', 0);
+  $scope.moves.$loaded(function () {
+    $scope.moves.forEach(function (m) {
+      play(m.$value);
+    });
+  });
+
   $scope.choose = function (moveName) {
     play(moveName);
     $scope.moves.$add(moveName);
