@@ -211,8 +211,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     var i = validMoveNames.indexOf(moveName);
     if (0 <= i) {
       $scope.gameTree = force($scope.gameTree.moves[i].gameTreePromise);
-      $scope.moves.push(moveName);
-      $scope.moves.$save();
+      $scope.moves.$add(moveName);
       if ($scope.gameTree.moves.length === 0) {
         $scope.outline.state = 'finished';
         $scope.outline.$save();
