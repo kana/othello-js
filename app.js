@@ -1,4 +1,4 @@
-(function () {
+(function (O) {
   'use strict';
 
   // UI {{{1
@@ -8,20 +8,20 @@
     var attackable = [];
     moves.forEach(function (m) {
       if (!m.isPassingMove)
-        attackable[ix(m.x, m.y)] = true;
+        attackable[O.ix(m.x, m.y)] = true;
     });
 
     ss.push('<table>');
-    for (var y = -1; y < N; y++) {
+    for (var y = -1; y < O.N; y++) {
       ss.push('<tr>');
-      for (var x = -1; x < N; x++) {
+      for (var x = -1; x < O.N; x++) {
         if (0 <= y && 0 <= x) {
           ss.push('<td class="');
           ss.push('cell');
           ss.push(' ');
-          ss.push(attackable[ix(x, y)] ? player : board[ix(x, y)]);
+          ss.push(attackable[O.ix(x, y)] ? player : board[O.ix(x, y)]);
           ss.push(' ');
-          ss.push(attackable[ix(x, y)] ? 'attackable' : '');
+          ss.push(attackable[O.ix(x, y)] ? 'attackable' : '');
           ss.push('" id="');
           ss.push('cell_' + x + '_' + y);
           ss.push('">');
@@ -56,13 +56,13 @@
           $('<input type="button" class="btn">')
           .val(makeLabelForMove(m))
           .click(function () {
-            shiftToNewGameTree(force(m.gameTreePromise));
+            shiftToNewGameTree(O.force(m.gameTreePromise));
           })
         );
       } else {
         $('#cell_' + m.x + '_' + m.y)
         .click(function () {
-          shiftToNewGameTree(force(m.gameTreePromise));
+          shiftToNewGameTree(O.force(m.gameTreePromise));
         });
       }
     });
@@ -87,7 +87,7 @@
     setTimeout(
       function () {
         var start = Date.now();
-        var newGameTree = force(ai.findTheBestMove(gameTree).gameTreePromise);
+        var newGameTree = O.force(ai.findTheBestMove(gameTree).gameTreePromise);
         var end = Date.now();
         var delta = end - start;
         setTimeout(
@@ -102,11 +102,11 @@
   }
 
   function showWinner(board) {
-    var r = judge(board);
+    var r = O.judge(board);
     $('#message').text(
       r === 0 ?
       'The game ends in a draw.' :
-      'The winner is ' + (r === 1 ? BLACK : WHITE) + '.'
+      'The winner is ' + (r === 1 ? O.BLACK : O.WHITE) + '.'
     );
   }
 
@@ -116,7 +116,7 @@
     if (playerType === 'human') {
       return setUpUIToChooseMove;
     } else {
-      var ai = makeAI(playerType);
+      var ai = O.makeAI(playerType);
       return function (gameTree) {
         chooseMoveByAI(gameTree, ai);
       };
@@ -155,7 +155,7 @@
 
   function recordStat(board) {
     var s = stats[[blackPlayerType(), whitePlayerType()]] || {b: 0, w: 0, d: 0};
-    var r = judge(board);
+    var r = O.judge(board);
     if (r === 1)
       s.b++;
     if (r === 0)
@@ -180,9 +180,9 @@
     $('#preference-pane :input:not(#repeat-games)')
       .addClass('disabled')
       .attr('disabled', 'disabled');
-    playerTable[BLACK] = makePlayer(blackPlayerType());
-    playerTable[WHITE] = makePlayer(whitePlayerType());
-    shiftToNewGameTree(makeGameTree(makeInitialGameBoard(), BLACK, false, 1));
+    playerTable[O.BLACK] = makePlayer(blackPlayerType());
+    playerTable[O.WHITE] = makePlayer(whitePlayerType());
+    shiftToNewGameTree(O.makeGameTree(O.makeInitialGameBoard(), O.BLACK, false, 1));
   }
 
 
@@ -191,14 +191,14 @@
   // Startup {{{1
 
   $('#start-button').click(function () {startNewGame();});
-  $('#add-new-ai-button').click(function () {addNewAI();});
+  $('#add-new-ai-button').click(function () {O.addNewAI();});
   $('#swap-player-types-button').click(function () {swapPlayerTypes();});
   resetGame();
-  drawGameBoard(makeInitialGameBoard(), '-', []);
+  drawGameBoard(O.makeInitialGameBoard(), '-', []);
 
 
 
 
   //}}}
-})();
+})(othello);
 // vim: expandtab softtabstop=2 shiftwidth=2 foldmethod=marker
