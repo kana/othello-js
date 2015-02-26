@@ -838,9 +838,9 @@ var othello = {};
   }
 
   function simulateRandomGame(move, player) {
-    var gt = othello.force(move.gameTreePromise);
+    var gt = force(move.gameTreePromise);
     while (gt.moves.length !== 0)
-      gt = othello.force(gt.moves[random(gt.moves.length)].gameTreePromise);
+      gt = force(gt.moves[random(gt.moves.length)].gameTreePromise);
     return judge(gt.board) * (player === BLACK ? 1 : -1);
   }
 
