@@ -81,7 +81,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $routeProvider
     .when('/games', {
       controller: 'GameList',
-      templateUrl: 'othello-online-game-list.html',
+      templateUrl: 'online-game-list.html',
       resolve: {
         gameOutlines: function (GameOutlines) {
           return GameOutlines.fetch();
@@ -90,11 +90,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     })
     .when('/games/new', {
       controller: 'GameCreation',
-      templateUrl: 'othello-online-game-detail.html'
+      templateUrl: 'online-game-detail.html'
     })
     .when('/games/:gameId', {
       controller: 'GameDetail',
-      templateUrl: 'othello-online-game-detail.html',
+      templateUrl: 'online-game-detail.html',
       resolve: {
         gameOutline: function ($route, fbFetch) {
           return fbFetch('gameOutlines/' + $route.current.params.gameId);
