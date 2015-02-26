@@ -54,7 +54,7 @@
       if (m.isPassingMove) {
         $('#console').append(
           $('<input type="button" class="btn">')
-          .val(makeLabelForMove(m))
+          .val(nameMove(m))
           .click(function () {
             shiftToNewGameTree(O.force(m.gameTreePromise));
           })
@@ -68,7 +68,7 @@
     });
   }
 
-  function makeLabelForMove(move) {
+  function nameMove(move) {
     if (move.isPassingMove)
       return 'Pass';
     else
