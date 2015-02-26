@@ -1,0 +1,24 @@
+<div class="block">
+  <a href="#/games/new" class="btn btn-default" role="button">Start a new game</a>
+</div>
+
+<table class="block table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Black</th>
+      <th>White</th>
+      <th>State</th>
+      <th>Started at</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="g in games">
+      <td><a ng-href="#/games/{{g.$id}}">Watch</a></td>
+      <td>{{g.blackId ? '@' + g.blackName : '-'}}</td>
+      <td>{{g.whiteId ? '@' + g.whiteName : '-'}}</td>
+      <td>{{g.state}}</td>
+      <td>{{g.created_at | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+    </tr>
+  </tbody>
+</table>

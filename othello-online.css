@@ -1,0 +1,5 @@
+.block {margin-top: 1em;}
+.block:first-child {margin-top: 0em;}
+
+h1, .profile {display: inline-block;}
+.profile {margin-left: 4em; vertical-align: super;}
