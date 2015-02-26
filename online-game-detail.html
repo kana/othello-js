@@ -28,7 +28,7 @@
       Choose a move:
       <span class="btn-group">
         <button
-          ng-repeat="m in gameTree.moves"
+          ng-repeat="m in gameTree.moves | filter: isPassingMove"
           ng-click="choose(m)"
           ng-disabled="!isMyTurn()"
           class="btn btn-default">{{O.nameMove(m)}}</button>
