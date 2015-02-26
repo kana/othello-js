@@ -169,10 +169,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 
   function play(moveName) {
     var validMoveNames =
-      $scope.gameTree.moves.map(function (m) {return othello.nameMove(m);});
+      $scope.gameTree.moves.map(function (m) {return O.nameMove(m);});
     var i = validMoveNames.indexOf(moveName);
     if (0 <= i) {
-      $scope.gameTree = othello.force($scope.gameTree.moves[i].gameTreePromise);
+      $scope.gameTree = O.force($scope.gameTree.moves[i].gameTreePromise);
     } else {
       throw new Error(
         'Error: Unexpected move "' + moveName + '" is chosen\n' +
@@ -180,8 +180,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       );
     }
   }
-  $scope.nameMove = othello.nameMove;
-  $scope.judge = othello.judge;
+  $scope.nameMove = O.nameMove;
+  $scope.judge = O.judge;
   function visualizedBoardFrom(gameTree) {
     var player = gameTree.player;
     var board = gameTree.board;
@@ -226,7 +226,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $scope.$watch('gameTree', function () {
     $scope.visualizedBoard = visualizedBoardFrom($scope.gameTree);
   });
-  $scope.gameTree = othello.makeInitialGameTree();
+  $scope.gameTree = O.makeInitialGameTree();
   $scope.moves.$loaded(function () {
     $scope.moves.forEach(function (m) {
       play(m.$value);
