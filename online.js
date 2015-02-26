@@ -232,7 +232,8 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     });
   });
 
-  $scope.choose = function (moveName) {
+  $scope.choose = function (move) {
+    var moveName = O.nameMove(move);
     play(moveName);
     $scope.moves.$add(moveName);
     if ($scope.gameTree.moves.length === 0) {

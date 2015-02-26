@@ -10,7 +10,7 @@
           <td ng-repeat="cell in row" ng-class="cell">
             <span
               ng-if="cell.cell"
-              ng-click="choose(O.nameMove(cell.attackable))"
+              ng-click="choose(cell.attackable)"
               class="disc"></span>
             <span ng-if="cell.header">{{cell.name}}</span>
           </td>
@@ -29,7 +29,7 @@
       <span class="btn-group">
         <button
           ng-repeat="m in gameTree.moves"
-          ng-click="choose(O.nameMove(m))"
+          ng-click="choose(m)"
           ng-disabled="user.id !== outline[gameTree.player + 'Id']"
           class="btn btn-default">{{O.nameMove(m)}}</button>
       </span>
