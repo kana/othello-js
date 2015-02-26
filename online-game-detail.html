@@ -15,7 +15,7 @@
       </table>
     </div>
     <div ng-if="gameTree.moves.length === 0">
-      <span ng-switch="judge(gameTree.board)">
+      <span ng-switch="O.judge(gameTree.board)">
         <span ng-switch-when="1">The winner is black.</span>
         <span ng-switch-when="-1">The winner is white.</span>
         <span ng-switch-default>The game ends in a draw.</span>
@@ -26,9 +26,9 @@
       <span class="btn-group">
         <button
           ng-repeat="m in gameTree.moves"
-          ng-click="choose(nameMove(m))"
+          ng-click="choose(O.nameMove(m))"
           ng-disabled="user.id !== outline[gameTree.player + 'Id']"
-          class="btn btn-default">{{nameMove(m)}}</button>
+          class="btn btn-default">{{O.nameMove(m)}}</button>
       </span>
     </div>
   </div>

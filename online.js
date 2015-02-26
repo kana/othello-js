@@ -145,6 +145,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
 })
 .controller('GameDetail', function ($scope, gameOutline, moves) {
   var O = othello;
+  $scope.O = othello;
 
   // gameDetails/$game_id/moves is directly watched, because it is troublesome
   // to deal with empty moves by watching gameDetails/$game_id.
@@ -180,8 +181,6 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       );
     }
   }
-  $scope.nameMove = O.nameMove;
-  $scope.judge = O.judge;
   function visualizedBoardFrom(gameTree) {
     var player = gameTree.player;
     var board = gameTree.board;
