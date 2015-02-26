@@ -904,7 +904,6 @@ var othello = {};
   othello.judge = judge;
   othello.addNewAI = addNewAI;
   othello.makeAI = makeAI;
-  othello.makeGameTree = makeGameTree;
   othello.makeInitialGameTree = makeInitialGameTree;
 
 
