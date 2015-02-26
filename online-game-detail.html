@@ -10,7 +10,7 @@
           <td ng-repeat="cell in row" ng-class="cell">
             <span
               ng-if="cell.cell"
-              ng-click="choose(cell.attackable)"
+              ng-click="isMyTurn() &amp;&amp; choose(cell.attackable)"
               class="disc"></span>
             <span ng-if="cell.header">{{cell.name}}</span>
           </td>
