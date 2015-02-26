@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="g in games">
+    <tr ng-repeat="g in games | orderBy: '-created_at'">
       <td><a ng-href="#/games/{{g.$id}}">Watch</a></td>
       <td>{{g.blackId ? '@' + g.blackName : '-'}}</td>
       <td>{{g.whiteId ? '@' + g.whiteName : '-'}}</td>
