@@ -54,7 +54,7 @@
       if (m.isPassingMove) {
         $('#console').append(
           $('<input type="button" class="btn">')
-          .val(makeLabelForMove(m))
+          .val(O.nameMove(m))
           .click(function () {
             shiftToNewGameTree(O.force(m.gameTreePromise));
           })
@@ -66,13 +66,6 @@
         });
       }
     });
-  }
-
-  function makeLabelForMove(move) {
-    if (move.isPassingMove)
-      return 'Pass';
-    else
-      return 'abcdefgh'[move.x] + '12345678'[move.y];
   }
 
   function setUpUIToReset() {
