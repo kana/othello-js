@@ -1,5 +1,5 @@
 angular.module('OthelloOnline', ['ngRoute', 'firebase'])
-.value('fbUrl', 'https://brilliant-inferno-6551.firebaseio.com/')
+.value('fbUrl', 'https://othelloonline.firebaseio.com/')
 .service('fbRef', function (fbUrl) {
   return new Firebase(fbUrl)
 })
@@ -81,7 +81,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $routeProvider
     .when('/games', {
       controller: 'GameList',
-      templateUrl: 'othello-online-game-list.html',
+      templateUrl: 'online-game-list.html',
       resolve: {
         gameOutlines: function (GameOutlines) {
           return GameOutlines.fetch();
@@ -90,11 +90,11 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     })
     .when('/games/new', {
       controller: 'GameCreation',
-      templateUrl: 'othello-online-game-detail.html'
+      templateUrl: 'online-game-detail.html'
     })
     .when('/games/:gameId', {
       controller: 'GameDetail',
-      templateUrl: 'othello-online-game-detail.html',
+      templateUrl: 'online-game-detail.html',
       resolve: {
         gameOutline: function ($route, fbFetch) {
           return fbFetch('gameOutlines/' + $route.current.params.gameId);
@@ -144,6 +144,9 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   $location.path('/games/' + go.key());
 })
 .controller('GameDetail', function ($scope, gameOutline, moves) {
+  var O = othello;
+  $scope.O = othello;
+
   // gameDetails/$game_id/moves is directly watched, because it is troublesome
   // to deal with empty moves by watching gameDetails/$game_id.
   $scope.outline = gameOutline;
@@ -165,47 +168,12 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   };
   // TODO: Add UI to replay the game if it is finished.
 
-  // TODO: Replace with the actual game engine.
-  function delay(expressionAsFunction) {
-    return expressionAsFunction;
-  }
-  function force(promise) {
-    return promise();
-  }
-  function makeGameTree(turnCount, color, passedCount) {
-    return {
-      board: turnCount + '-' + color + '-' + passedCount,
-      turn: color,
-      moves: generateMoves(turnCount, color, passedCount)
-    };
-  }
-  function generateMoves(turnCount, color, passedCount) {
-    if (passedCount === 2)
-      return [];
-    var moveNames = [];
-    var x = 314 + 3*turnCount;
-    var y = 159 + 5*turnCount;
-    for (var i = 0; i < 4; i++)
-      moveNames.push('abcdefgh'[(x + i) % 8] + '12345678'[(y + 3*i) % 8]);
-    moveNames.push('pass');
-    return moveNames.map(function (moveName) {
-      return {
-        name: moveName,
-        gameTreePromise: delay(function () {
-          return makeGameTree(
-            turnCount + 1,
-            color === 'black' ? 'white' : 'black',
-            passedCount + (moveName === 'pass' ? 1 : 0)
-          );
-        })
-      };
-    });
-  }
   function play(moveName) {
-    var validMoveNames = $scope.gameTree.moves.map(function (m) {return m.name;});
+    var validMoveNames =
+      $scope.gameTree.moves.map(function (m) {return O.nameMove(m);});
     var i = validMoveNames.indexOf(moveName);
     if (0 <= i) {
-      $scope.gameTree = force($scope.gameTree.moves[i].gameTreePromise);
+      $scope.gameTree = O.force($scope.gameTree.moves[i].gameTreePromise);
     } else {
       throw new Error(
         'Error: Unexpected move "' + moveName + '" is chosen\n' +
@@ -213,20 +181,65 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       );
     }
   }
-  $scope.judge = function (board) {
-    return board.indexOf('b') !== -1 ? 'black' :
-           board.indexOf('3') !== -1 ? 'white' :
-           'draw';
-  };
+  function visualizedBoardFrom(gameTree) {
+    var player = gameTree.player;
+    var board = gameTree.board;
+    var attackable = [];
+    gameTree.moves.forEach(function (m) {
+      if (!m.isPassingMove)
+        attackable[O.ix(m.x, m.y)] = m;
+    });
 
-  $scope.gameTree = makeGameTree(1, 'black', 0);
+    var newBoard = [];
+    for (var y = -1; y < O.N; y++) {
+      var row = [];
+      for (var x = -1; x < O.N; x++) {
+        if (0 <= y && 0 <= x) {
+          var a = attackable[O.ix(x, y)];
+          var b = board[O.ix(x, y)];
+          row.push({
+            cell: true,
+            black: player === O.BLACK && a || b == O.BLACK,
+            white: player === O.WHITE && a || b == O.WHITE,
+            attackable: a
+          });
+        } else if (0 <= x && y === -1) {
+          row.push({
+            header: true,
+            name: String.fromCharCode('a'.charCodeAt(0) + x)
+          });
+        } else if (x === -1 && 0 <= y) {
+          row.push({
+            header: true,
+            name: y + 1
+          });
+        } else /* if (x === -1 && y === -1) */ {
+          row.push({});
+        }
+      }
+      newBoard.push(row);
+    }
+    return newBoard;
+  }
+
+  $scope.$watch('gameTree', function () {
+    $scope.visualizedBoard = visualizedBoardFrom($scope.gameTree);
+  });
+  $scope.gameTree = O.makeInitialGameTree();
   $scope.moves.$loaded(function () {
     $scope.moves.forEach(function (m) {
       play(m.$value);
     });
   });
 
-  $scope.choose = function (moveName) {
+  $scope.isMyTurn = function () {
+    return $scope.user.id === $scope.outline[$scope.gameTree.player + 'Id'];
+  };
+  $scope.isPassingMove = function (move) {
+    return move.isPassingMove;
+  };
+  $scope.choose = function (move) {
+    var moveName = O.nameMove(move);
     play(moveName);
     $scope.moves.$add(moveName);
     if ($scope.gameTree.moves.length === 0) {
