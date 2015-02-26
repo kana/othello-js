@@ -8,7 +8,10 @@
       <table>
         <tr ng-repeat="row in visualizedBoard">
           <td ng-repeat="cell in row" ng-class="cell">
-            <span ng-if="cell.cell" class="disc"></span>
+            <span
+              ng-if="cell.cell"
+              ng-click="choose(O.nameMove(cell.attackable))"
+              class="disc"></span>
             <span ng-if="cell.header">{{cell.name}}</span>
           </td>
         </tr>
