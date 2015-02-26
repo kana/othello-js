@@ -894,6 +894,13 @@ var othello = {};
   othello.BLACK = BLACK;
   othello.nextPlayer = nextPlayer;
   othello.registerAI = registerAI;
+  othello.N = N;
+  othello.ix = ix;
+  othello.makeInitialGameBoard = makeInitialGameBoard;
+  othello.judge = judge;
+  othello.addNewAI = addNewAI;
+  othello.makeAI = makeAI;
+  othello.makeGameTree = makeGameTree;
 
 
 
