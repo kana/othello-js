@@ -17,7 +17,7 @@
         </tr>
       </table>
     </div>
-    <div class="block" ng-if="gameTree.moves.length === 0">
+    <div id="result" class="block" ng-if="gameTree.moves.length === 0">
       <span ng-switch="O.judge(gameTree.board)">
         <span ng-switch-when="1">The winner is black.</span>
         <span ng-switch-when="-1">The winner is white.</span>

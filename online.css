@@ -4,7 +4,7 @@
 h1, .profile {display: inline-block;}
 .profile {margin-left: 4em; vertical-align: super;}
 
-#console {text-align: center; position: relative; left: -1em;}
+#console, #result {text-align: center; position: relative; left: -1em;}
 #moves li {display: inline; float: left; margin-right: 1ex;}
 
 #game-board > table .header
