@@ -4,7 +4,7 @@
 
 <div class="block row">
   <div class="col-xs-4">
-    <div id="game-board">
+    <div id="game-board" class="block">
       <table>
         <tr ng-repeat="row in visualizedBoard">
           <td ng-repeat="cell in row" ng-class="cell">
@@ -17,14 +17,14 @@
         </tr>
       </table>
     </div>
-    <div ng-if="gameTree.moves.length === 0">
+    <div class="block" ng-if="gameTree.moves.length === 0">
       <span ng-switch="O.judge(gameTree.board)">
         <span ng-switch-when="1">The winner is black.</span>
         <span ng-switch-when="-1">The winner is white.</span>
         <span ng-switch-default>The game ends in a draw.</span>
       </span>
     </div>
-    <div id="console" ng-if="outline.state === 'playing'">
+    <div id="console" class="block" ng-if="outline.state === 'playing'">
       <div>Choose a move.</div>
       <div class="btn-group">
         <button
