@@ -3,3 +3,34 @@
 
 h1, .profile {display: inline-block;}
 .profile {margin-left: 4em; vertical-align: super;}
+
+#game-board > table .header
+{
+  text-align: center;
+  font-weight: bolder;
+  padding: 0 1ex;
+}
+
+#game-board > table .cell
+{
+  background: #090;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  line-height: 0;
+}
+#game-board > table .cell.attackable {cursor: pointer;}
+#game-board > table .cell.attackable:hover {background: #cc0;}
+
+#game-board > table .cell > .disc
+{
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  border-radius: 1em;
+  margin: 0.25em;
+}
+#game-board > table .cell.white > .disc {background: #fff;}
+#game-board > table .cell.black > .disc {background: #000;}
+#game-board > table .cell.attackable > .disc {opacity: 0.2;}
+#game-board > table .cell.attackable:hover > .disc {opacity: 1.0;}

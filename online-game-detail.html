@@ -4,8 +4,15 @@
 
 <div class="block row">
   <div class="col-xs-4">
-    <div>
-      Board: {{gameTree.board}}  <!-- TODO: Visualize the current board -->
+    <div id="game-board">
+      <table>
+        <tr ng-repeat="row in visualizedBoard">
+          <td ng-repeat="cell in row" ng-class="cell">
+            <span ng-if="cell.cell" class="disc"></span>
+            <span ng-if="cell.header">{{cell.name}}</span>
+          </td>
+        </tr>
+      </table>
     </div>
     <div ng-if="gameTree.moves.length === 0">
       <span ng-switch="judge(gameTree.board)">

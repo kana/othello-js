@@ -180,7 +180,51 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   }
   $scope.nameMove = othello.nameMove;
   $scope.judge = othello.judge;
+  var O = othello;
+  function visualizedBoardFrom(gameTree) {
+    var player = gameTree.player;
+    var board = gameTree.board;
+    var attackable = [];
+    gameTree.moves.forEach(function (m) {
+      if (!m.isPassingMove)
+        attackable[O.ix(m.x, m.y)] = true;
+    });
 
+    var newBoard = [];
+    for (var y = -1; y < O.N; y++) {
+      var row = [];
+      for (var x = -1; x < O.N; x++) {
+        if (0 <= y && 0 <= x) {
+          var a = attackable[O.ix(x, y)];
+          var b = board[O.ix(x, y)];
+          row.push({
+            cell: true,
+            black: player === O.BLACK && a || b == O.BLACK,
+            white: player === O.WHITE && a || b == O.WHITE,
+            attackable: a
+          });
+        } else if (0 <= x && y === -1) {
+          row.push({
+            header: true,
+            name: String.fromCharCode('a'.charCodeAt(0) + x)
+          });
+        } else if (x === -1 && 0 <= y) {
+          row.push({
+            header: true,
+            name: y + 1
+          });
+        } else /* if (x === -1 && y === -1) */ {
+          row.push({});
+        }
+      }
+      newBoard.push(row);
+    }
+    return newBoard;
+  }
+
+  $scope.$watch('gameTree', function () {
+    $scope.visualizedBoard = visualizedBoardFrom($scope.gameTree);
+  });
   $scope.gameTree = othello.makeInitialGameTree();
   $scope.moves.$loaded(function () {
     $scope.moves.forEach(function (m) {
