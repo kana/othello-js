@@ -182,7 +182,7 @@
       .attr('disabled', 'disabled');
     playerTable[O.BLACK] = makePlayer(blackPlayerType());
     playerTable[O.WHITE] = makePlayer(whitePlayerType());
-    shiftToNewGameTree(O.makeGameTree(O.makeInitialGameBoard(), O.BLACK, false, 1));
+    shiftToNewGameTree(O.makeInitialGameTree());
   }
 
 
