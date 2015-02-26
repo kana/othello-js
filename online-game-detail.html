@@ -9,8 +9,8 @@
     </div>
     <div ng-if="gameTree.moves.length === 0">
       <span ng-switch="judge(gameTree.board)">
-        <span ng-switch-when="black">The winner is black.</span>
-        <span ng-switch-when="white">The winner is white.</span>
+        <span ng-switch-when="1">The winner is black.</span>
+        <span ng-switch-when="-1">The winner is white.</span>
         <span ng-switch-default>The game ends in a draw.</span>
       </span>
     </div>
