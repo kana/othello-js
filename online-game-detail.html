@@ -30,7 +30,7 @@
         <button
           ng-repeat="m in gameTree.moves"
           ng-click="choose(m)"
-          ng-disabled="user.id !== outline[gameTree.player + 'Id']"
+          ng-disabled="!isMyTurn()"
           class="btn btn-default">{{O.nameMove(m)}}</button>
       </span>
     </div>
