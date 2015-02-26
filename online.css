@@ -4,6 +4,8 @@
 h1, .profile {display: inline-block;}
 .profile {margin-left: 4em; vertical-align: super;}
 
+#console {text-align: center; position: relative; left: -1em;}
+
 #game-board > table .header
 {
   text-align: center;

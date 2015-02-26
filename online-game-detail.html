@@ -24,15 +24,15 @@
         <span ng-switch-default>The game ends in a draw.</span>
       </span>
     </div>
-    <div ng-if="outline.state === 'playing'">
-      Choose a move:
-      <span class="btn-group">
+    <div id="console" ng-if="outline.state === 'playing'">
+      <div>Choose a move.</div>
+      <div class="btn-group">
         <button
           ng-repeat="m in gameTree.moves | filter: isPassingMove"
           ng-click="choose(m)"
           ng-disabled="!isMyTurn()"
           class="btn btn-default">{{O.nameMove(m)}}</button>
-      </span>
+      </div>
     </div>
   </div>
   <div class="col-xs-4">
