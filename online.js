@@ -187,7 +187,7 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     var attackable = [];
     gameTree.moves.forEach(function (m) {
       if (!m.isPassingMove)
-        attackable[O.ix(m.x, m.y)] = true;
+        attackable[O.ix(m.x, m.y)] = m;
     });
 
     var newBoard = [];
