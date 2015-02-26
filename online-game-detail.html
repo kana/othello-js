@@ -25,6 +25,7 @@
       </span>
     </div>
     <div id="console" class="block" ng-if="outline.state === 'playing'">
+      <div>Current player: {{gameTree.player}}</div>
       <div>Choose a move.</div>
       <div class="btn-group">
         <button
@@ -62,7 +63,6 @@
           class="btn btn-default">Leave</button>
       </li>
       <li>State: {{outline.state}}</li>
-      <li>Turn: {{gameTree.player}}</li>
       <li id="moves">
         Moves:
         <ol>
