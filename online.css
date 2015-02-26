@@ -6,6 +6,7 @@ h1, .profile {display: inline-block;}
 
 #console, #result {text-align: center; position: relative; left: -1em;}
 #moves li {display: inline; float: left; margin-right: 1ex;}
+#outline > li {list-style-type: none;}
 
 #game-board > table .header
 {
