@@ -1,5 +1,5 @@
 angular.module('OthelloOnline', ['ngRoute', 'firebase'])
-.value('fbUrl', 'https://brilliant-inferno-6551.firebaseio.com/')
+.value('fbUrl', 'https://othelloonline.firebaseio.com/')
 .service('fbRef', function (fbUrl) {
   return new Firebase(fbUrl)
 })
