@@ -229,6 +229,13 @@ var othello = {};
     return 0;
   }
 
+  function nameMove(move) {
+    if (move.isPassingMove)
+      return 'Pass';
+    else
+      return 'abcdefgh'[move.x] + '12345678'[move.y];
+  }
+
 
 
 
@@ -905,6 +912,7 @@ var othello = {};
   othello.addNewAI = addNewAI;
   othello.makeAI = makeAI;
   othello.makeInitialGameTree = makeInitialGameTree;
+  othello.nameMove = nameMove;
 
 
 
