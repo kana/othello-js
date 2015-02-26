@@ -19,9 +19,9 @@
       <span class="btn-group">
         <button
           ng-repeat="m in gameTree.moves"
-          ng-click="choose(m.name)"
+          ng-click="choose(nameMove(m))"
           ng-disabled="user.id !== outline[gameTree.player + 'Id']"
-          class="btn btn-default">{{m.name}}</button>
+          class="btn btn-default">{{nameMove(m)}}</button>
       </span>
     </div>
   </div>

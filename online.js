@@ -165,47 +165,12 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
   };
   // TODO: Add UI to replay the game if it is finished.
 
-  // TODO: Replace with the actual game engine.
-  function delay(expressionAsFunction) {
-    return expressionAsFunction;
-  }
-  function force(promise) {
-    return promise();
-  }
-  function makeGameTree(turnCount, color, passedCount) {
-    return {
-      board: turnCount + '-' + color + '-' + passedCount,
-      player: color,
-      moves: generateMoves(turnCount, color, passedCount)
-    };
-  }
-  function generateMoves(turnCount, color, passedCount) {
-    if (passedCount === 2)
-      return [];
-    var moveNames = [];
-    var x = 314 + 3*turnCount;
-    var y = 159 + 5*turnCount;
-    for (var i = 0; i < 4; i++)
-      moveNames.push('abcdefgh'[(x + i) % 8] + '12345678'[(y + 3*i) % 8]);
-    moveNames.push('pass');
-    return moveNames.map(function (moveName) {
-      return {
-        name: moveName,
-        gameTreePromise: delay(function () {
-          return makeGameTree(
-            turnCount + 1,
-            color === 'black' ? 'white' : 'black',
-            passedCount + (moveName === 'pass' ? 1 : 0)
-          );
-        })
-      };
-    });
-  }
   function play(moveName) {
-    var validMoveNames = $scope.gameTree.moves.map(function (m) {return m.name;});
+    var validMoveNames =
+      $scope.gameTree.moves.map(function (m) {return othello.nameMove(m);});
     var i = validMoveNames.indexOf(moveName);
     if (0 <= i) {
-      $scope.gameTree = force($scope.gameTree.moves[i].gameTreePromise);
+      $scope.gameTree = othello.force($scope.gameTree.moves[i].gameTreePromise);
     } else {
       throw new Error(
         'Error: Unexpected move "' + moveName + '" is chosen\n' +
@@ -213,13 +178,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
       );
     }
   }
-  $scope.judge = function (board) {
-    return board.indexOf('b') !== -1 ? 1 :
-           board.indexOf('3') !== -1 ? -1 :
-           0;
-  };
+  $scope.nameMove = othello.nameMove;
+  $scope.judge = othello.judge;
 
-  $scope.gameTree = makeGameTree(1, 'black', 0);
+  $scope.gameTree = othello.makeInitialGameTree();
   $scope.moves.$loaded(function () {
     $scope.moves.forEach(function (m) {
       play(m.$value);
