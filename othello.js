@@ -853,16 +853,10 @@ var othello = {};
 
   var lastAIType;
 
-  othello.registerAI = function (ai) {
+  function registerAI(ai) {
     externalAITable[lastAIType] = ai;
-  };
+  }
 
-  othello.force = force;
-  othello.delay = delay;
-  othello.EMPTY = EMPTY;
-  othello.WHITE = WHITE;
-  othello.BLACK = BLACK;
-  othello.nextPlayer = nextPlayer;
 
   function addNewAI() {
     var aiUrl = $('#new-ai-url').val();
@@ -887,6 +881,19 @@ var othello = {};
       );
     }
   }
+
+
+
+
+  // Public API {{{1
+
+  othello.force = force;
+  othello.delay = delay;
+  othello.EMPTY = EMPTY;
+  othello.WHITE = WHITE;
+  othello.BLACK = BLACK;
+  othello.nextPlayer = nextPlayer;
+  othello.registerAI = registerAI;
 
 
 
