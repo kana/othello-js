@@ -63,7 +63,7 @@
           class="btn btn-default">Leave</button>
       </li>
       <li>State: {{outline.state}}</li>
-      <li id="moves">
+      <li id="moves" ng-if="moves.length">
         Moves:
         <ol>
           <li ng-repeat="m in moves">{{m.$value}}</li>
