@@ -81,6 +81,10 @@ var othello = {};
     return board;
   }
 
+  function makeInitialGameTree() {
+    return makeGameTree(makeInitialGameBoard(), BLACK, false, 1);
+  }
+
   function makeGameTree(board, player, wasPassed, nest) {
     return {
       board: board,
@@ -901,6 +905,7 @@ var othello = {};
   othello.addNewAI = addNewAI;
   othello.makeAI = makeAI;
   othello.makeGameTree = makeGameTree;
+  othello.makeInitialGameTree = makeInitialGameTree;
 
 
 
