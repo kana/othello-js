@@ -7,11 +7,11 @@
     <div id="game-board" class="block">
       <table>
         <tr ng-repeat="row in visualizedBoard">
-          <td ng-repeat="cell in row" ng-class="cell">
-            <span
-              ng-if="cell.cell"
-              ng-click="isMyTurn() &amp;&amp; cell.attackable &amp;&amp; choose(cell.attackable)"
-              class="disc"></span>
+          <td ng-repeat="cell in row" ng-class="cell"
+              ng-click="isMyTurn() &amp;&amp;
+                        cell.attackable &amp;&amp;
+                        choose(cell.attackable)">
+            <span ng-if="cell.cell" class="disc"></span>
             <span ng-if="cell.header">{{cell.name}}</span>
           </td>
         </tr>
