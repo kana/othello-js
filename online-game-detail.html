@@ -5,7 +5,7 @@
 <div class="block row">
   <div class="col-xs-4">
     <div id="game-board" class="block">
-      <table>
+      <table ng-class="outline.state">
         <tr ng-repeat="row in visualizedBoard">
           <td ng-repeat="cell in row" ng-class="cell"
               ng-click="outline.state === 'playing' &amp;&amp;
