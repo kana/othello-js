@@ -8,7 +8,8 @@
       <table>
         <tr ng-repeat="row in visualizedBoard">
           <td ng-repeat="cell in row" ng-class="cell"
-              ng-click="isMyTurn() &amp;&amp;
+              ng-click="outline.state === 'playing' &amp;&amp;
+                        isMyTurn() &amp;&amp;
                         cell.attackable &amp;&amp;
                         choose(cell.attackable)">
             <span ng-if="cell.cell" class="disc"></span>
