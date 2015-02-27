@@ -5,13 +5,14 @@
 <div class="block row">
   <div class="col-xs-4">
     <div id="game-board" class="block">
-      <table>
+      <table ng-class="outline.state">
         <tr ng-repeat="row in visualizedBoard">
-          <td ng-repeat="cell in row" ng-class="cell">
-            <span
-              ng-if="cell.cell"
-              ng-click="isMyTurn() &amp;&amp; cell.attackable &amp;&amp; choose(cell.attackable)"
-              class="disc"></span>
+          <td ng-repeat="cell in row" ng-class="cell"
+              ng-click="outline.state === 'playing' &amp;&amp;
+                        isMyTurn() &amp;&amp;
+                        cell.attackable &amp;&amp;
+                        choose(cell.attackable)">
+            <span ng-if="cell.cell" class="disc"></span>
             <span ng-if="cell.header">{{cell.name}}</span>
           </td>
         </tr>
@@ -47,7 +48,9 @@
           class="btn btn-default">Join</button>
         <button
           ng-click="leave('black')"
-          ng-if="outline.state === 'preparing' &amp;&amp; user.id === outline.blackId"
+          ng-if="outline.blackId &amp;&amp;
+                 outline.state === 'preparing' &amp;&amp;
+                 user.id === outline.blackId"
           class="btn btn-default">Leave</button>
       </li>
       <li>
@@ -59,7 +62,9 @@
           class="btn btn-default">Join</button>
         <button
           ng-click="leave('white')"
-          ng-if="outline.state === 'preparing' &amp;&amp; user.id === outline.whiteId"
+          ng-if="outline.whiteId &amp;&amp;
+                 outline.state === 'preparing' &amp;&amp;
+                 user.id === outline.whiteId"
           class="btn btn-default">Leave</button>
       </li>
       <li>State: {{outline.state}}</li>
