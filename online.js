@@ -226,10 +226,10 @@ angular.module('OthelloOnline', ['ngRoute', 'firebase'])
     $scope.visualizedBoard = visualizedBoardFrom($scope.gameTree);
   });
   $scope.gameTree = O.makeInitialGameTree();
-  $scope.moves.$loaded(function () {
-    $scope.moves.forEach(function (m) {
-      play(m.$value);
-    });
+  $scope.moves.$watch(function (e) {
+    if (e.event == 'child_added') {
+      play($scope.moves[$scope.moves.length - 1].$value);
+    }
   });
 
   $scope.isMyTurn = function () {
