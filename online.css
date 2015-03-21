@@ -36,6 +36,5 @@ h1, .profile {display: inline-block;}
 }
 #game-board > table .cell.white > .disc {background: #fff;}
 #game-board > table .cell.black > .disc {background: #000;}
-#game-board > table .cell.attackable > .disc {display: none;}
 #game-board > table.playing .cell.attackable > .disc {opacity: 0.2;}
 #game-board > table.playing .cell.attackable:hover > .disc {opacity: 1.0;}
