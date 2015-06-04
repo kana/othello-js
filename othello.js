@@ -598,7 +598,10 @@ var othello = {};
       t[ix(0, 1)] = t[ix(0, N - 2)] = t[ix(N - 1, 1)] = t[ix(N - 1, N - 2)] =
       t[ix(1, 0)] = t[ix(N - 2, 0)] = t[ix(1, N - 1)] = t[ix(N - 2, N - 1)] = 0;
       return t;
-    })())
+    })()),
+    moveCount: function (gameTree, player) {
+      return gameTree.moves.length * (gameTree.player == player ? 1 : -1);
+    }
   };
 
   function makeScoreBasedAI(config) {
