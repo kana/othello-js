@@ -571,42 +571,34 @@ var othello = {};
     };
   }
 
-  var weightTables = {
-    simpleCount:
-      (function () {
-        var t = [];
-        for (var x = 0; x < N; x++)
-          for (var y = 0; y < N; y++)
-            t[ix(x, y)] = 1;
-        return t;
-      })(),
-    basic:
-      (function () {
-        var t = [];
-        for (var x = 0; x < N; x++)
-          for (var y = 0; y < N; y++)
-            t[ix(x, y)] =
-              (x === 0 || x === N - 1 ? 10 : 1) *
-              (y === 0 || y === N - 1 ? 10 : 1);
-        return t;
-      })(),
-    better:
-      (function () {
-        var t = [];
-        for (var x = 0; x < N; x++)
-          for (var y = 0; y < N; y++)
-            t[ix(x, y)] =
-              (x === 0 || x === N - 1 ? 10 : 1) *
-              (y === 0 || y === N - 1 ? 10 : 1);
-        t[ix(0, 1)] = t[ix(0, N - 2)] = t[ix(N - 1, 1)] = t[ix(N - 1, N - 2)] =
-        t[ix(1, 0)] = t[ix(N - 2, 0)] = t[ix(1, N - 1)] = t[ix(N - 2, N - 1)] = 0;
-        return t;
-      })()
-  };
   var scorePositions = {
-    simpleCount: makeScorePositionWith(weightTables.simpleCount),
-    basic: makeScorePositionWith(weightTables.basic),
-    better: makeScorePositionWith(weightTables.better)
+    simpleCount: makeScorePositionWith((function () {
+      var t = [];
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[ix(x, y)] = 1;
+      return t;
+    })()),
+    basic: makeScorePositionWith((function () {
+      var t = [];
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[ix(x, y)] =
+            (x === 0 || x === N - 1 ? 10 : 1) *
+            (y === 0 || y === N - 1 ? 10 : 1);
+      return t;
+    })()),
+    better: makeScorePositionWith((function () {
+      var t = [];
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[ix(x, y)] =
+            (x === 0 || x === N - 1 ? 10 : 1) *
+            (y === 0 || y === N - 1 ? 10 : 1);
+      t[ix(0, 1)] = t[ix(0, N - 2)] = t[ix(N - 1, 1)] = t[ix(N - 1, N - 2)] =
+      t[ix(1, 0)] = t[ix(N - 2, 0)] = t[ix(1, N - 1)] = t[ix(N - 2, N - 1)] = 0;
+      return t;
+    })())
   };
 
   function makeScoreBasedAI(config) {
