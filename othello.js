@@ -557,7 +557,8 @@ var othello = {};
 
   function makeScorePositionWith(weightTable) {
     var wt = weightTable;
-    return function (board, player) {
+    return function (gameTree, player) {
+      var board = gameTree.board;
       var opponent = nextPlayer(player);
       var ct = {};
       ct[player] = 1;
@@ -663,7 +664,7 @@ var othello = {};
       var choose = gameTree.player === player ? Math.max : Math.min;
       return choose.apply(null, calculateRatings(gameTree, player, scorePosition));
     } else {
-      return scorePosition(gameTree.board, player);
+      return scorePosition(gameTree, player);
     }
   }
 
@@ -685,7 +686,7 @@ var othello = {};
         calculateMinRatings;
       return judge.apply(null, rate(gameTree, player, lowerLimit, upperLimit, scorePosition));
     } else {
-      return scorePosition(gameTree.board, player);
+      return scorePosition(gameTree, player);
     }
   }
 
