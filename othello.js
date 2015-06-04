@@ -540,7 +540,7 @@ var othello = {};
       if (weightTable !== undefined) {
         return makeWeightTableBasedAI({
           level: level,
-          scoreBoard: makeScoreBoardWith(weightTable)
+          scorePosition: makeScorePositionWith(weightTable)
         });
       } else {
         return aiMakers[aiType]({
@@ -555,7 +555,7 @@ var othello = {};
 
   // AI: Weight table based + alpha-beta pruning {{{1
 
-  function makeScoreBoardWith(weightTable) {
+  function makeScorePositionWith(weightTable) {
     var wt = weightTable;
     return function (board, player) {
       var opponent = nextPlayer(player);
@@ -611,7 +611,7 @@ var othello = {};
           gameTree.player,
           Number.MIN_VALUE,
           Number.MAX_VALUE,
-          config.scoreBoard
+          config.scorePosition
         );
         var maxRating = Math.max.apply(null, ratings);
         return gameTree.moves[ratings.indexOf(maxRating)];
@@ -658,22 +658,22 @@ var othello = {};
     };
   }
 
-  function ratePosition(gameTree, player, scoreBoard) {
+  function ratePosition(gameTree, player, scorePosition) {
     if (1 <= gameTree.moves.length) {
       var choose = gameTree.player === player ? Math.max : Math.min;
-      return choose.apply(null, calculateRatings(gameTree, player, scoreBoard));
+      return choose.apply(null, calculateRatings(gameTree, player, scorePosition));
     } else {
-      return scoreBoard(gameTree.board, player);
+      return scorePosition(gameTree.board, player);
     }
   }
 
-  function calculateRatings(gameTree, player, scoreBoard) {
+  function calculateRatings(gameTree, player, scorePosition) {
     return gameTree.moves.map(function (m) {
-      return ratePosition(force(m.gameTreePromise), player, scoreBoard);
+      return ratePosition(force(m.gameTreePromise), player, scorePosition);
     });
   }
 
-  function ratePositionWithAlphaBetaPruning(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
+  function ratePositionWithAlphaBetaPruning(gameTree, player, lowerLimit, upperLimit, scorePosition) {
     if (1 <= gameTree.moves.length) {
       var judge =
         gameTree.player === player ?
@@ -683,13 +683,13 @@ var othello = {};
         gameTree.player === player ?
         calculateMaxRatings :
         calculateMinRatings;
-      return judge.apply(null, rate(gameTree, player, lowerLimit, upperLimit, scoreBoard));
+      return judge.apply(null, rate(gameTree, player, lowerLimit, upperLimit, scorePosition));
     } else {
-      return scoreBoard(gameTree.board, player);
+      return scorePosition(gameTree.board, player);
     }
   }
 
-  function calculateMaxRatings(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
+  function calculateMaxRatings(gameTree, player, lowerLimit, upperLimit, scorePosition) {
     var ratings = [];
     var newLowerLimit = lowerLimit;
     for (var i = 0; i < gameTree.moves.length; i++) {
@@ -698,7 +698,7 @@ var othello = {};
         player,
         newLowerLimit,
         upperLimit,
-        scoreBoard
+        scorePosition
       );
       ratings.push(r);
       if (upperLimit <= r)
@@ -708,7 +708,7 @@ var othello = {};
     return ratings;
   }
 
-  function calculateMinRatings(gameTree, player, lowerLimit, upperLimit, scoreBoard) {
+  function calculateMinRatings(gameTree, player, lowerLimit, upperLimit, scorePosition) {
     var ratings = [];
     var newUpperLimit = upperLimit;
     for (var i = 0; i < gameTree.moves.length; i++) {
@@ -717,7 +717,7 @@ var othello = {};
         player,
         upperLimit,
         newUpperLimit,
-        scoreBoard
+        scorePosition
       );
       ratings.push(r);
       if (r <= lowerLimit)
