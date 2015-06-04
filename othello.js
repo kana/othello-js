@@ -536,11 +536,11 @@ var othello = {};
       var tokens = playerType.split('-');
       var aiType = tokens[0];
       var level = parseInt(tokens[1]);
-      var weightTable = weightTables[aiType];
-      if (weightTable !== undefined) {
+      var scorePosition = scorePositions[aiType];
+      if (scorePosition !== undefined) {
         return makeScoreBasedAI({
           level: level,
-          scorePosition: makeScorePositionWith(weightTable)
+          scorePosition: scorePosition
         });
       } else {
         return aiMakers[aiType]({
