@@ -603,6 +603,11 @@ var othello = {};
         return t;
       })()
   };
+  var scorePositions = {
+    simpleCount: makeScorePositionWith(weightTables.simpleCount),
+    basic: makeScorePositionWith(weightTables.basic),
+    better: makeScorePositionWith(weightTables.better)
+  };
 
   function makeScoreBasedAI(config) {
     return {
