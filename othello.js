@@ -538,7 +538,7 @@ var othello = {};
       var level = parseInt(tokens[1]);
       var weightTable = weightTables[aiType];
       if (weightTable !== undefined) {
-        return makeWeightTableBasedAI({
+        return makeScoreBasedAI({
           level: level,
           scorePosition: makeScorePositionWith(weightTable)
         });
@@ -604,7 +604,7 @@ var othello = {};
       })()
   };
 
-  function makeWeightTableBasedAI(config) {
+  function makeScoreBasedAI(config) {
     return {
       findTheBestMove: function (gameTree) {
         var ratings = calculateMaxRatings(
