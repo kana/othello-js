@@ -600,7 +600,7 @@ var othello = {};
       return t;
     })()),
     moveCount: function (gameTree, player) {
-      return gameTree.moves.length * (gameTree.player == player ? 1 : -1);
+      return gameTree.actualMoveCount * (gameTree.player == player ? 1 : -1);
     }
   };
 
