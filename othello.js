@@ -599,8 +599,34 @@ var othello = {};
       t[ix(1, 0)] = t[ix(N - 2, 0)] = t[ix(1, N - 1)] = t[ix(N - 2, N - 1)] = 0;
       return t;
     })()),
+    edgesAndCorners: makeScorePositionWith((function () {
+      var t = [];
+      for (var x = 0; x < N; x++)
+        for (var y = 0; y < N; y++)
+          t[ix(x, y)] = 0;
+      for (var x = 2; x < N - 2; x++) {
+        t[ix(x, 0)] = 10;
+        t[ix(x, N - 1)] = 10;
+      }
+      for (var y = 2; y < N - 2; y++) {
+        t[ix(0, y)] = 10;
+        t[ix(N - 1, y)] = 10;
+      }
+      t[ix(0,     1    )] = t[ix(1,     0    )] = t[ix(1,     1    )] =
+      t[ix(N - 1, 1    )] = t[ix(N - 2, 0    )] = t[ix(N - 2, 1    )] =
+      t[ix(1,     N - 1)] = t[ix(0,     N - 2)] = t[ix(1,     N - 2)] =
+      t[ix(N - 2, N - 1)] = t[ix(N - 1, N - 2)] = t[ix(N - 2, N - 2)] = -1;
+
+      t[ix(0, 0)] = t[ix(0, N - 1)] =
+      t[ix(N - 1, 0)] = t[ix(N - 1, N - 1)] = 100;
+      return t;
+    })()),
     moveCount: function (gameTree, player) {
       return gameTree.actualMoveCount * (gameTree.player == player ? 1 : -1);
+    },
+    moveCountAndPositions: function (gameTree, player) {
+      return scorePositions.moveCount(gameTree, player) +
+             scorePositions.edgesAndCorners(gameTree, player);
     }
   };
 
