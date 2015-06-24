@@ -536,6 +536,7 @@ var othello = {};
       var tokens = playerType.split('-');
       var aiType = tokens[0];
       var level = parseInt(tokens[1]);
+      var extras = tokens.slice(2);
       var scorePosition = scorePositions[aiType];
       if (scorePosition !== undefined) {
         return makeScoreBasedAI({
@@ -544,7 +545,8 @@ var othello = {};
         });
       } else {
         return aiMakers[aiType]({
-          level: level
+          level: level,
+          extras: extras
         });
       }
     }
