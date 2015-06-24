@@ -874,7 +874,8 @@ var othello = {};
   function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries, iterStyle) {
     var scores = rootGameTree.moves.map(function (m) {
       var s = 0;
-      for (var i = 0; i < maxTries; i++)
+      var eachTries = maxTries;
+      for (var i = 0; i < eachTries; i++)
         s += simulateRandomGame(m, rootGameTree.player);
       return s;
     });
