@@ -862,12 +862,16 @@ var othello = {};
   function makePrimitiveMonteCarloBasedAI(options) {
     return {
       findTheBestMove: function (gameTree) {
-        return tryPrimitiveMonteCarloSimulation(gameTree, options.level);
+        return tryPrimitiveMonteCarloSimulation(
+          gameTree,
+          options.level,
+          options.extras[0]
+        );
       }
     };
   }
 
-  function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries) {
+  function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries, iterStyle) {
     var scores = rootGameTree.moves.map(function (m) {
       var s = 0;
       for (var i = 0; i < maxTries; i++)
