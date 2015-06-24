@@ -536,6 +536,7 @@ var othello = {};
       var tokens = playerType.split('-');
       var aiType = tokens[0];
       var level = parseInt(tokens[1]);
+      var extras = tokens.slice(2);
       var scorePosition = scorePositions[aiType];
       if (scorePosition !== undefined) {
         return makeScoreBasedAI({
@@ -544,7 +545,8 @@ var othello = {};
         });
       } else {
         return aiMakers[aiType]({
-          level: level
+          level: level,
+          extras: extras
         });
       }
     }
@@ -860,15 +862,26 @@ var othello = {};
   function makePrimitiveMonteCarloBasedAI(options) {
     return {
       findTheBestMove: function (gameTree) {
-        return tryPrimitiveMonteCarloSimulation(gameTree, options.level);
+        return tryPrimitiveMonteCarloSimulation(
+          gameTree,
+          options.level,
+          options.extras[0]
+        );
       }
     };
   }
 
-  function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries) {
+  function tryPrimitiveMonteCarloSimulation(rootGameTree, maxTries, iterStyle) {
+    var moveCount = rootGameTree.moves.length;
+    var lastMove = rootGameTree.moves[moveCount - 1];
     var scores = rootGameTree.moves.map(function (m) {
       var s = 0;
-      for (var i = 0; i < maxTries; i++)
+      var eachTries =
+        iterStyle === 'm'
+        ? maxTries
+        : Math.floor(maxTries / moveCount)
+          + (m === lastMove ? maxTries % moveCount : 0);
+      for (var i = 0; i < eachTries; i++)
         s += simulateRandomGame(m, rootGameTree.player);
       return s;
     });
