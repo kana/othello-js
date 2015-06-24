@@ -822,7 +822,7 @@ var othello = {};
       var i = random(gameTree.moves.length);
       gameTree = force(gameTree.moves[i].gameTreePromise);
     }
-    return judge(gameTree.board) * (player === BLACK ? 1 : -1);
+    return judge(gameTree.board) * (player === BLACK ? 1 : -1) / 2 + 0.5;
   };
 
   Node.prototype.backpropagate = function (result) {
