@@ -765,19 +765,19 @@ var othello = {};
   function makeMonteCarloTreeSearchBasedAI(options) {
     return {
       findTheBestMove: function (gameTree) {
-        return tryMonteCarloTreeSearch(gameTree, options.level);
+        return tryMonteCarloTreeSearch(gameTree, options.level, options.extras.length > 0);
       }
     };
   }
 
-  function tryMonteCarloTreeSearch(rootGameTree, maxTries) {
+  function tryMonteCarloTreeSearch(rootGameTree, maxTries, isBroken) {
     var root = new Node(rootGameTree, null, null);
 
     for (var i = 0; i < maxTries; i++) {
       var node = root;
 
       while (node.untriedMoves.length === 0 && node.childNodes.length !== 0)
-        node = node.selectChild();
+        node = node.selectChild(rootGameTree.player, isBroken);
 
       if (node.untriedMoves.length !== 0)
         node = node.expandChild();
@@ -801,10 +801,15 @@ var othello = {};
     this.untriedMoves = gameTree.moves.slice();
   }
 
-  Node.prototype.selectChild = function () {
+  Node.prototype.selectChild = function (rootGamePlayer, isBroken) {
+    var currentPlayer = this.gameTree.player;
     var totalVisits = this.visits;
     var values = this.childNodes.map(function (n) {
-      return n.wins / n.visits +
+      var winPercentage = n.wins / n.visits;
+      if (!isBroken && currentPlayer != rootGamePlayer) {
+        winPercentage = (n.visits - n.wins) / n.visits
+      }
+      return winPercentage +
              Math.sqrt(2 * Math.log(totalVisits) / n.visits);
     });
     return this.childNodes[values.indexOf(Math.max.apply(null, values))];
